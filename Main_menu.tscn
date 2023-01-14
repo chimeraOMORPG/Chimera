@@ -1,0 +1,117 @@
+[gd_scene load_steps=9 format=3 uid="uid://nkmvvu73a5fc"]
+
+[ext_resource type="Script" path="res://Main_menu.gd" id="1_e4in7"]
+[ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_qfpos"]
+[ext_resource type="AudioStream" uid="uid://iuhyvsx4qnv7" path="res://assets/audio/max_brhon_cyberpunk.mp3" id="3_eynf1"]
+[ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="4_wb10m"]
+[ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://icon.svg" id="5_sgyn4"]
+[ext_resource type="Script" path="res://spinner.gd" id="6_n5obw"]
+
+[sub_resource type="Theme" id="Theme_e2ohn"]
+/colors/jkxchokxdfj = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v5chd"]
+font_color = Color(0.796078, 0, 0.129412, 1)
+
+[node name="Main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_e2ohn")
+script = ExtResource("1_e4in7")
+metadata/_edit_use_anchors_ = true
+metadata/_edit_horizontal_guides_ = [480.0]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -32.0
+offset_right = 1920.0
+offset_bottom = 1048.0
+texture = ExtResource("2_qfpos")
+stretch_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 440.0
+offset_right = 447.0
+offset_bottom = 1020.0
+color = Color(0.117647, 0.117647, 0.117647, 0.756863)
+metadata/_edit_group_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 408.0
+offset_bottom = 568.0
+text = "Chimera dev bulletin:
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus in odio sodales consequat. Quisque imperdiet accumsan sapien. Donec iaculis justo ac elit congue scelerisque. Maecenas accumsan sapien vel malesuada porttitor. Phasellus ultricies sapien ac aliquet sodales. Integer efficitur ante vel mauris vestibulum, in facilisis dolor rhoncus. Duis eu elementum dolor, sed posuere augue. Aliquam tristique, massa id tempus egestas, risus arcu fermentum justo, sit amet facilisis mauris dui ac est. Duis quam est, bibendum in mattis sit amet, commodo nec lectus. Donec elementum purus ut interdum egestas. Suspendisse potenti. Donec eu dolor in velit volutpat faucibus. Nullam ut mi sed metus eleifend iaculis.
+
+Nullam imperdiet, libero ac congue faucibus, diam sem fermentum tortor, vel malesuada purus enim tincidunt quam. Cras fermentum porttitor nunc, efficitur dapibus enim molestie nec. Integer sodales varius est et maximus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer vel hendrerit dolor. Aenean quis massa sed massa vehicula hendrerit id non odio. Nulla eget enim sem. Nulla aliquet pharetra orci. Cras vitae gravida risus. Aenean semper aliquam eros vel lacinia. In hac habitasse platea dictumst.
+
+In sed volutpat neque. Nullam eu nisi elit. Aliquam vel tincidunt sem. Praesent at sem cursus, mattis magna in, tincidunt dolor. Sed ut lorem ut felis lobortis imperdiet. Sed luctus urna ut iaculis eleifend. Vivamus tortor massa, mattis eget sollicitudin et, efficitur ut leo. Nulla nisi dui, tempus at felis vel, pulvinar pharetra ante. Nulla ornare augue risus. Aliquam commodo ornare pellentesque.
+
+Maecenas ultrices tortor sit amet purus commodo commodo. Quisque mi nibh, laoreet et ipsum nec, dictum posuere tortor. Pellentesque nec tortor a sem euismod tempus. Ut sit amet molestie dui, at mollis orci. Duis mattis lorem urna, eu porta mauris tempus quis. Nulla condimentum semper dignissim. Pellentesque dapibus libero id neque faucibus dapibus. Fusce ac tellus risus. Sed convallis, tellus sed condimentum aliquet, dolor nunc scelerisque nisi, a consequat risus nulla vel ipsum. Praesent in urna vitae lectus posuere mattis vel pharetra risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+Nunc sed sapien id purus fermentum placerat. Aenean est mi, tempor et velit vitae, sollicitudin blandit neque. Mauris accumsan augue ut libero bibendum gravida. Donec consectetur sit amet ipsum at imperdiet. Aliquam ut lorem porta, vehicula urna vel, vulputate est. Integer viverra quis ligula mattis finibus. Aliquam erat volutpat. Aliquam erat volutpat. Donec at velit tellus. Vivamus finibus urna sem, sit amet facilisis erat rhoncus ultricies. Pellentesque egestas volutpat purus at pulvinar. Etiam mi lorem, condimentum id magna volutpat, molestie facilisis massa. Mauris sem diam, maximus nec arcu dignissim, dapibus suscipit nunc. Vivamus ac tellus convallis, faucibus elit ut, ultrices justo. Sed quis placerat ante. Maecenas at dui congue, lobortis nunc id, congue urna."
+
+[node name="connect" type="Button" parent="."]
+layout_mode = 0
+offset_left = 885.0
+offset_top = 72.0
+offset_right = 1035.0
+offset_bottom = 103.0
+shortcut_in_tooltip = false
+text = "connect to server"
+
+[node name="indirizzo_ip" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 885.0
+offset_top = 20.0
+offset_right = 1035.0
+offset_bottom = 51.0
+placeholder_text = "server address"
+alignment = 1
+max_length = 100
+expand_to_text_length = true
+draw_control_chars = true
+caret_blink = true
+caret_force_displayed = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_eynf1")
+volume_db = -10.0
+autoplay = true
+
+[node name="warning" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 689.0
+offset_top = 128.0
+offset_right = 1231.0
+offset_bottom = 159.0
+label_settings = SubResource("LabelSettings_v5chd")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wb10m")
+volume_db = 15.0
+
+[node name="spinner" type="Sprite2D" parent="."]
+process_mode = 4
+visible = false
+position = Vector2(961, 192)
+texture = ExtResource("5_sgyn4")
+script = ExtResource("6_n5obw")
+
+[connection signal="pressed" from="connect" to="." method="_on_button_pressed"]
+[connection signal="text_changed" from="indirizzo_ip" to="." method="_on_indirizzo_ip_text_changed"]
+[connection signal="text_submitted" from="indirizzo_ip" to="." method="_on_line_edit_text_submitted"]
