@@ -7,7 +7,7 @@ var peer = ENetMultiplayerPeer.new()
 func _ready():
 	pass
 	
-func start_network():
+func ConnectToServer():
 	peer.create_client(str(server_ip), server_port)
 	multiplayer.connected_to_server.connect(self.connected)
 	multiplayer.connection_failed.connect(self.failed)
@@ -28,11 +28,11 @@ func failed():
 	$spinner.visible = false
 	
 func disconnected():
-	print("Disconnesso dal server")
+	print("Disconnected")
 
 func _on_button_pressed():
 	if server_ip != null and server_ip != "":
-		start_network()
+		ConnectToServer()
 		$connect.hide()
 		$warning.hide()
 		$spinner.process_mode = true
