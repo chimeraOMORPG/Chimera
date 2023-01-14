@@ -5,4 +5,6 @@ For now we decided to use 2D/Pixel Art graphic style like Chrono Trigger, Star O
 We use <a href="https://godotengine.org/">Godot 4 Game Engine.</a>
 Initially the working group is made up of Italians but anyone can contribute, as long as you forgive me for the bad English I speak ;-)</br>
 We need 2d graphics (or ai users like scenario, midjourney and so on) and Godot experts.</br>
-<img src="https://discordapp.com/api/guilds/1054369396396675083/widget.png?style=banner2" alt="Discord Banner 2"/>
+<a href="https://discord.gg/ahgZbjzsjC">
+    <img src="https://discordapp.com/api/guilds/1054369396396675083/widget.png?style=banner2" alt="Discord Banner 2"/>
+</a>
