@@ -1,5 +1,5 @@
 # Chimera-client</p>
-This is the client, part of Chimèra project; an OMORPG (Open Sources Multiplayer Online Role Playing Game).</br>
+This is the client, part of Chimèra project; an OMORPG (Open sources Multiplayer Online Role Playing Game).</br>
 We want to create a Game in a virtual second life on a persistent World.</br>
 For now we decided to use 2D/Pixel Art graphic style like Chrono Trigger, Star Ocean etc.</br>
 We use <a href="https://godotengine.org/">Godot 4 Game Engine.</a>
