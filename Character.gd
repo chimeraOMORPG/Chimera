@@ -27,7 +27,7 @@ func movement(deltapassed):
 	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity = input_direction.normalized() * speed * deltapassed * 50	
 	if $disconnect_confirm.visible == false:
-		if is_multiplayer_authority():
+		if (multiplayer.multiplayer_peer.get_connection_status()) and is_multiplayer_authority():
 			move_and_slide()
 
 func grass_step(stepping):

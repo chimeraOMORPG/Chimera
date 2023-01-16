@@ -17,7 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Gameserver="*res://singletons/gameserver.gd"
 Data="*res://singletons/data.gd"
+Gatewayserver="*res://singletons/gatewayserver.gd"
 
 [display]
 

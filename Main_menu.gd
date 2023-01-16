@@ -1,18 +1,9 @@
 extends Control
-#@export var PlayerScene = preload("res://Player.tscn")
-@export var server_port: int = 4242
-var server_ip = null
-var peer = ENetMultiplayerPeer.new()
+
+var game_server_ip = null
 
 func _ready():
 	pass
-	
-func ConnectToServer():
-	peer.create_client(str(server_ip), server_port)
-	multiplayer.connected_to_server.connect(self.connected)
-	multiplayer.connection_failed.connect(self.failed)
-	multiplayer.server_disconnected.connect(self.disconnected)
-	multiplayer.set_multiplayer_peer(peer)
 
 func connected():
 	$spinner.process_mode = false
@@ -31,14 +22,14 @@ func disconnected():
 	print("Disconnected")
 
 func _on_button_pressed():
-	if server_ip != null and server_ip != "":
-		ConnectToServer()
+	if game_server_ip != null and game_server_ip != "":
+		Gameserver.ConnectToServer()
 		$connect.hide()
 		$warning.hide()
 		$spinner.process_mode = true
 		$spinner.visible = true
 		
-	elif server_ip == "":
+	elif game_server_ip == "":
 		$AudioStreamPlayer2.play()
 		$warning.text = "Please fill server address field"
 		$warning.show()	
@@ -48,5 +39,5 @@ func _on_button_pressed():
 		$warning.show()	
 	
 func _on_indirizzo_ip_text_changed(new_text):
-	server_ip = str(new_text)
-	print(server_ip)
+	game_server_ip = str(new_text)
+	print(game_server_ip)
