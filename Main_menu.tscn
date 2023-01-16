@@ -28,7 +28,6 @@ metadata/_edit_use_anchors_ = true
 metadata/_edit_horizontal_guides_ = [480.0]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
 offset_top = -32.0
 offset_right = 1920.0
 offset_bottom = 1048.0
@@ -36,7 +35,6 @@ texture = ExtResource("2_qfpos")
 stretch_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
 offset_left = 41.0
 offset_top = 440.0
 offset_right = 447.0
@@ -45,7 +43,6 @@ color = Color(0.117647, 0.117647, 0.117647, 0.756863)
 metadata/_edit_group_ = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ColorRect"]
-layout_mode = 0
 offset_left = 8.0
 offset_right = 408.0
 offset_bottom = 568.0
@@ -62,7 +59,6 @@ Maecenas ultrices tortor sit amet purus commodo commodo. Quisque mi nibh, laoree
 Nunc sed sapien id purus fermentum placerat. Aenean est mi, tempor et velit vitae, sollicitudin blandit neque. Mauris accumsan augue ut libero bibendum gravida. Donec consectetur sit amet ipsum at imperdiet. Aliquam ut lorem porta, vehicula urna vel, vulputate est. Integer viverra quis ligula mattis finibus. Aliquam erat volutpat. Aliquam erat volutpat. Donec at velit tellus. Vivamus finibus urna sem, sit amet facilisis erat rhoncus ultricies. Pellentesque egestas volutpat purus at pulvinar. Etiam mi lorem, condimentum id magna volutpat, molestie facilisis massa. Mauris sem diam, maximus nec arcu dignissim, dapibus suscipit nunc. Vivamus ac tellus convallis, faucibus elit ut, ultrices justo. Sed quis placerat ante. Maecenas at dui congue, lobortis nunc id, congue urna."
 
 [node name="connect" type="Button" parent="."]
-layout_mode = 0
 offset_left = 885.0
 offset_top = 72.0
 offset_right = 1035.0
@@ -71,7 +67,6 @@ shortcut_in_tooltip = false
 text = "connect to server"
 
 [node name="indirizzo_ip" type="LineEdit" parent="."]
-layout_mode = 0
 offset_left = 885.0
 offset_top = 20.0
 offset_right = 1035.0
@@ -91,7 +86,6 @@ autoplay = true
 
 [node name="warning" type="Label" parent="."]
 visible = false
-layout_mode = 0
 offset_left = 689.0
 offset_top = 128.0
 offset_right = 1231.0

@@ -40,11 +40,11 @@ func _on_button_pressed():
 		
 	elif server_ip == "":
 		$AudioStreamPlayer2.play()
-		$warning.text = "Please fill server address field (maybe chimera.nikoh.it?)"
+		$warning.text = "Please fill server address field"
 		$warning.show()	
 	else: 
 		$AudioStreamPlayer2.play()
-		$warning.text = "Please insert a valid server address (maybe chimera.nikoh.it?)"
+		$warning.text = "Please insert a valid server address"
 		$warning.show()	
 	
 func _on_indirizzo_ip_text_changed(new_text):
