@@ -1,5 +1,5 @@
-# Chimera-server</p>
-This is the server, part of Chimèra project; for more info and wiki please refer to <a href="https://github.com/Nikoh77/Chimera-client">Chimèra client</a>
+# Game-server</p>
+This is the Game-server, a part of Chimèra project where the game take place and where you can meet other people playing (Please see our <a href="https://github.com/Nikoh77/Chimera-client/wiki">wiki</a> for more info).<br>
 <h3>Please don't open an issue for help or understanding requests, that's what our discord server is for:</h3>
 <a href="https://discord.gg/ahgZbjzsjC">
     <img src="https://discordapp.com/api/guilds/1054369396396675083/widget.png?style=banner2" alt="Discord Banner 2"/>
