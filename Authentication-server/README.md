@@ -1,5 +1,5 @@
 # Authentication-server
-This is the authentication-server part of Chimèra project, where authentication takes place and where character's data are stored;<br>
+This is the authentication-server part of Chimèra project, where authentication takes place and where character's data are stored (Please see our <a href="https://github.com/Nikoh77/Chimera-client/wiki">wiki</a> for more info).<br>
 
 <h3>Please don't open an issue for help or understanding requests, that's what our discord server is for:</h3>
 <a href="https://discord.gg/ahgZbjzsjC">
