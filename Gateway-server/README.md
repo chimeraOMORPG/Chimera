@@ -1,5 +1,5 @@
-# Game-client
-This is the client part of Chimèra project.<br>
+# Gateway-server
+This is the gateway-server part of Chimèra project, which everyone connects to to login or to create a new character,<br>
 
 <h3>Please don't open an issue for help or understanding requests, that's what our discord server is for:</h3>
 <a href="https://discord.gg/ahgZbjzsjC">
