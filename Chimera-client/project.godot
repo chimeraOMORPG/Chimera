@@ -11,15 +11,20 @@ config_version=5
 [application]
 
 config/name="chimera_client"
-run/main_scene="res://Main_menu.tscn"
+run/main_scene="res://Scenes/Main_menu/Main_menu.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Scenes/Main_menu/icon.svg"
 
 [autoload]
 
+Gatewayserver="*res://singletons/gw_server.gd"
 Gameserver="*res://singletons/gameserver.gd"
 Data="*res://singletons/data.gd"
-Gatewayserver="*res://singletons/gatewayserver.gd"
+
+[debug]
+
+file_logging/enable_file_logging.pc=false
+file_logging/log_path="logs/chimera_client.log"
 
 [display]
 

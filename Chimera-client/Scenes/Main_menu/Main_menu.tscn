@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://nkmvvu73a5fc"]
+[gd_scene load_steps=9 format=3 uid="uid://cbs8en8suy5fe"]
 
-[ext_resource type="Script" path="res://Main_menu.gd" id="1_e4in7"]
-[ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_qfpos"]
-[ext_resource type="AudioStream" uid="uid://iuhyvsx4qnv7" path="res://assets/audio/max_brhon_cyberpunk.mp3" id="3_eynf1"]
-[ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="4_wb10m"]
-[ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://icon.svg" id="5_sgyn4"]
-[ext_resource type="Script" path="res://spinner.gd" id="6_n5obw"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/Main_menu.gd" id="1_gyfjd"]
+[ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_1kjsr"]
+[ext_resource type="AudioStream" uid="uid://iuhyvsx4qnv7" path="res://assets/audio/max_brhon_cyberpunk.mp3" id="3_fb01n"]
+[ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="4_8xjtf"]
+[ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://Scenes/Main_menu/icon.svg" id="5_u2sto"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/spinner.gd" id="6_old5k"]
 
 [sub_resource type="Theme" id="Theme_e2ohn"]
 /colors/jkxchokxdfj = Color(0, 0, 0, 1)
@@ -23,16 +23,15 @@ offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_e2ohn")
-script = ExtResource("1_e4in7")
+script = ExtResource("1_gyfjd")
 metadata/_edit_use_anchors_ = true
 metadata/_edit_horizontal_guides_ = [480.0]
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_top = -32.0
 offset_right = 1920.0
-offset_bottom = 1048.0
-texture = ExtResource("2_qfpos")
+offset_bottom = 1080.0
+texture = ExtResource("2_1kjsr")
 stretch_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -64,28 +63,38 @@ Nunc sed sapien id purus fermentum placerat. Aenean est mi, tempor et velit vita
 [node name="connect" type="Button" parent="."]
 layout_mode = 0
 offset_left = 885.0
-offset_top = 72.0
+offset_top = 140.0
 offset_right = 1035.0
-offset_bottom = 103.0
+offset_bottom = 171.0
 shortcut_in_tooltip = false
 text = "connect to server"
 
-[node name="indirizzo_ip" type="LineEdit" parent="."]
+[node name="AuthUser" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 885.0
-offset_top = 20.0
+offset_top = 60.0
 offset_right = 1035.0
-offset_bottom = 51.0
-placeholder_text = "server address"
+offset_bottom = 91.0
+placeholder_text = "USER"
 alignment = 1
 max_length = 100
 expand_to_text_length = true
 draw_control_chars = true
-caret_blink = true
-caret_force_displayed = true
+
+[node name="AuthPassword" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 885.0
+offset_top = 100.0
+offset_right = 1035.0
+offset_bottom = 131.0
+placeholder_text = "PASSWORD"
+alignment = 1
+max_length = 100
+expand_to_text_length = true
+draw_control_chars = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_eynf1")
+stream = ExtResource("3_fb01n")
 volume_db = -10.0
 autoplay = true
 
@@ -93,25 +102,39 @@ autoplay = true
 visible = false
 layout_mode = 0
 offset_left = 689.0
-offset_top = 128.0
+offset_top = 180.0
 offset_right = 1231.0
-offset_bottom = 159.0
+offset_bottom = 211.0
 label_settings = SubResource("LabelSettings_v5chd")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_wb10m")
+stream = ExtResource("4_8xjtf")
 volume_db = 15.0
 
 [node name="spinner" type="Sprite2D" parent="."]
 process_mode = 4
 visible = false
-position = Vector2(961, 192)
-texture = ExtResource("5_sgyn4")
-script = ExtResource("6_n5obw")
+position = Vector2(961, 300)
+texture = ExtResource("5_u2sto")
+script = ExtResource("6_old5k")
 
-[connection signal="pressed" from="connect" to="." method="_on_button_pressed"]
-[connection signal="text_changed" from="indirizzo_ip" to="." method="_on_indirizzo_ip_text_changed"]
-[connection signal="text_submitted" from="indirizzo_ip" to="." method="_on_line_edit_text_submitted"]
+[node name="RealTime" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -320.0
+offset_right = 248.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "uiet weuify iuwf l"
+
+[connection signal="pressed" from="connect" to="." method="_on_login_button_pressed"]

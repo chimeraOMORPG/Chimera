@@ -14,14 +14,17 @@ func _enter_tree():
 	pass
 		
 func _ready():
-	camera.current = synchronizer.is_multiplayer_authority()
-	screen_size = get_viewport_rect().size
-	$ID.text = name
-	position.x = randi_range(0,screen_size.x)
-	position.y = randi_range(0,screen_size.y)
-	print(multiplayer.get_unique_id())
-	print(get_multiplayer_authority())
-	$connected.play()
+	#if synchronizer.is_multiplayer_authority():
+		camera.make_current()
+		screen_size = get_viewport_rect().size
+		$ID.text = name
+		position.x = randi_range(0,screen_size.x)
+		position.y = randi_range(0,screen_size.y)
+		print(multiplayer.get_unique_id())
+		print(get_multiplayer_authority())
+		$connected.play()
+	#else 
+	#camera.current = synchronizer.is_multiplayer_authority()
 	
 func movement(deltapassed):
 	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -68,25 +71,20 @@ func _input(event):
 			else:
 				$CHAnimatedSprite2D.play("idle_"+($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
 		if event.is_action_pressed("ui_cancel"):
-		#if Input.is_key_pressed(KEY_C,) and not event.echo:
-			print("disconnetti questo client")
+			print("Disconnection request sended to server")
 			$disconnect_confirm.show()
 			set_process_input(false)
-	#	if Input.is_key_pressed(KEY_ESCAPE) and not event.echo:
-	#		print("disconnettimi")
-	#		#rpc("chiamata")
-		
-@rpc(call_remote)
-func chiamata():
-	print("chiamata")
-	pass
+		if Input.is_key_pressed(KEY_C,) and not event.echo:
+			rpc_id(1,"chiamata")
 
+@rpc("call_remote")
+func chiamata():
+	pass
 
 func _on_disconnect_confirm_confirmed():
 	set_process_input(true)
 	multiplayer.multiplayer_peer.close()
-	get_tree().change_scene_to_file("res://Main_menu.tscn") # Replace with function body.
-
+	$CHCamera2D.enabled = false
 
 func _on_disconnect_confirm_cancelled():
 	set_process_input(true)

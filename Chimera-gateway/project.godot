@@ -1,0 +1,28 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Chimera-gateway"
+run/main_scene="res://gateway.tscn"
+config/features=PackedStringArray("4.0", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Gwserver="*res://singletons/gw_server.gd"
+Authenticate="*res://singletons/auth_client.gd"
+Security="*res://singletons/security.gd"
+Settings="*res://singletons/settings.gd"
+
+[debug]
+
+file_logging/enable_file_logging.pc=false
+file_logging/log_path="logs/chimera-gateway.log"
