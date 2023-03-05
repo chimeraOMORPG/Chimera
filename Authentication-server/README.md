@@ -1,5 +1,5 @@
-# Game-client
-This is the client part of Chimèra project.<br>
+# Authentication-server
+This is the authentication-server part of Chimèra project, where authentication takes place and where character's data are stored;<br>
 
 <h3>Please don't open an issue for help or understanding requests, that's what our discord server is for:</h3>
 <a href="https://discord.gg/ahgZbjzsjC">
