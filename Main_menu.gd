@@ -3,6 +3,9 @@ extends Control
 var game_server_ip = null
 
 func _ready():
+	var output = []
+	OS.alert("ciao")
+	print (output)
 	pass
 
 func connected():
