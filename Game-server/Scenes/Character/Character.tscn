@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://ds5r1bcac7cgd"]
+
+[ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_ckah4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xo62v"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wgs1i"]
+radius = 12.5
+height = 31.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sdhjt"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath("CHAnimatedSprite2D:animation")
+properties/1/spawn = true
+properties/1/sync = true
+
+[node name="Character" type="CharacterBody2D"]
+position = Vector2(320, 240)
+script = ExtResource("1_ckah4")
+metadata/_edit_group_ = true
+
+[node name="CHAnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xo62v")
+animation = &"walk_up"
+
+[node name="CHCollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(263, 233)
+shape = SubResource("CapsuleShape2D_wgs1i")
+
+[node name="CHMultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_sdhjt")
