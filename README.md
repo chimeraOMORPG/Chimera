@@ -1,5 +1,4 @@
-# Chimera-client
-This is the client, part of Chimèra project; Basically an <a href="https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game">"OMORPG"</a> (Open sources Multiplayer Online Role Playing Game).<br>
+This is the Chimèra project, basically an <a href="https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game">"OMORPG"</a> (Open sources Multiplayer Online Role Playing Game).<br>
 We are creating something between a second life and a RPG, on a persistent virtual universe. (Please see our <a href="https://github.com/Nikoh77/Chimera-client/wiki">wiki</a> for more info)
 Chimèra differs from all mmorpgs because anyone can join his server (his instance) to the Chimèra Federation as happens in the <a href="https://en.wikipedia.org/wiki/Fediverse">"fediverse"</a>, about social networks like <a href="https://mastodon.social">Mastodon</a>.<br>
 On our first istance we decided to use 2D/Pixel Art graphic style like Chrono Trigger, Star Ocean etc. but you could also decide to use all three dimensions in your instance.<br>
