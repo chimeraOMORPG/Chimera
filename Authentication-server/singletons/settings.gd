@@ -45,4 +45,4 @@ func updateSettings():
 				if z.name.ends_with('INI'):
 					settings.set_value(str(x.name), z.name.trim_suffix('INI'), x.get(z.name))
 					prints(x.name, z.name)
-					settings.save("res://settings.ini")# Save it to a file (overwrite if already exists).
+					settings.save("res://settings.ini")# Save it to a file (overwriting if already exists).
