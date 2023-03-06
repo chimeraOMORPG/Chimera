@@ -4,7 +4,7 @@ var bannedListINI: bool #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false # true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
 var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes, 
-var gatewayIPINI: String
+var allowedIPesINI: Array
 
 func _ready():
 	await Settings.settingsLoaded
@@ -23,8 +23,8 @@ func baseIPcheck(ip) -> bool:
 	
 func verify(ip) -> Dictionary:
 	var dummy: Dictionary = {'result': false}
-	if firewallINI == false and not bannedListINI and (gatewayIPINI == null or gatewayIPINI == "") :
-		print("WARNING, all protections are disabled, it is recommended to set at least $gatewayIPINI")
+	if firewallINI == false and not bannedListINI and (allowedIPesINI == null or allowedIPesINI == []) :
+		print("WARNING, all protections are disabled, it is recommended to set at least one security condition")
 		return dummy
 	elif attack(ip):
 		bannedIP.append(ip)
@@ -53,8 +53,8 @@ func verify(ip) -> Dictionary:
 	return dummy
 
 func attack(ip) -> bool:
-	if gatewayIPINI:
-		if ip != gatewayIPINI: 
+	if allowedIPesINI:
+		if not allowedIPesINI.has(ip): 
 			prints('Connection from untrusted IP:', ip)
 			return true
 		print('it\'s not an attack, continuing...' )

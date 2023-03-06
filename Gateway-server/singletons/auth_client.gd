@@ -44,7 +44,7 @@ func Authenticate(_username, _password, _player_id):
 	pass
 
 @rpc("call_remote")
-func AuthenticationResult(result, player_id, desc, token, gameserver):
+func AuthenticationResult(result, player_id, desc, token, gameserverUrl):
 	print("Result received and replying to player login request")
-	Gwserver.ReturnLoginRequest(result, player_id, desc, token, gameserver)
+	Gwserver.ReturnLoginRequest(result, player_id, desc, token, gameserverUrl)
 

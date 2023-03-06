@@ -59,7 +59,7 @@ func verify(ip) -> Dictionary:
 			if serverOS.contains("linux"):
 				print("Linux OS detected")
 				var output: Array = []
-				#To execute this command you need to modify /etc/sudoers (Debina/Ubuntu like distributions) to allow the user
+				#To execute this command you need to modify /etc/sudoers (Debian/Ubuntu like distributions) to allow the user
 				#running this server to pass this command without a password prompt.
 				var exit_code = OS.execute("sudo", ["iptabl", "-A", "INPUT", "-s", ip, "-j", "DROP"], output, true)
 				print(output)	

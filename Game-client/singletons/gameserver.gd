@@ -3,8 +3,8 @@ extends Node
 @export var game_server_port: int = 4242
 var network = ENetMultiplayerPeer.new()
 
-func ConnectToServer(gameserver, token):
-	network.create_client(gameserver, game_server_port)
+func ConnectToServer(gameserverUrl, token):
+	network.create_client(gameserverUrl, game_server_port)
 	multiplayer.set_multiplayer_peer(network)
 	if not multiplayer.connected_to_server.is_connected(connected):
 		multiplayer.connected_to_server.connect(self.connected)

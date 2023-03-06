@@ -13,10 +13,10 @@ func StartServer():
 	multiplayer.set_multiplayer_peer(network)
 	multiplayer.peer_connected.connect(self.Gateway_connected)
 	multiplayer.peer_disconnected.connect(self.Gateway_disconnected)
-	print('Authentication server listening on '+str(server_portINI))
+	prints('Authentication server listening on', server_portINI, 'for gateway clients')
 
 func Gateway_connected(gateway_id):
-	print("New gateway connected with ID: "+str(gateway_id))
+	print("New gateway client connected with ID: "+str(gateway_id))
 	var callerIP = self.network.get_peer(gateway_id).get_remote_address()
 	if not Security.baseIPcheck(callerIP):#This check is always made
 		prints(callerIP + 'formally invalid ip, disconnecting!')
@@ -33,14 +33,14 @@ func Gateway_connected(gateway_id):
 			print('IP address check completed successfully, continuing...')
 
 func Gateway_disconnected(gateway_id):
-	print("Gateway ID: "+str(gateway_id)+" disconnected")
+	prints("Gateway ID:", gateway_id, "disconnected")
 
 @rpc("any_peer")
 func Authenticate(username, password, player_id):
 	var desc: String
 	var result: bool
 	var token: String
-	var gameserver: String
+	var gameserverUrl: String
 	var remote = multiplayer.get_remote_sender_id()
 	print("Authentication request received, authenticating...")
 	if not PlayerData.PlayerIDs.has(username):
@@ -52,15 +52,17 @@ func Authenticate(username, password, player_id):
 		result = false
 		desc = "Authentication failed!"
 	else:
-		gameserver = PlayerData.PlayerIDs[username].gameServer
+		var gameserver = ServerData.GameServerIDs[(PlayerData.PlayerIDs[username].gameServer)]
+		gameserverUrl = gameserver.url
+		prints('Game serve is', gameserver, '@', gameserverUrl)
 		desc = "Authentication successful"
-		result = true
 		print(desc)
+		result = true
 		token = str(randi()).sha256_text() + str(Time.get_unix_time_from_system())
 		print(token)
-		print(gameserver)
+		Gameserver.pushToken(gameserver, token)
 	print("Sending back authentication result to gateway server")
-	rpc_id(remote, "AuthenticationResult", result, player_id, desc, token, gameserver)
+	rpc_id(remote, "AuthenticationResult", result, player_id, desc, token, gameserverUrl)
 	await get_tree().create_timer(0.5).timeout
 	network.disconnect_peer(remote)
 	

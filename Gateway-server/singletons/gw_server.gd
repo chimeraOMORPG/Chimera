@@ -30,7 +30,7 @@ func StartServer():
 	multiplayer.set_multiplayer_peer(network)
 	multiplayer.peer_connected.connect(self.Player_connected)
 	multiplayer.peer_disconnected.connect(self.Player_disconnected)
-	print('Gateway server listening on '+str(server_portINI))
+	prints('Gateway server listening on '+str(server_portINI), 'for game clients')
 
 func Player_connected(player_id):
 	print("New game client connected with ID: "+str(player_id))
@@ -54,11 +54,11 @@ func Player_connected(player_id):
 			ReturnLoginRequest(false, player_id, desc, null, null)
 			
 func Player_disconnected(player_id):
-	print("Game client "+str(player_id)+" disconnected")
+	prints("Game client", player_id, "disconnected")
 
-func ReturnLoginRequest(result, player_id, desc, token, gameserver):
+func ReturnLoginRequest(result, player_id, desc, token, gameserverUrl):
 	if self.multiplayer.get_peers().has(player_id):
-		rpc_id(player_id, "ResultLoginRequest", result, desc, token, gameserver)
+		rpc_id(player_id, "ResultLoginRequest", result, desc, token, gameserverUrl)
 		await get_tree().create_timer(0.5).timeout
 		gateway.disconnect_peer(player_id)
 	

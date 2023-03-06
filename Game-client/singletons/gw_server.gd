@@ -75,13 +75,13 @@ func LoginRequest(IPDataReponse = null):
 	password = ""
 
 @rpc("call_remote")
-func ResultLoginRequest(result, desc, token, gameserver):
+func ResultLoginRequest(result, desc, token, gameserverUrl):
 	multiplayer.connected_to_server.disconnect(self.connected)
 	multiplayer.connection_failed.disconnect(self.failed)
 	multiplayer.server_disconnected.disconnect(self.disconnected)
 	print("login result received: " + desc)
 	if result:
-		Gameserver.ConnectToServer(gameserver, token)
+		Gameserver.ConnectToServer(gameserverUrl, token)
 	else:
 		get_node("/root/Main_menu/connect").disabled = false
 		get_node("/root/Main_menu/AudioStreamPlayer2").play()

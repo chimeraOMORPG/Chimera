@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Chimera-gateway"
+config/name="Chimera-gateway-server"
 run/main_scene="res://gateway.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"

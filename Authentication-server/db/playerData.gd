@@ -3,8 +3,6 @@ extends Node
 var PlayerIDs = {
 	"Nikoh": { 
 	"Password": "pluto",
-	"gameServer": "chimera.nikoh.it"
+	"gameServer": "Chimera one"
 	}
 }
-func _ready():
-	pass
