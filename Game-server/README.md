@@ -13,3 +13,5 @@ This work is dual-licensed under:</br>
 <li> GNU GENERAL PUBLIC LICENSE (Version 3, 29 June 2007)</li>
 <li> GNU AFFERO GENERAL PUBLIC LICENSE (Version 3, 19 November 2007)</i>
 </ul>
+
+If you do not allow connections and you use these applications or their code where they are after downloading them, the GPL3 applies but, if the use involves someone connecting to the application servers and then using these applications or their code without distributing it the AGPL3 applies!
