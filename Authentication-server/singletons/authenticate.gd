@@ -43,16 +43,16 @@ func Authenticate(username, password, player_id):
 	var gameserverUrl: String
 	var remote = multiplayer.get_remote_sender_id()
 	print("Authentication request received, authenticating...")
-	if not PlayerData.PlayerIDs.has(username):
+	if not PlayerData.Players.has(username):
 		print("User not found")
 		result = false
 		desc = "Authentication failed!"
-	elif not PlayerData.PlayerIDs[username].Password == password:
+	elif not PlayerData.Players[username].Password == password:
 		print ("Wrong password")
 		result = false
 		desc = "Authentication failed!"
 	else:
-		var gameserver = ServerData.GameServerIDs[(PlayerData.PlayerIDs[username].gameServer)]
+		var gameserver = ServerData.gameServerList[(PlayerData.Players[username].gameServer)]
 		gameserverUrl = gameserver.url
 		prints('Game serve is', gameserver, '@', gameserverUrl)
 		desc = "Authentication successful"

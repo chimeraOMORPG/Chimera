@@ -4,7 +4,6 @@ var server_portINI: int = 11113
 var max_gameserversINI: int = 1
 var network = ENetMultiplayerPeer.new()
 var gameserver = SceneMultiplayer.new()
-var gameServerList: Dictionary
 
 func _ready():
 	await Settings.settingsLoaded
@@ -39,8 +38,7 @@ func gameServer_connected(gameserver_id):
 			gameserver.disconnect_peer(gameserver_id)
 		else:
 			print('IP address check completed successfully, game server trusted and connected')
-			gameServerList['ID1'] = gameserver_id
-			print(gameServerList)
+			ServerData.gameServerList['ID'] = gameserver_id
 			
 func gameServer_disconnected(gameserver_id):
 	prints("Game server", gameserver_id, "disconnected")

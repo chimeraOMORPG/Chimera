@@ -1,17 +1,32 @@
 extends Node
 
 var bannedListINI: bool #true/false enable/disable collecting banned IPes
-var firewallINI: bool = false # true/false enable/disable this server to add firewall rules
+var firewallINI: bool = false #true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
-var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes, 
-var allowedIPesINI: Array
+var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes 
+var allowedIPes: Array#An array containign boths game and gateway servers IPes present on DB
 
 func _ready():
 	await Settings.settingsLoaded
+	allowedIPesPopulate()
 	if bannedListINI:
 		if FileAccess.file_exists('res://bannedIPes.txt'):
 			var file = FileAccess.open('res://bannedIPes.txt', FileAccess.READ)
 			bannedIP = file.get_csv_line()
+
+func allowedIPesPopulate():
+	var temp: Array
+	for i in ServerData.gameServerList:
+		if not temp.has(ServerData.gameServerList[i].get('url')):
+			temp.append(ServerData.gameServerList[i].get('url'))
+	for i in ServerData.gatewayServerList:
+		if not temp.has(ServerData.gatewayServerList[i].get('url')):
+			temp.append(ServerData.gatewayServerList[i].get('url'))
+	print(temp)
+	if not temp.is_empty():
+		for i in temp:
+			allowedIPes.append(IP.resolve_hostname(i, 1))
+	prints('Allowed IPes (game + gateway servers) are', allowedIPes)
 
 func baseIPcheck(ip) -> bool:
 # aggiungere skipping quando loopback o lan address
@@ -23,8 +38,8 @@ func baseIPcheck(ip) -> bool:
 	
 func verify(ip) -> Dictionary:
 	var dummy: Dictionary = {'result': false}
-	if firewallINI == false and not bannedListINI and (allowedIPesINI == null or allowedIPesINI == []) :
-		print("WARNING, all protections are disabled, it is recommended to set at least one security condition")
+	if firewallINI == false and not bannedListINI and allowedIPes.is_empty():
+		print("WARNING, all protections are disabled, it is recommended to set at least $allowedIPes")
 		return dummy
 	elif attack(ip):
 		bannedIP.append(ip)
@@ -53,8 +68,9 @@ func verify(ip) -> Dictionary:
 	return dummy
 
 func attack(ip) -> bool:
-	if allowedIPesINI:
-		if not allowedIPesINI.has(ip): 
+	if not allowedIPes.is_empty():
+		
+		if not allowedIPes.has(ip): 
 			prints('Connection from untrusted IP:', ip)
 			return true
 		print('it\'s not an attack, continuing...' )
