@@ -51,6 +51,7 @@ func Player_connected(player_id):
 			rpc_id(player_id, "LoginRequest", dummy["IPDataReponse"])
 			await get_tree().create_timer(staleTimeINI).timeout
 			var desc = "Authentication failed, staled request..."
+			print(desc)
 			ReturnLoginRequest(false, player_id, desc, null, null)
 			
 func Player_disconnected(player_id):
