@@ -41,6 +41,7 @@ func gameServer_connected(gameserver_id):
 			print('IP address check completed successfully, game server trusted and connected')
 			gameServerList['ID1'] = gameserver_id
 			print(gameServerList)
+			
 func gameServer_disconnected(gameserver_id):
 	prints("Game server", gameserver_id, "disconnected")
 
