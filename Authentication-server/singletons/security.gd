@@ -5,6 +5,7 @@ var firewallINI: bool = false #true/false enable/disable this server to add fire
 var serverOS = OS.get_name().to_lower()
 var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes 
 var allowedIPes: Array#An array containign boths game and gateway servers IPes present on DB
+signal allowedIPesLoaded
 
 func _ready():
 	await Settings.settingsLoaded
@@ -13,20 +14,22 @@ func _ready():
 		if FileAccess.file_exists('res://bannedIPes.txt'):
 			var file = FileAccess.open('res://bannedIPes.txt', FileAccess.READ)
 			bannedIP = file.get_csv_line()
+			
 
 func allowedIPesPopulate():
 	var temp: Array
 	for i in ServerData.gameServerList:
-		if not temp.has(ServerData.gameServerList[i].get('url')):
+		if not temp.has(ServerData.gameServerList[i].get('url')):#To avoid that different servers (under different ports) with same url are resolved 
 			temp.append(ServerData.gameServerList[i].get('url'))
 	for i in ServerData.gatewayServerList:
-		if not temp.has(ServerData.gatewayServerList[i].get('url')):
+		if not temp.has(ServerData.gatewayServerList[i].get('url')):#To avoid that different servers (under different ports) with same url are resolved
 			temp.append(ServerData.gatewayServerList[i].get('url'))
-	print(temp)
 	if not temp.is_empty():
 		for i in temp:
 			allowedIPes.append(IP.resolve_hostname(i, 1))
+	print(temp)
 	prints('Allowed IPes (game + gateway servers) are', allowedIPes)
+	allowedIPesLoaded.emit()
 
 func baseIPcheck(ip) -> bool:
 # aggiungere skipping quando loopback o lan address
@@ -69,12 +72,11 @@ func verify(ip) -> Dictionary:
 
 func attack(ip) -> bool:
 	if not allowedIPes.is_empty():
-		
 		if not allowedIPes.has(ip): 
 			prints('Connection from untrusted IP:', ip)
 			return true
 		print('it\'s not an attack, continuing...' )
 		return false
-	print('Attack checking disabled')
+	print('Empty allowed IPes list, attack checking disabled')
 	return false
 

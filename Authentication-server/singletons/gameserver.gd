@@ -7,6 +7,7 @@ var gameserver = SceneMultiplayer.new()
 
 func _ready():
 	await Settings.settingsLoaded
+	await Security.allowedIPesLoaded
 	StartServer()
 
 func _process(_delta):

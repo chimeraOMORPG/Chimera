@@ -1,6 +1,6 @@
 extends Node
 
-@export var gateway_server: String = "127.0.0.1" #FQDN must used if you want TLS to work; of course you can use ip for tests
+@export var gateway_server: String = "chimeragw.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
 @export var gateway_server_port: int = 4241
 var encryption: bool = false
 var network = ENetMultiplayerPeer.new()

@@ -6,6 +6,7 @@ var max_gatewaysINI: int = 1
 
 func _ready():
 	await Settings.settingsLoaded
+	await Security.allowedIPesLoaded
 	StartServer()
 
 func StartServer():
@@ -52,13 +53,13 @@ func Authenticate(username, password, player_id):
 		result = false
 		desc = "Authentication failed!"
 	else:
-		var gameserver = ServerData.gameServerList[(PlayerData.Players[username].gameServer)]
+		var gameserver: Dictionary = ServerData.gameServerList.get(PlayerData.Players[username].gameServer)
 		gameserverUrl = gameserver.url
-		prints('Game serve is', gameserver, '@', gameserverUrl)
+		prints('Game server is', ServerData.gameServerList.find_key(gameserver), '@', gameserverUrl)
 		desc = "Authentication successful"
 		print(desc)
 		result = true
-		token = str(randi()).sha256_text() + str(Time.get_unix_time_from_system())
+		token = str(randi()).sha256_text() + str(int(Time.get_unix_time_from_system()))
 		print(token)
 		Gameserver.pushToken(gameserver, token)
 	print("Sending back authentication result to gateway server")
