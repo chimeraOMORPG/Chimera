@@ -6,15 +6,17 @@ var max_gatewaysINI: int = 1
 
 func _ready():
 	await Settings.settingsLoaded
-	await Security.allowedIPesLoaded
 	StartServer()
 
 func StartServer():
-	network.create_server(server_portINI,max_gatewaysINI)
-	multiplayer.set_multiplayer_peer(network)
-	multiplayer.peer_connected.connect(self.Gateway_connected)
-	multiplayer.peer_disconnected.connect(self.Gateway_disconnected)
-	prints('Authentication server listening on', server_portINI, 'for gateway clients')
+	var error = network.create_server(server_portINI,max_gatewaysINI)
+	if error == OK:
+		multiplayer.set_multiplayer_peer(network)
+		multiplayer.peer_connected.connect(self.Gateway_connected)
+		multiplayer.peer_disconnected.connect(self.Gateway_disconnected)
+		prints('Authentication server listening on', server_portINI, 'for gateway clients')
+	else:
+		prints('Error creating server', error)
 
 func Gateway_connected(gateway_id):
 	print("New gateway client connected with ID: "+str(gateway_id))
@@ -53,6 +55,7 @@ func Authenticate(username, password, player_id):
 		result = false
 		desc = "Authentication failed!"
 	else:
+		print(ServerData.gameServerList.get(PlayerData.Players[username]).gameServer)
 		var gameserver: Dictionary = ServerData.gameServerList.get(PlayerData.Players[username].gameServer)
 		gameserverUrl = gameserver.url
 		prints('Game server is', ServerData.gameServerList.find_key(gameserver), '@', gameserverUrl)
@@ -61,7 +64,7 @@ func Authenticate(username, password, player_id):
 		result = true
 		token = str(randi()).sha256_text() + str(int(Time.get_unix_time_from_system()))
 		print(token)
-		Gameserver.pushToken(gameserver, token)
+		AuthGameserver.pushToken(gameserver, token)
 	print("Sending back authentication result to gateway server")
 	rpc_id(remote, "AuthenticationResult", result, player_id, desc, token, gameserverUrl)
 	await get_tree().create_timer(0.5).timeout

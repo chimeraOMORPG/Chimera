@@ -1,6 +1,6 @@
 extends Node
 
-@export var gateway_server: String = "chimeragw.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
+@export var gateway_server: String = "127.0.0.1" #FQDN must used if you want TLS to work; of course you can use ip for tests
 @export var gateway_server_port: int = 4241
 var encryption: bool = false
 var network = ENetMultiplayerPeer.new()
@@ -21,25 +21,25 @@ func _process(_delta):
 func ConnectToServer(_username, _password):
 	username = _username
 	password = _password
-	network.create_client(str(gateway_server), gateway_server_port)
-	get_tree().set_multiplayer(gateway, self.get_path())
-	if encryption:
-		print('TLS enabled')
-		var client_tls_options = TLSOptions.client()
-		# l'host qui sotto deve essere dinamico, inviato dal server di authenticazione in base all'ultima posizione
-		# registrata del character
-		var error = network.get_host().dtls_client_setup(gateway_server, client_tls_options)
-		prints('errore:', error)
+	var error = network.create_client(str(gateway_server), gateway_server_port)
+	if error == OK:
+		get_tree().set_multiplayer(gateway, self.get_path())
+		if encryption:
+			print('TLS enabled')
+			var client_tls_options = TLSOptions.client()
+			network.get_host().dtls_client_setup(gateway_server, client_tls_options)
+		else:
+			print('TLS disabled')
+		multiplayer.set_multiplayer_peer(network)
+		if not multiplayer.connected_to_server.is_connected(connected):
+			multiplayer.connected_to_server.connect(self.connected)
+		if not multiplayer.connection_failed.is_connected(failed):
+			multiplayer.connection_failed.connect(self.failed)
+		if not multiplayer.server_disconnected.is_connected(disconnected):
+			multiplayer.server_disconnected.connect(self.disconnected)
 	else:
-		print('TLS disabled')
-	multiplayer.set_multiplayer_peer(network)
-	if not multiplayer.connected_to_server.is_connected(connected):
-		multiplayer.connected_to_server.connect(self.connected)
-	if not multiplayer.connection_failed.is_connected(failed):
-		multiplayer.connection_failed.connect(self.failed)
-	if not multiplayer.server_disconnected.is_connected(disconnected):
-		multiplayer.server_disconnected.connect(self.disconnected)
-
+		prints('Error creating client', error)
+		
 func connected():
 	var myid = multiplayer.get_unique_id()
 	print("Game client connected to gateway server with ID " + str(myid))
@@ -81,7 +81,7 @@ func ResultLoginRequest(result, desc, token, gameserverUrl):
 	multiplayer.server_disconnected.disconnect(self.disconnected)
 	print("login result received: " + desc)
 	if result:
-		Gameserver.ConnectToServer(gameserverUrl, token)
+		GameserverClient.ConnectToServer(gameserverUrl, token)
 	else:
 		get_node("/root/Main_menu/connect").disabled = false
 		get_node("/root/Main_menu/AudioStreamPlayer2").play()

@@ -14,11 +14,18 @@ func _ready():
 			# Iterate over all sections.
 			for section in settings.get_sections():
 				var temp = get_tree().get_root().get_node(section)
+				if temp == null:
+					continue
 				print('Iterating trought sections...')
 				# Iterate over all properties.
 				for property in settings.get_section_keys(section):
 					print('Iterating trought properties...')
 					prints('Found property:', property, 'with value:', settings.get_value(section, property), ' - searching for this property on script', section)
+					# Il codice qui sotto va migliorato perchè adesso itera su tutte le variabili dei vari script
+					# che corrispondono alle sezioni del file ini; trovare un modo più efficiente per verificare semplicemente
+					# se la variabile nel file ini esiste nello script di riferimento (che corrisponde alla section)
+					# ed in caso positivo sostituirne il valore.
+					# Dopodiché ricordarsi di sostituire questo script anche negli altri componenti di Chimèra...
 					for x in temp.get_script().get_script_property_list():
 						if x.name == (property + 'INI'):
 							prints('OK, found', property, 'with value:', temp.get(x.name))
@@ -32,6 +39,7 @@ func _ready():
 	settingsLoaded.emit()
 
 func updateSettings():
+	settings.clear()
 	print('Below a complete list of all settings to save:')
 	for x in get_tree().get_root().get_children():
 		var y: GDScript = x.get_script()
@@ -40,5 +48,9 @@ func updateSettings():
 				if z.name.ends_with('INI'):
 					settings.set_value(str(x.name), z.name.trim_suffix('INI'), x.get(z.name))
 					prints(x.name, z.name)
-					settings.save("res://settings.ini")# Save it to a file (overwrite if already exists).
+				else:
+					if settings.has_section_key(x.name, z.name):
+						settings.erase_section_key(x.name, z.name)
+			settings.save("res://settings.ini")# Save it to a file (overwriting if already exists).
+
 
