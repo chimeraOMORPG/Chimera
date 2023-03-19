@@ -19,6 +19,7 @@ func _process(_delta):
 	get_tree().get_multiplayer("/root/Gwserver").poll()	
 
 func StartServer():
+	print('Starting gateway server')
 	var error = network.create_server(server_portINI, max_playersINI)
 	if error == OK:
 		get_tree().set_multiplayer(gateway, self.get_path())
@@ -54,7 +55,6 @@ func Player_connected(player_id):
 			rpc_id(player_id, "LoginRequest", dummy["IPDataReponse"])
 			await get_tree().create_timer(staleTimeINI).timeout
 			var desc = "Authentication failed, staled request..."
-			print(desc)
 			ReturnLoginRequest(false, player_id, desc, null, null)
 			
 func Player_disconnected(player_id):

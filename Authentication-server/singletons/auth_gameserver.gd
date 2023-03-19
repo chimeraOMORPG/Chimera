@@ -47,13 +47,8 @@ func gameServer_disconnected(gameserver_id):
 	prints("Game server", gameserver_id, "disconnected")
 
 func pushToken(gameserver, token):
-	print(gameserver)
-	var id = ServerData.gameServerList.get(gameserver).get("ID")
-	print(id)
-#		rpc_id(gameserver_id, "ResultLoginRequest", token)
-#		await get_tree().create_timer(0.5).timeout
-#		gateway.disconnect_peer(player_id)
-	pass
+	var id = int(gameserver.get("ID"))
+	rpc_id(id, "tokenPassed", token)
 #
 @rpc("any_peer")
 func announceToAuthserver(nameServer):
@@ -67,4 +62,8 @@ func announceToAuthserver(nameServer):
 
 @rpc("reliable", "call_local")
 func wellcome():
+	pass
+
+@rpc("call_local")
+func tokenPassed(token):
 	pass

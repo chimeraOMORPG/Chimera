@@ -4,6 +4,7 @@ extends Node
 var network = ENetMultiplayerPeer.new()
 
 func ConnectToServer(gameserverUrl, token):
+	print('Connecting to game server, please wait...')
 	var error = network.create_client(gameserverUrl, game_server_port)
 	if error == OK:
 		multiplayer.set_multiplayer_peer(network)

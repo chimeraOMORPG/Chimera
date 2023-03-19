@@ -11,6 +11,7 @@ func _ready():
 	pass
 	
 func StartServer():
+	print('Starting game server')
 	var error = network.create_server(server_portINI,max_playersINI)
 	if error == OK:
 		multiplayer.set_multiplayer_peer(network)
