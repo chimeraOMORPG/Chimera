@@ -6,7 +6,7 @@ var connectionsINI: int = 5 #Max connection attempts during $indos time, 0 = dis
 var bannedListINI: bool #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false # true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
-var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes, 
+var bannedIP: PackedStringArray #An array cantaining all banned IPes, 
 var IPDataCheckINI: bool = false # true/false enable/disable IP address check on ipdata.co
 var keyPathINI: String #Absolute file path where stored IPData key
 var IPDataFields: Array = ["is_anonymous", "is_threat", "is_bogon"]#Choose IPDATA fields that trigger an attack, more info on ipdata.co

@@ -3,7 +3,7 @@ extends Node
 var bannedListINI: bool #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false #true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
-var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes 
+var bannedIP: PackedStringArray #An array cantaining all banned IPes 
 var allowedIPesINI: Array #An array containign boths game and gateway servers IPes present on DB
 signal allowedIPesLoaded
 
