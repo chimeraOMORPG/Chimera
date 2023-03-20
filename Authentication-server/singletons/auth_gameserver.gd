@@ -48,7 +48,9 @@ func gameServer_disconnected(gameserver_id):
 
 func pushToken(gameserver, token):
 	var id = int(gameserver.get("ID"))
-	rpc_id(id, "tokenPassed", token)
+	var error = rpc_id(id, "tokenPassed", token)
+	if error != OK:
+		print('An error occurred pushing token to game server')
 #
 @rpc("any_peer")
 func announceToAuthserver(nameServer):

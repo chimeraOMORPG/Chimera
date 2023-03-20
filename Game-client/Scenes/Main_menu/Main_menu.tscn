@@ -99,7 +99,6 @@ volume_db = -10.0
 autoplay = true
 
 [node name="warning" type="Label" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 689.0
 offset_top = 180.0

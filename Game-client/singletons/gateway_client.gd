@@ -19,7 +19,8 @@ func _process(_delta):
 	get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.poll()	
 	
 func ConnectToServer(_username, _password):
-	print('Connecting to game server')
+	print('Connecting to gateway server, please wait...')
+	get_node("/root/Main_menu/warning").text = "Connecting to gateway server, please wait..."
 	username = _username
 	password = _password
 	var error = network.create_client(str(gateway_server), gateway_server_port)
@@ -42,29 +43,28 @@ func ConnectToServer(_username, _password):
 		prints('Error creating client', error)
 		
 func connected():
+	get_node("/root/Main_menu/warning").text = ''
 	var myid = multiplayer.get_unique_id()
 	prints("Game client connected to gateway server with ID", myid)
 	
 func failed():
 	print("Game client Failed to connect to gateway server")
-	get_node("/root/Main_menu/connect").disabled = false
-	get_node("/root/Main_menu/AudioStreamPlayer2").play()
 	get_node("/root/Main_menu/warning").text = "Connection failed"
-	get_node("/root/Main_menu/warning").show()
-	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-	get_node("/root/Main_menu/spinner").visible = false
+	canReconnect()
 
 func disconnected():
 	print("Game client disconnected from gateway server")
-	if get_tree().get_multiplayer().multiplayer_peer.get_connection_status() == 1:
-		get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
-	else:
-		get_node("/root/Main_menu/warning").text = "Connection failed"
-		get_node("/root/Main_menu/AudioStreamPlayer2").play()
-		get_node("/root/Main_menu/connect").disabled = false
-		get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-		get_node("/root/Main_menu/spinner").visible = false
-	get_node("/root/Main_menu/warning").show()
+	print(get_tree().get_multiplayer('/root').get_multiplayer_peer())
+	print(get_tree().get_multiplayer('/root').multiplayer_peer.get_connection_status())
+#	if get_tree().get_multiplayer('/root').multiplayer_peer.get_connection_status() == 0:
+#		get_node("/root/Main_menu/warning").text = "Connection failed"
+#		canReconnect()
+		
+func canReconnect() -> void:
+	get_node("/root/Main_menu/connect").disabled = false
+	get_node("/root/Main_menu/AudioStreamPlayer2").play()
+	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
+	get_node("/root/Main_menu/spinner").visible = false
 
 @rpc("call_remote")
 func LoginRequest(IPDataReponse = null):
@@ -87,13 +87,12 @@ func ResultLoginRequest(result, desc, token, gameserverUrl):
 	if result:
 		prints('Token received', token)
 		GameserverClient.ConnectToServer(gameserverUrl, token)
-	else:
-		get_node("/root/Main_menu/connect").disabled = false
-		get_node("/root/Main_menu/AudioStreamPlayer2").play()
-		get_node("/root/Main_menu/warning").text = "Connection failed"
-		get_node("/root/Main_menu/warning").show()
-		get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-		get_node("/root/Main_menu/spinner").visible = false
+#	else:
+#		get_node("/root/Main_menu/connect").disabled = false
+#		get_node("/root/Main_menu/AudioStreamPlayer2").play()
+#		get_node("/root/Main_menu/warning").text = "Connection failed"
+#		get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
+#		get_node("/root/Main_menu/spinner").visible = false
 
 @rpc("call_local")	
 func login(_username, _password):

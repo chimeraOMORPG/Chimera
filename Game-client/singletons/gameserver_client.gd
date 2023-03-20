@@ -5,6 +5,7 @@ var network = ENetMultiplayerPeer.new()
 
 func ConnectToServer(gameserverUrl, token):
 	print('Connecting to game server, please wait...')
+	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
 	var error = network.create_client(gameserverUrl, game_server_port)
 	if error == OK:
 		multiplayer.set_multiplayer_peer(network)
@@ -26,23 +27,12 @@ func failed():
 	get_node("/root/Main_menu/connect").disabled = false
 	get_node("/root/Main_menu/AudioStreamPlayer2").play()
 	get_node("/root/Main_menu/warning").text = "Whenever authenticated, failed to connect to game server"
-	get_node("/root/Main_menu/warning").show()
 	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
 	get_node("/root/Main_menu/spinner").visible = false
 	
 func disconnected():
 	print("Disconnected from game server")
 	get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
-	waiting()
+	await get_tree().create_timer(0.5).timeout
+	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
 
-func waiting():
-	print("start")
-	var timer = Timer.new()
-	add_child(timer)
-	timer.wait_time = 3.0
-	timer.one_shot = true
-	timer.start()
-	timer.timeout.connect(self._on_timer_timeout)
-func _on_timer_timeout():
-	print("end")
-	get_node("../Main_menu/connect")

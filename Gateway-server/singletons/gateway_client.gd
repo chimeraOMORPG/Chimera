@@ -63,7 +63,7 @@ func Player_disconnected(player_id):
 func ReturnLoginRequest(result, player_id, desc, token, gameserverUrl):
 	if self.multiplayer.get_peers().has(player_id):
 		rpc_id(player_id, "ResultLoginRequest", result, desc, token, gameserverUrl)
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(1).timeout
 		gateway.disconnect_peer(player_id)
 	
 @rpc("call_local")
