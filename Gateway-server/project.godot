@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Gwserver="*res://singletons/gw_server.gd"
-Authenticate="*res://singletons/auth_client.gd"
+GatewayClient="*res://singletons/gateway_client.gd"
+AuthGateway="*res://singletons/auth_gateway.gd"
 Security="*res://singletons/security.gd"
 Settings="*res://singletons/settings.gd"
 

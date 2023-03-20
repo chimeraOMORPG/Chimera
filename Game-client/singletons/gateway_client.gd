@@ -12,37 +12,38 @@ func _ready():
 	pass
 
 func _process(_delta):
-	if get_tree().get_multiplayer("/root/Gatewayserver")==null:
+	if get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer==null:
 		return
 	if not get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.get_connection_status():
 		return
-	get_tree().get_multiplayer("/root/Gatewayserver").poll()	
+	get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.poll()	
 	
 func ConnectToServer(_username, _password):
+	print('Connecting to game server')
 	username = _username
 	password = _password
-	network.create_client(str(gateway_server), gateway_server_port)
-	get_tree().set_multiplayer(gateway, self.get_path())
-	if encryption:
-		print('TLS enabled')
-		var client_tls_options = TLSOptions.client()
-		# l'host qui sotto deve essere dinamico, inviato dal server di authenticazione in base all'ultima posizione
-		# registrata del character
-		var error = network.get_host().dtls_client_setup(gateway_server, client_tls_options)
-		prints('errore:', error)
+	var error = network.create_client(str(gateway_server), gateway_server_port)
+	if error == OK:
+		get_tree().set_multiplayer(gateway, self.get_path())
+		if encryption:
+			print('TLS enabled')
+			var client_tls_options = TLSOptions.client()
+			network.get_host().dtls_client_setup(gateway_server, client_tls_options)
+		else:
+			print('TLS disabled')
+		multiplayer.set_multiplayer_peer(network)
+		if not multiplayer.connected_to_server.is_connected(connected):
+			multiplayer.connected_to_server.connect(self.connected)
+		if not multiplayer.connection_failed.is_connected(failed):
+			multiplayer.connection_failed.connect(self.failed)
+		if not multiplayer.server_disconnected.is_connected(disconnected):
+			multiplayer.server_disconnected.connect(self.disconnected)
 	else:
-		print('TLS disabled')
-	multiplayer.set_multiplayer_peer(network)
-	if not multiplayer.connected_to_server.is_connected(connected):
-		multiplayer.connected_to_server.connect(self.connected)
-	if not multiplayer.connection_failed.is_connected(failed):
-		multiplayer.connection_failed.connect(self.failed)
-	if not multiplayer.server_disconnected.is_connected(disconnected):
-		multiplayer.server_disconnected.connect(self.disconnected)
-
+		prints('Error creating client', error)
+		
 func connected():
 	var myid = multiplayer.get_unique_id()
-	print("Game client connected to gateway server with ID " + str(myid))
+	prints("Game client connected to gateway server with ID", myid)
 	
 func failed():
 	print("Game client Failed to connect to gateway server")
@@ -55,12 +56,15 @@ func failed():
 
 func disconnected():
 	print("Game client disconnected from gateway server")
-	get_node("/root/Main_menu/connect").disabled = false
-	get_node("/root/Main_menu/AudioStreamPlayer2").play()
-	get_node("/root/Main_menu/warning").text = "Connection failed"
+	if get_tree().get_multiplayer().multiplayer_peer.get_connection_status() == 1:
+		get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
+	else:
+		get_node("/root/Main_menu/warning").text = "Connection failed"
+		get_node("/root/Main_menu/AudioStreamPlayer2").play()
+		get_node("/root/Main_menu/connect").disabled = false
+		get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
+		get_node("/root/Main_menu/spinner").visible = false
 	get_node("/root/Main_menu/warning").show()
-	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-	get_node("/root/Main_menu/spinner").visible = false
 
 @rpc("call_remote")
 func LoginRequest(IPDataReponse = null):
@@ -76,12 +80,13 @@ func LoginRequest(IPDataReponse = null):
 
 @rpc("call_remote")
 func ResultLoginRequest(result, desc, token, gameserverUrl):
-	multiplayer.connected_to_server.disconnect(self.connected)
-	multiplayer.connection_failed.disconnect(self.failed)
-	multiplayer.server_disconnected.disconnect(self.disconnected)
+#	multiplayer.connected_to_server.disconnect(self.connected)
+#	multiplayer.connection_failed.disconnect(self.failed)
+#	multiplayer.server_disconnected.disconnect(self.disconnected)
 	print("login result received: " + desc)
 	if result:
-		Gameserver.ConnectToServer(gameserverUrl, token)
+		prints('Token received', token)
+		GameserverClient.ConnectToServer(gameserverUrl, token)
 	else:
 		get_node("/root/Main_menu/connect").disabled = false
 		get_node("/root/Main_menu/AudioStreamPlayer2").play()

@@ -17,11 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Authenticate="*res://singletons/authenticate.gd"
+AuthGateway="*res://singletons/auth_gateway.gd"
+AuthGameserver="*res://singletons/auth_gameserver.gd"
 PlayerData="*res://db/playerData.gd"
-Security="*res://singletons/security.gd"
-Gameserver="*res://singletons/gameserver.gd"
 ServerData="*res://db/serverData.gd"
+Security="*res://singletons/security.gd"
 Settings="*res://singletons/settings.gd"
 
 [debug]

@@ -14,6 +14,8 @@ func _ready():
 			# Iterate over all sections.
 			for section in settings.get_sections():
 				var temp = get_tree().get_root().get_node(section)
+				if temp == null:
+					continue
 				print('Iterating trought sections...')
 				# Iterate over all properties.
 				for property in settings.get_section_keys(section):
@@ -37,6 +39,7 @@ func _ready():
 	settingsLoaded.emit()
 
 func updateSettings():
+	settings.clear()
 	print('Below a complete list of all settings to save:')
 	for x in get_tree().get_root().get_children():
 		var y: GDScript = x.get_script()
@@ -45,4 +48,7 @@ func updateSettings():
 				if z.name.ends_with('INI'):
 					settings.set_value(str(x.name), z.name.trim_suffix('INI'), x.get(z.name))
 					prints(x.name, z.name)
-					settings.save("res://settings.ini")# Save it to a file (overwriting if already exists).
+				else:
+					if settings.has_section_key(x.name, z.name):
+						settings.erase_section_key(x.name, z.name)
+			settings.save("res://settings.ini")# Save it to a file (overwriting if already exists).

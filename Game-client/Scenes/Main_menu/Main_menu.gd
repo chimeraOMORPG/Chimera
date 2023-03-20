@@ -15,7 +15,7 @@ func _on_login_button_pressed():
 		$warning.show()	
 	else: 	
 		$connect.disabled = true
-		Gatewayserver.ConnectToServer(username_input.get_text(), password_input.get_text() )
+		GatewayClient.ConnectToServer(username_input.get_text(), password_input.get_text() )
 		$warning.hide()
 		$spinner.process_mode = Node.PROCESS_MODE_ALWAYS
 		$spinner.visible = true

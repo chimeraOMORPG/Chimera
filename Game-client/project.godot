@@ -17,8 +17,8 @@ config/icon="res://Scenes/Main_menu/icon.svg"
 
 [autoload]
 
-Gatewayserver="*res://singletons/gw_server.gd"
-Gameserver="*res://singletons/gameserver.gd"
+GatewayClient="*res://singletons/gateway_client.gd"
+GameserverClient="*res://singletons/gameserver_client.gd"
 Data="*res://singletons/data.gd"
 
 [debug]

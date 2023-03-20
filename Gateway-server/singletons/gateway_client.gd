@@ -1,7 +1,7 @@
 extends Node
 
 var server_portINI: int = 4241
-var max_playersINI: int
+var max_playersINI: int = 1
 var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 var staleTimeINI: int = 2 #Elapsed time (in seconds) to consider requests expired
@@ -19,19 +19,23 @@ func _process(_delta):
 	get_tree().get_multiplayer("/root/Gwserver").poll()	
 
 func StartServer():
-	network.create_server(server_portINI,max_playersINI)
-	get_tree().set_multiplayer(gateway, self.get_path())
-	if encryptionINI and FileAccess.file_exists(keyINI) and FileAccess.file_exists(certINI):
-		var server_tls_options = TLSOptions.server(load(keyINI), load(certINI))
-		network.get_host().dtls_server_setup(server_tls_options)
-		print('TLS enabled')
+	print('Starting gateway server')
+	var error = network.create_server(server_portINI, max_playersINI)
+	if error == OK:
+		get_tree().set_multiplayer(gateway, self.get_path())
+		if encryptionINI and FileAccess.file_exists(keyINI) and FileAccess.file_exists(certINI):
+			var server_tls_options = TLSOptions.server(load(keyINI), load(certINI))
+			network.get_host().dtls_server_setup(server_tls_options)
+			print('TLS enabled')
+		else:
+			print('TLS disabled')
+		multiplayer.set_multiplayer_peer(network)
+		multiplayer.peer_connected.connect(self.Player_connected)
+		multiplayer.peer_disconnected.connect(self.Player_disconnected)
+		prints('Gateway server listening on '+str(server_portINI), 'for game clients')
 	else:
-		print('TLS disabled')
-	multiplayer.set_multiplayer_peer(network)
-	multiplayer.peer_connected.connect(self.Player_connected)
-	multiplayer.peer_disconnected.connect(self.Player_disconnected)
-	prints('Gateway server listening on '+str(server_portINI), 'for game clients')
-
+		prints('Error creating server', error)
+		
 func Player_connected(player_id):
 	print("New game client connected with ID: "+str(player_id))
 	var callerIP = self.network.get_peer(player_id).get_remote_address()
@@ -72,7 +76,7 @@ func incoming_rpc_ID():
 @rpc("any_peer")
 func login(username, password):
 	print("Login request received")
-	Authenticate.ConnectToServer(username, password, incoming_rpc_ID())
+	AuthGateway.ConnectToServer(username, password, incoming_rpc_ID())
 
 @rpc("call_local")
 func LoginRequest():

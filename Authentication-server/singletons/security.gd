@@ -1,17 +1,35 @@
 extends Node
 
 var bannedListINI: bool #true/false enable/disable collecting banned IPes
-var firewallINI: bool = false # true/false enable/disable this server to add firewall rules
+var firewallINI: bool = false #true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
-var bannedIP: PackedStringArray = PackedStringArray([]) #An array cantaining all banned IPes, 
-var allowedIPesINI: Array
+var bannedIP: PackedStringArray #An array cantaining all banned IPes 
+var allowedIPesINI: Array #An array containign boths game and gateway servers IPes present on DB
+signal allowedIPesLoaded
 
 func _ready():
 	await Settings.settingsLoaded
+	allowedIPesPopulate()# These IPes are "appended" to $allowedIPes after the ones into the INI file and aren't saved 
+	prints('Allowed IPes (game + gateway servers) are', allowedIPesINI)
 	if bannedListINI:
 		if FileAccess.file_exists('res://bannedIPes.txt'):
 			var file = FileAccess.open('res://bannedIPes.txt', FileAccess.READ)
 			bannedIP = file.get_csv_line()
+			
+func allowedIPesPopulate():
+	#Implementare risoluzione ogni x tempo che aggiorna i dati precedenti cancellando i vecchi se diversi, così se un gameserver
+	#nel frattempo che questo AUTH è attivo, avrà cambiato IP gli sarà comunque permesso di (ri)connettersi quindi $allowedIPes deve diventare un 
+	#dizionario.... credo...
+	var temp: Array
+	for i in ServerData.gameServerList:
+		if not temp.has(ServerData.gameServerList[i].get('url')):#To avoid that different servers (under different ports) with same url are resolved 
+			temp.append(ServerData.gameServerList[i].get('url'))
+	for i in ServerData.gatewayServerList:
+		if not temp.has(ServerData.gatewayServerList[i].get('url')):#To avoid that different servers (under different ports) with same url are resolved
+			temp.append(ServerData.gatewayServerList[i].get('url'))
+	if not temp.is_empty():
+		for i in temp:
+			allowedIPesINI.append(IP.resolve_hostname(i, 1))
 
 func baseIPcheck(ip) -> bool:
 # aggiungere skipping quando loopback o lan address
@@ -23,8 +41,8 @@ func baseIPcheck(ip) -> bool:
 	
 func verify(ip) -> Dictionary:
 	var dummy: Dictionary = {'result': false}
-	if firewallINI == false and not bannedListINI and (allowedIPesINI == null or allowedIPesINI == []) :
-		print("WARNING, all protections are disabled, it is recommended to set at least one security condition")
+	if firewallINI == false and not bannedListINI and allowedIPesINI.is_empty():
+		print("WARNING, all protections are disabled, it is recommended to set at least $allowedIPes")
 		return dummy
 	elif attack(ip):
 		bannedIP.append(ip)
@@ -53,12 +71,12 @@ func verify(ip) -> Dictionary:
 	return dummy
 
 func attack(ip) -> bool:
-	if allowedIPesINI:
+	if not allowedIPesINI.is_empty():
 		if not allowedIPesINI.has(ip): 
 			prints('Connection from untrusted IP:', ip)
 			return true
 		print('it\'s not an attack, continuing...' )
 		return false
-	print('Attack checking disabled')
+	print('Empty allowed IPes list, attack checking disabled')
 	return false
 

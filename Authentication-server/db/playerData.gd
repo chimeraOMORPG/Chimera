@@ -1,8 +1,8 @@
 extends Node
 
-var PlayerIDs = {
+var Players = {
 	"Nikoh": { 
 	"Password": "pluto",
-	"gameServer": "Chimera one"
+	"gameServer": "Chimera_one"
 	}
 }

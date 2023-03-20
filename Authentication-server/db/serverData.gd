@@ -1,8 +1,17 @@
 extends Node
 
-var GameServerIDs = {
-	"Chimera one": { 
+var gameServerList = {
+	"Chimera_one": { 
+	"url": "127.0.0.1",
+	"ID": ""
+	},
+	"Chimera_two": { 
 	"url": "chimera.nikoh.it",
-	"pippo": "paperino"
+	"topolino": "paperone"
+	}
+}
+var gatewayServerList = {
+	"Chimera_gw_one": { 
+	"url": "chimeragw.nikoh.it"
 	}
 }

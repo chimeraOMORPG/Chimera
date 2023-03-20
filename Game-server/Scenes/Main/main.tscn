@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ybcw8q7ssq8k"]
+[gd_scene load_steps=6 format=3 uid="uid://ybcw8q7ssq8k"]
 
 [ext_resource type="Script" path="res://Scenes/Main/main.gd" id="1_hcaqj"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_hjki6"]
+[ext_resource type="Script" path="res://Scenes/Main/tokenExpiration.gd" id="3_6wb6t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 texture = ExtResource("2_hjki6")
@@ -392,3 +393,10 @@ layer_1/tile_data = PackedInt32Array(-65532, 458754, 3, 327673, 458754, 3, -3276
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
 spawn_path = NodePath("../Characters")
+
+[node name="tokenExpiration" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+script = ExtResource("3_6wb6t")
+
+[connection signal="timeout" from="tokenExpiration" to="tokenExpiration" method="_on_timeout"]
