@@ -4,11 +4,6 @@ extends Control
 @onready var password_input = get_node("AuthPassword")
 @onready var login_button = get_node("connect")
 
-
-func _ready():
-	multiplayer.set_multiplayer_peer(null)
-	pass
-
 func _on_login_button_pressed():
 	if username_input.text == "" or password_input.text == "":
 		$AudioStreamPlayer2.play()

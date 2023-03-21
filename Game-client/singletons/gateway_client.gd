@@ -54,8 +54,10 @@ func failed():
 
 func disconnected():
 	print("Game client disconnected from gateway server")
-	print(get_tree().get_multiplayer('/root').get_multiplayer_peer())
-	print(get_tree().get_multiplayer('/root').multiplayer_peer.get_connection_status())
+	print(get_tree().get_multiplayer('/root/GameserverClient').get_multiplayer_peer())
+#	print(get_tree().get_multiplayer('').multiplayer_peer.get_connection_status())
+	print(get_tree().get_multiplayer('/root/GameserverClient').multiplayer_peer.get_connection_status())
+	print(multiplayer.multiplayer_peer.get_connection_status())
 #	if get_tree().get_multiplayer('/root').multiplayer_peer.get_connection_status() == 0:
 #		get_node("/root/Main_menu/warning").text = "Connection failed"
 #		canReconnect()

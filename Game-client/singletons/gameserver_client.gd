@@ -3,12 +3,17 @@ extends Node
 @export var game_server_port: int = 4242
 var network = ENetMultiplayerPeer.new()
 
+func _ready():
+#	multiplayer.set_multiplayer_peer(null)
+	pass
+
 func ConnectToServer(gameserverUrl, token):
 	print('Connecting to game server, please wait...')
 	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
 	var error = network.create_client(gameserverUrl, game_server_port)
 	if error == OK:
-		multiplayer.set_multiplayer_peer(network)
+		get_tree().set_multiplayer(network, self.get_path())
+#		multiplayer.set_multiplayer_peer(network)
 		if not multiplayer.connected_to_server.is_connected(connected):
 			multiplayer.connected_to_server.connect(self.connected)
 		if not multiplayer.connection_failed.is_connected(failed):
