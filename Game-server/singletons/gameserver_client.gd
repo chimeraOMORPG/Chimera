@@ -6,8 +6,6 @@ var server_portINI: int = 4242
 var max_playersINI: int = 100
 
 func _ready():
-#	await Settings.settingsLoaded
-#	StartServer()
 	pass
 	
 func StartServer():

@@ -14,9 +14,7 @@ func _ready():
 	StartServer()
 
 func _process(_delta):
-	if not get_tree().get_multiplayer("/root/Gwserver").multiplayer_peer.get_connection_status():
-		return
-	get_tree().get_multiplayer("/root/Gwserver").poll()	
+	pass
 
 func StartServer():
 	print('Starting gateway server')

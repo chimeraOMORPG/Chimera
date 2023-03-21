@@ -7,7 +7,7 @@ var gameServerList = {
 	},
 	"Chimera_two": { 
 	"url": "chimera.nikoh.it",
-	"topolino": "paperone"
+	"ID": "5555"
 	}
 }
 var gatewayServerList = {

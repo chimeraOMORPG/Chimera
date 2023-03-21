@@ -12,11 +12,7 @@ func _ready():
 	pass
 
 func _process(_delta):
-	if get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer==null:
-		return
-	if not get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.get_connection_status():
-		return
-	get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.poll()	
+	pass
 	
 func ConnectToServer(_username, _password):
 	print('Connecting to gateway server, please wait...')
@@ -53,14 +49,10 @@ func failed():
 	canReconnect()
 
 func disconnected():
-	print("Game client disconnected from gateway server")
-	print(get_tree().get_multiplayer('/root/GameserverClient').get_multiplayer_peer())
-#	print(get_tree().get_multiplayer('').multiplayer_peer.get_connection_status())
-	print(get_tree().get_multiplayer('/root/GameserverClient').multiplayer_peer.get_connection_status())
-	print(multiplayer.multiplayer_peer.get_connection_status())
-#	if get_tree().get_multiplayer('/root').multiplayer_peer.get_connection_status() == 0:
-#		get_node("/root/Main_menu/warning").text = "Connection failed"
-#		canReconnect()
+	print(GameserverClient.network.get_connection_status())
+	if GameserverClient.network.get_connection_status() == 0:
+		get_node("/root/Main_menu/warning").text = "Connection failed"
+		canReconnect()
 		
 func canReconnect() -> void:
 	get_node("/root/Main_menu/connect").disabled = false

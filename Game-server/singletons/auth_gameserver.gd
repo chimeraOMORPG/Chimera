@@ -8,18 +8,9 @@ var gateway = SceneMultiplayer.new()
 
 func _ready():
 	await Settings.settingsLoaded
-#	print(get_node(".").get_multiplayer().multiplayer_peer.get_connection_status())
 	ConnectToServer()
-#	print(get_node(".").get_multiplayer().multiplayer_peer.get_connection_status())
-#	print(get_tree().get_multiplayer("/root/AuthGameserver"))
-	pass
 
 func _process(_delta):
-#	if get_tree().get_multiplayer("/root/Gatewayserver") == null:
-#		return
-#	if not get_tree().get_multiplayer("/root/Gatewayserver").multiplayer_peer.get_connection_status():
-#		return
-#	get_tree().get_multiplayer("/root/Gatewayserver").poll()	
 	pass
 
 func ConnectToServer():

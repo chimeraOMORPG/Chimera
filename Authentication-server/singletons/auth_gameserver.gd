@@ -10,10 +10,8 @@ func _ready():
 	StartServer()
 
 func _process(_delta):
-#	if not get_tree().get_multiplayer("/root/Gameserver").multiplayer_peer.get_connection_status():
-#		return
-#	get_tree().get_multiplayer("/root/Gameserver").poll()	
 	pass
+
 
 func StartServer():
 	var error = network.create_server(server_portINI, max_gameserversINI)
@@ -45,19 +43,26 @@ func gameServer_connected(gameserver_id):
 			
 func gameServer_disconnected(gameserver_id):
 	prints("Game server", gameserver_id, "disconnected")
+	for i in ServerData.gameServerList:
+		if ServerData.gameServerList.get(i).get('ID') == gameserver_id:
+			ServerData.gameServerList.get(i).erase('ID')
+			break
 
 func pushToken(gameserver, token):
-	var id = int(gameserver.get("ID"))
-	var error = rpc_id(id, "tokenPassed", token)
-	if error != OK:
-		print('An error occurred pushing token to game server')
+	if gameserver.get("ID") != null and gameserver.get("ID") != 0:
+		var id: int = gameserver.get("ID")
+		var error = rpc_id(id, "tokenPassed", token)
+		if error != OK:
+			print('An error occurred pushing token to game server')
 #
 @rpc("any_peer")
 func announceToAuthserver(nameServer):
 	if ServerData.gameServerList.has(nameServer):
 		ServerData.gameServerList.get(nameServer).ID = multiplayer.get_remote_sender_id()
 		prints('OK', nameServer, 'game server connected')
-		rpc_id(multiplayer.get_remote_sender_id(), 'wellcome')
+		var error = rpc_id(multiplayer.get_remote_sender_id(), 'wellcome')
+		if error != OK:
+			print('Error calling wellcome rpc')
 	else:
 		prints(nameServer, 'is not the valid name of any game server, disconnecting...')
 		gameserver.disconnect_peer(multiplayer.get_remote_sender_id())
