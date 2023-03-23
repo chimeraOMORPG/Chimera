@@ -6,8 +6,7 @@ func _enter_tree():
 	pass
 		
 func _ready():
-	print(multiplayer.get_unique_id())
-	print(get_multiplayer_authority())
+	pass
 	
 func incoming_rpc_id():
 	var caller = str(multiplayer.get_remote_sender_id())

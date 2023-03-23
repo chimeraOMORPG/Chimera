@@ -1,12 +1,14 @@
 extends Node
 
-@export var game_server_port: int = 4242
+#var PlayerScene = load("res://Scenes/Character/Character.tscn")
+var game_server_port: int = 4242
 var network = ENetMultiplayerPeer.new()
+var token: String
 
 func _ready():
 	pass
 
-func ConnectToServer(gameserverUrl, token):
+func ConnectToServer(gameserverUrl):
 	print('Connecting to game server, please wait...')
 	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
 	var error = network.create_client(gameserverUrl, game_server_port)
@@ -23,7 +25,11 @@ func ConnectToServer(gameserverUrl, token):
 		
 func connected():
 	print("Game client connected to game server")
-	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
+	print('Start verification pushing token...')
+	var error = rpc_id(1, 'tokenVerification', token)
+	if error != OK:
+		print('Error during rpc playerVerification from game client')
+#	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
 	
 func failed():
 	print("Whenever authenticated, failed to connect to game server")
@@ -38,4 +44,20 @@ func disconnected():
 	get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
 	await get_tree().create_timer(0.5).timeout
 	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
+
+@rpc("any_peer")
+func playerVerified():
+	print('Ok, token authenticated, starting game...')
+	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
+	var error = rpc_id(1, 'create_player')
+	if error != OK:
+		print('Error during rpc create_player from game client')
+
+@rpc("call_local")
+func tokenVerification(token):
+	pass
+
+@rpc("call_local")
+func create_player():
+	pass
 

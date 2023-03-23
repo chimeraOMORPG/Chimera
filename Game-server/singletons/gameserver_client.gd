@@ -20,20 +20,54 @@ func StartServer():
 		prints('Error creating server', error)
 		
 func playerConnected(id : int) -> void:
-	create_player(id)
-
-func create_player(id : int) -> void:
+	prints("New player connected with ID:", id)
+	#implementare regole di sicurezza + banning
+	await get_tree().create_timer(2).timeout
+	if not get_node('/root/main/Characters').get_children().is_empty():
+		for i in get_node('/root/main/Characters').get_children():
+			if i.name == str(id):
+				return
+			else:
+				prints('The client ID', id, 'did not provide any token, disconnecting')
+	network.disconnect_peer(id)
+@rpc("any_peer")				
+func create_player():
+	var clientID = multiplayer.get_remote_sender_id()
 	# Instantiate a new player for this client.
 	var p = PlayerScene.instantiate()
 	# Set the name, so players can figure out their local authority
-	p.name = str(id)
+	p.name = str(clientID)
 	get_node("/root/main/Characters").add_child(p)
-	prints("New player connected with ID:", id)
+	prints("New character created for player ID:", clientID)
+#	var error = rpc_id(clientID, 'startGame')
+#	if error != OK:
+#		print('Error during rpc startGame from game server')
 
 func playerDisconnected(id : int) -> void:
 	destroy_player(id)
 
 func destroy_player(id : int) -> void:
-	# Delete this peer's node.
 	prints("Player ID:", id, " disconnected")
-	get_node("/root/main/Characters").get_node(str(id)).queue_free()
+	for i in get_node('/root/main/Characters').get_children():
+		if i.name == str(id):
+			get_node("/root/main/Characters").get_node(str(i)).queue_free()
+			prints('Player ID', id, 'character istance destroyed')
+			break
+
+@rpc("any_peer")
+func tokenVerification(token):
+	print('Player token received, start matching...')
+	var clientID = multiplayer.get_remote_sender_id()
+	var current_Time: int = Time.get_unix_time_from_system()
+	var tokenTime = int(token.right(10))
+	if current_Time - tokenTime >= 30:
+		print('Invalid token, expired, disconnecting')
+	elif not get_node("/root/main/tokenExpiration").availableTokens.has(token):
+		print('Invalid token, unknown, disconnecting')
+	else:
+		print('Client\'s token verified!')
+		rpc_id(clientID, 'playerVerified')
+
+@rpc("call_local")
+func playerVerified():
+	pass

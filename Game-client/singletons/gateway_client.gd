@@ -49,7 +49,6 @@ func failed():
 	canReconnect()
 
 func disconnected():
-	print(GameserverClient.network.get_connection_status())
 	if GameserverClient.network.get_connection_status() == 0:
 		get_node("/root/Main_menu/warning").text = "Connection failed"
 		canReconnect()
@@ -74,19 +73,11 @@ func LoginRequest(IPDataReponse = null):
 
 @rpc("call_remote")
 func ResultLoginRequest(result, desc, token, gameserverUrl):
-#	multiplayer.connected_to_server.disconnect(self.connected)
-#	multiplayer.connection_failed.disconnect(self.failed)
-#	multiplayer.server_disconnected.disconnect(self.disconnected)
 	print("login result received: " + desc)
 	if result:
 		prints('Token received', token)
-		GameserverClient.ConnectToServer(gameserverUrl, token)
-#	else:
-#		get_node("/root/Main_menu/connect").disabled = false
-#		get_node("/root/Main_menu/AudioStreamPlayer2").play()
-#		get_node("/root/Main_menu/warning").text = "Connection failed"
-#		get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-#		get_node("/root/Main_menu/spinner").visible = false
+		GameserverClient.set('token', token)
+		GameserverClient.ConnectToServer(gameserverUrl)
 
 @rpc("call_local")	
 func login(_username, _password):

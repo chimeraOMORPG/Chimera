@@ -62,7 +62,7 @@ func wellcome():
 
 @rpc("any_peer")
 func tokenPassed(token):
-	print(get_node("/root/main/tokenExpiration").availableTokens)
 	get_node("/root/main/tokenExpiration").availableTokens.append(token)
-	print(get_node("/root/main/tokenExpiration").availableTokens)
+
+
 
