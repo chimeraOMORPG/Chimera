@@ -1,6 +1,5 @@
 extends Node
 
-#var PlayerScene = load("res://Scenes/Character/Character.tscn")
 var game_server_port: int = 4242
 var network = ENetMultiplayerPeer.new()
 var token: String

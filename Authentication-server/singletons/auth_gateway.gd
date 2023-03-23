@@ -63,7 +63,7 @@ func Authenticate(username, password, player_id):
 		print(desc)
 		result = true
 		token = str(randi()).sha256_text() + str(current_Time)
-		AuthGameserver.pushToken(gameserver, token+'1')
+		AuthGameserver.pushToken(gameserver, token)
 	print("Sending back authentication result to gateway server")
 	rpc_id(remote, "AuthenticationResult", result, player_id, desc, token, gameserverUrl)
 	await get_tree().create_timer(0.5).timeout

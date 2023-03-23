@@ -2,7 +2,7 @@ extends Node
 
 var gameServerList = {
 	"Chimera_one": { 
-	"url": "127.0.0.1",
+	"url": "chimerasrv.nikoh.it",
 	"ID": ""
 	},
 	"Chimera_two": { 
