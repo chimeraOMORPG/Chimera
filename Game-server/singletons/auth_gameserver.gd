@@ -62,6 +62,7 @@ func wellcome():
 
 @rpc("any_peer")
 func tokenPassed(token):
+#	await get_tree().create_timer(20).timeout
 	get_node("/root/main/tokenExpiration").availableTokens.append(token)
 
 

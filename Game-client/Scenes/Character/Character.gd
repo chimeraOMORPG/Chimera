@@ -20,8 +20,8 @@ func _ready():
 		$ID.text = name
 		position.x = randi_range(0,screen_size.x)
 		position.y = randi_range(0,screen_size.y)
-		print(multiplayer.get_unique_id())
-		print(get_multiplayer_authority())
+#		print(multiplayer.get_unique_id())
+#		print(get_multiplayer_authority())
 		$connected.play()
 	#else 
 	#camera.current = synchronizer.is_multiplayer_authority()

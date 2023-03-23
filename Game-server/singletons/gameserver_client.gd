@@ -22,14 +22,15 @@ func StartServer():
 func playerConnected(id : int) -> void:
 	prints("New player connected with ID:", id)
 	#implementare regole di sicurezza + banning
-	await get_tree().create_timer(2).timeout
-	if not get_node('/root/main/Characters').get_children().is_empty():
-		for i in get_node('/root/main/Characters').get_children():
-			if i.name == str(id):
-				return
-			else:
-				prints('The client ID', id, 'did not provide any token, disconnecting')
-	network.disconnect_peer(id)
+#	await get_tree().create_timer(10).timeout
+#	if not get_node('/root/main/Characters').get_children().is_empty():
+#		for i in get_node('/root/main/Characters').get_children():
+#			if i.name == str(id):
+#				return
+#			else:
+#				prints('The client ID', id, 'did not provide a valid token, disconnecting')
+#	network.disconnect_peer(id)
+	
 @rpc("any_peer")				
 func create_player():
 	var clientID = multiplayer.get_remote_sender_id()
@@ -60,13 +61,33 @@ func tokenVerification(token):
 	var clientID = multiplayer.get_remote_sender_id()
 	var current_Time: int = Time.get_unix_time_from_system()
 	var tokenTime = int(token.right(10))
-	if current_Time - tokenTime >= 30:
-		print('Invalid token, expired, disconnecting')
-	elif not get_node("/root/main/tokenExpiration").availableTokens.has(token):
-		print('Invalid token, unknown, disconnecting')
-	else:
-		print('Client\'s token verified!')
-		rpc_id(clientID, 'playerVerified')
+	if not get_node('/root/main/Characters').get_children().is_empty():
+		for i in get_node('/root/main/Characters').get_children():
+			if i.name == str(clientID):
+				return
+			else:
+				prints('The client ID', id, 'did not provide a valid token, disconnecting')
+	network.disconnect_peer(id)
+
+	while not get_node('/root/main/Characters').get_children().all(get('name')).has(clientID):
+		print('Invalid or unknow token, waiting a little bit for the authentication server send me...')
+#		await get_tree().create_timer(2).timeout
+#
+#		rpc_id(clientID, 'playerVerified')
+#
+#		else:
+#			print('Client\'s token verified!')
+#
+#			current_Time = Time.get_unix_time_from_system()
+#
+
+#	if current_Time - tokenTime >= 30:
+#		print('Invalid token, expired, disconnecting')
+#	elif not get_node("/root/main/tokenExpiration").availableTokens.has(token):
+#		print('Invalid token, unknown, disconnecting')
+#	else:
+#		print('Client\'s token verified!')
+#		rpc_id(clientID, 'playerVerified')
 
 @rpc("call_local")
 func playerVerified():
