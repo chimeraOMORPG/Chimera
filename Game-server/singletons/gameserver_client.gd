@@ -22,15 +22,15 @@ func StartServer():
 func playerConnected(id : int) -> void:
 	prints("New player connected with ID:", id)
 	#implementare regole di sicurezza + banning
-	await get_tree().create_timer(10).timeout
-	if not get_node('/root/main/Characters').get_children().is_empty():
-		for i in get_node('/root/main/Characters').get_children():
-			if i.name == str(id):
-				return
-			else:
-				prints('The client ID', id, 'did not provide a valid token, disconnecting...')
-	if multiplayer.get_peers().has(id):
-		network.disconnect_peer(id)
+#	await get_tree().create_timer(10).timeout
+#	if not get_node('/root/main/Characters').get_children().is_empty():
+#		for i in get_node('/root/main/Characters').get_children():
+#			if i.name == str(id):
+#				return
+#			else:
+#				prints('The client ID', id, 'did not provide a valid token, disconnecting...')
+#	if multiplayer.get_peers().has(id):
+#		network.disconnect_peer(id)
 	
 @rpc("any_peer")				
 func create_player():

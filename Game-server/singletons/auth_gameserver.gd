@@ -1,6 +1,6 @@
 extends Node
 
-var auth_serverINI: String = "chimeragw.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
+var auth_serverINI: String = "chimera.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
 var auth_server_portINI: int = 11113
 var nameServer: String = "Chimera_one"
 var network = ENetMultiplayerPeer.new()

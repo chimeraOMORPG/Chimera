@@ -11,6 +11,7 @@ var focus = true
 func _enter_tree():
 	if name.is_valid_int():
 		set_multiplayer_authority(str(name).to_int())
+	print(get_multiplayer_authority())
 	pass
 		
 func _ready():

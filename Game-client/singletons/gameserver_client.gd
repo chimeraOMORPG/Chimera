@@ -28,7 +28,7 @@ func connected():
 	var error = rpc_id(1, 'tokenVerification', token)
 	if error != OK:
 		print('Error during rpc playerVerification from game client')
-#	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
 	
 func failed():
 	print("Whenever authenticated, failed to connect to game server")
@@ -47,7 +47,7 @@ func disconnected():
 @rpc("any_peer")
 func playerVerified():
 	print('Ok, token authenticated, starting game...')
-	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
+#	get_tree().change_scene_to_file("res://Scenes/Main/main.tscn")
 	var error = rpc_id(1, 'create_player')
 	if error != OK:
 		print('Error during rpc create_player from game client')

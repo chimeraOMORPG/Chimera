@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
 func _enter_tree():
+	prints('tipo di variabile', typeof(name))
 	if name.is_valid_int():
 		set_multiplayer_authority(name.to_int())
-	pass
+	print(get_multiplayer_authority())
+
 		
 func _ready():
 	pass
