@@ -16,8 +16,8 @@ func ConnectToServer(gameserverUrl):
 		print('Error changing scene to World')
 	print('Connecting to game server, please wait...')
 	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
-	var error = network.create_client(gameserverUrl, game_server_port)
-	if error == OK:
+	var error2 = network.create_client(gameserverUrl, game_server_port)
+	if error2 == OK:
 		multiplayer.set_multiplayer_peer(network)
 		if not multiplayer.connected_to_server.is_connected(connected):
 			multiplayer.connected_to_server.connect(self.connected)
@@ -37,6 +37,7 @@ func connected():
 
 func failed():
 	print("Whenever authenticated, failed to connect to game server")
+	#Bisogna far ricambiare scena *********************
 	get_node("/root/Main_menu/connect").disabled = false
 	get_node("/root/Main_menu/AudioStreamPlayer2").play()
 	get_node("/root/Main_menu/warning").text = "Whenever authenticated, failed to connect to game server"

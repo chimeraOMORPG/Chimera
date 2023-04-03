@@ -40,9 +40,7 @@ func tokenVerification(token):
 		print('Error adding scene...')
 
 func create_player(clientID):
-#	var clientID = multiplayer.get_remote_sender_id()
 	var x = CharacterScene.instantiate()
-#	x.set_position(Vector2(randi_range(0, 1920), randi_range(0, 1080)))
 	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
 	get_node('/root/World/01-daisy-garden/Characters').add_child.call_deferred(x, true)#*************** risolvere!!!
 	prints("New character created for player ID:", clientID)

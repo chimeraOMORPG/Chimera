@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameserverClient="*res://singletons/gameserver_client.gd"
 AuthGameserver="*res://singletons/auth_gameserver.gd"
+TokenExpiration="*res://singletons/token_expiration.gd"
 Settings="*res://singletons/settings.gd"
 
 [debug]

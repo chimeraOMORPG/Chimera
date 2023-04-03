@@ -18,7 +18,6 @@ func destroy_player(id : int) -> void:
 	for i in get_node('/root/World').get_children():
 		if i.get_node('Characters').has_node(str(id)):
 			i.get_node('Characters').get_node(str(id)).queue_free()
-#			get_node("/root/World/01-daisy-garden/Characters").get_node(str(i)).queue_free()
 			prints('Player ID', id, 'character istance destroyed')
 			break
 	print('Errore destroying character istance, inexistent...')
