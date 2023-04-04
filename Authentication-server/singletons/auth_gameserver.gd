@@ -57,11 +57,15 @@ func pushToken(gameserver, token):
 @rpc("any_peer")
 func announceToAuthserver(nameServer):
 	if ServerData.gameServerList.has(nameServer):
-		ServerData.gameServerList.get(nameServer).ID = multiplayer.get_remote_sender_id()
-		prints('OK', nameServer, 'game server connected')
-		var error = rpc_id(multiplayer.get_remote_sender_id(), 'wellcome')
-		if error != OK:
-			print('Error calling wellcome rpc')
+		if ServerData.gameServerList.get(nameServer).get('ID') == null:
+			ServerData.gameServerList.get(nameServer).ID = multiplayer.get_remote_sender_id()
+			prints('OK', nameServer, 'game server connected')
+			var error = rpc_id(multiplayer.get_remote_sender_id(), 'wellcome')
+			if error != OK:
+				print('Error calling wellcome rpc')
+		else:
+			prints(nameServer, 'already connected with ID', ServerData.gameServerList.get(nameServer).get('ID'))
+			gameserver.disconnect_peer(multiplayer.get_remote_sender_id())
 	else:
 		prints(nameServer, 'is not the valid name of any game server, disconnecting...')
 		gameserver.disconnect_peer(multiplayer.get_remote_sender_id())

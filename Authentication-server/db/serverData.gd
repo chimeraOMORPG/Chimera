@@ -3,15 +3,15 @@ extends Node
 var gameServerList = {
 	"Chimera_one": { 
 	"url": "127.0.0.1",
-	"ID": ""
+	"ID": null
 	},
 	"Chimera_two": { 
 	"url": "chimera.nikoh.it",
-	"ID": "5555"
+	"ID": 55555
 	}
 }
 var gatewayServerList = {
 	"Chimera_gw_one": { 
-	"url": "chimeragw.nikoh.it"
+	"url": "chimerasrv.nikoh.it"
 	}
 }

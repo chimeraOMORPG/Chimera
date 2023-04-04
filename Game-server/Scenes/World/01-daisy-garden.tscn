@@ -5,12 +5,6 @@
 [sub_resource type="GDScript" id="GDScript_lggey"]
 script/source = "extends Node
 
-func _ready():
-	prints('Spawner authority', $Spawner.get_multiplayer_authority())
-
-
-func _on_tree_entered():
-	pass # Replace with function body.
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1117,5 +1111,3 @@ layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327
 [node name="Spawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
 spawn_path = NodePath("../Characters")
-
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

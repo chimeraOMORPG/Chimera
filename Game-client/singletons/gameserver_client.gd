@@ -50,17 +50,6 @@ func disconnected():
 	await get_tree().create_timer(0.5).timeout
 	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
 
-#@rpc("any_peer")
-#func playerVerified():
-#	print('Ok, token authenticated, starting game...')
-#	var error = rpc_id(1, 'create_player')
-#	if error != OK:
-#		print('Error during rpc create_player from game client')
-	
-#@rpc("call_local")
-#func create_player():
-#	pass
-
 @rpc("call_local")
 func tokenVerification(token):
 	pass

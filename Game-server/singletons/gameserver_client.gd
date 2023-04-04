@@ -21,6 +21,7 @@ func StartServer():
 		prints('Error creating server', error)
 		
 func playerConnected(id : int) -> void:
+	# Implementare regole di banning
 	prints("New player connected with ID:", id)
 
 func playerDisconnected(id : int) -> void:
@@ -31,17 +32,20 @@ func playerDisconnected(id : int) -> void:
 func tokenVerification(token):
 	print('Player token received, start matching...')
 	var clientID = multiplayer.get_remote_sender_id()
-		#If verified:
-	var result = await get_node('/root/World').addScene(Place)
-	if result:
-		create_player(clientID)
-		pass
-	else:
-		print('Error adding scene...')
+	while multiplayer.get_peers().has(clientID):
+		if TokenExpiration.availableTokens.has(token):
+			print('Client\'s token verified!')
+			var result = await get_node('/root/World').addScene(Place)
+			if result:
+				create_player(clientID)
+			else:
+				print('Error adding scene...')
+			break
+		print('Invalid or unknow token, waiting a little bit for token arriving from the auth server...')
+		await get_tree().create_timer(1).timeout
 
 func create_player(clientID):
 	var x = CharacterScene.instantiate()
 	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
 	get_node('/root/World/01-daisy-garden/Characters').add_child.call_deferred(x, true)#*************** risolvere!!!
 	prints("New character created for player ID:", clientID)
-

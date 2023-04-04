@@ -20,5 +20,5 @@ func destroy_player(id : int) -> void:
 			i.get_node('Characters').get_node(str(id)).queue_free()
 			prints('Player ID', id, 'character istance destroyed')
 			break
-	print('Errore destroying character istance, inexistent...')
+		print('Errore destroying character istance, inexistent...')
 	
