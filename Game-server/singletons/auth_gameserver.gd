@@ -2,7 +2,7 @@ extends Node
 
 var auth_serverINI: String = "chimera.nikoh.it"
 var auth_server_portINI: int = 11113
-var nameServer: String = "Chimera_one"
+var nameServer: String = "Chimera_two"
 var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 

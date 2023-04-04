@@ -6,8 +6,8 @@ var gameServerList = {
 	"ID": null
 	},
 	"Chimera_two": { 
-	"url": "chimera.nikoh.it",
-	"ID": 55555
+	"url": "chimerasrv.nikoh.it",
+	"ID": null
 	}
 }
 var gatewayServerList = {

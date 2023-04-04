@@ -32,17 +32,20 @@ func playerDisconnected(id : int) -> void:
 func tokenVerification(token):
 	print('Player token received, start matching...')
 	var clientID = multiplayer.get_remote_sender_id()
-	while multiplayer.get_peers().has(clientID):
+	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= 2:
 		if TokenExpiration.availableTokens.has(token):
 			print('Client\'s token verified!')
 			var result = await get_node('/root/World').addScene(Place)
 			if result:
 				create_player(clientID)
+				return
 			else:
 				print('Error adding scene...')
-			break
-		print('Invalid or unknow token, waiting a little bit for token arriving from the auth server...')
-		await get_tree().create_timer(1).timeout
+				break
+		else:
+			print('Invalid or unknow token, waiting a little bit for token arriving from the auth server...')
+			await get_tree().create_timer(0.5).timeout
+	network.disconnect_peer(clientID)
 
 func create_player(clientID):
 	var x = CharacterScene.instantiate()
