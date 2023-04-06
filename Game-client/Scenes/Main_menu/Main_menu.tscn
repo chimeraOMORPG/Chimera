@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Main_menu/Main_menu.gd" id="1_gyfjd"]
 [ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_1kjsr"]
-[ext_resource type="AudioStream" uid="uid://iuhyvsx4qnv7" path="res://assets/audio/max_brhon_cyberpunk.mp3" id="3_fb01n"]
+[ext_resource type="AudioStream" uid="uid://wubq2ds3houk" path="res://assets/audio/music/Chimera_-_Tema_1_NO_MS.ogg" id="3_tyf5u"]
 [ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="4_8xjtf"]
 [ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://Scenes/Main_menu/icon.svg" id="5_u2sto"]
 [ext_resource type="Script" path="res://Scenes/Main_menu/spinner.gd" id="6_old5k"]
@@ -105,7 +105,7 @@ expand_to_text_length = true
 draw_control_chars = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_fb01n")
+stream = ExtResource("3_tyf5u")
 volume_db = -10.0
 autoplay = true
 

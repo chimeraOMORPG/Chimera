@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dfdcb8173n7lo"
+path="res://.godot/imported/In a Lost World.ogg-d3ef1358430b6f600e53fa1713e023fb.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/music/In a Lost World.ogg"
+dest_files=["res://.godot/imported/In a Lost World.ogg-d3ef1358430b6f600e53fa1713e023fb.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
