@@ -14,7 +14,7 @@ func ConnectToServer(gameserverUrl):
 	var error = get_tree().change_scene_to_packed(worldSceneContainer)
 	if error != OK:
 		print('Error changing scene to World')
-	print('Connecting to game server, please wait...')
+	prints('Connecting to', gameserverUrl, 'game server, please wait...')
 	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
 	var error2 = network.create_client(gameserverUrl, game_server_port)
 	if error2 == OK:
