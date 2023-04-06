@@ -1177,15 +1177,6 @@ position = Vector2(-108, 357)
 sprite_frames = SubResource("SpriteFrames_m3ps4")
 frame_progress = 0.353523
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-handle_input_locally = false
-render_target_update_mode = 0
-
 [node name="Spawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
 spawn_path = NodePath("../Characters")

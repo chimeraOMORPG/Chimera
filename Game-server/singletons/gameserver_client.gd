@@ -35,7 +35,7 @@ func tokenVerification(token):
 	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= 2:
 		if TokenExpiration.availableTokens.has(token):
 			print('Client\'s token verified!')
-			var result = await get_node('/root/World').addScene(Place)
+			var result = get_node('/root/World').addScene(Place)
 			if result:
 				create_player(clientID)
 				return

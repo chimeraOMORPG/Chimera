@@ -37,7 +37,13 @@ func connected():
 
 func failed():
 	print("Whenever authenticated, failed to connect to game server")
-	#Bisogna far ricambiare scena *********************
+	var error = get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
+	if error != OK:
+		print('Error changing scene to Main_menu')
+	while get_node_or_null("/root/Main_menu/warning") == null:
+		print('Changing scene...')
+		await get_tree().create_timer(0.1).timeout
+	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
 	get_node("/root/Main_menu/connect").disabled = false
 	get_node("/root/Main_menu/AudioStreamPlayer2").play()
 	get_node("/root/Main_menu/warning").text = "Whenever authenticated, failed to connect to game server"
@@ -46,10 +52,15 @@ func failed():
 	
 func disconnected():
 	print("Disconnected from game server")
-	get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
-	await get_tree().create_timer(0.5).timeout
+	var error = get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
+	if error != OK:
+		print('Error changing scene to Main_menu')
+	while get_node_or_null("/root/Main_menu/warning") == null:
+		print('Changing scene...')
+		await get_tree().create_timer(0.1).timeout
+	get_node("/root/Main_menu/AudioStreamPlayer2").play()
 	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
-
+	
 @rpc("call_local")
 func tokenVerification(token):
 	pass
