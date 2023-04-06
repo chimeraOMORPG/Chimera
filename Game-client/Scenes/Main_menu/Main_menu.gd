@@ -4,6 +4,9 @@ extends Control
 @onready var password_input = get_node("AuthPassword")
 @onready var login_button = get_node("connect")
 
+func _ready():
+	$MainTheme.stream.set_loop(true)
+
 func _on_login_button_pressed():
 	if username_input.text == "" or password_input.text == "":
 		$AudioStreamPlayer2.play()

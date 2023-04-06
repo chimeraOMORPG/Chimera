@@ -104,7 +104,7 @@ max_length = 100
 expand_to_text_length = true
 draw_control_chars = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MainTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tyf5u")
 volume_db = -10.0
 autoplay = true
