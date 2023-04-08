@@ -5,11 +5,14 @@ var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth ser
 var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 var server_portINI: int = 4242
 var max_playersINI: int = 100
-var staleTime: int :#Elapsed time (in seconds) to consider requests expired, MUST be greater than $latency
+var staleTime: int: #Elapsed time (in seconds) to consider requests expired, MUST be greater than $latency
 	get:
 		return latency + 1
 var latency: int = 2 #(max) Time required (to wait) to receive token from auth server
 var connected: Dictionary
+var devmode: bool:
+	get:
+		return AuthGameserver.devmodeINI
 
 func _ready():
 	await Settings.settingsLoaded
@@ -43,11 +46,9 @@ func playerConnected(player_id : int) -> void:
 			print('IP address check completed successfully, continuing to login...')
 			connected[player_id] = {'verified': false}
 			await get_tree().create_timer(staleTime).timeout
-			if self.multiplayer.get_peers().has(player_id):
-				print('character connected')
-				if connected.get(player_id).verified != true:
-					prints('Game client', player_id, 'provided no token, staled request, (tokenVerification has not called) disconnecting...')
-					network.disconnect_peer(player_id)
+			if self.multiplayer.get_peers().has(player_id) and connected.get(player_id).verified != true:
+				prints('Game client', player_id, 'provided no token, staled request, (tokenVerification has not called) disconnecting...')
+				network.disconnect_peer(player_id)
 			
 func playerDisconnected(id : int) -> void:
 	prints("Player ID:", id, " disconnected")
@@ -58,7 +59,7 @@ func tokenVerification(token):
 	print('Player token received, start matching...')
 	var clientID = multiplayer.get_remote_sender_id()
 	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= latency:
-		if TokenExpiration.availableTokens.has(token):
+		if TokenExpiration.availableTokens.has(token) or devmode:
 			print('Client\'s token verified!')
 			var result = get_node('/root/World').addScene(Place)
 			if result:
@@ -69,8 +70,9 @@ func tokenVerification(token):
 				print('Error adding scene...')
 				break
 		else:
-			print('Invalid or unknow token, waiting a little bit for token arriving from the auth server...')
+			print('Waiting a little bit for token arriving from the auth server...')
 			await get_tree().create_timer(0.5).timeout
+	print('Invalid or unknow token, disconnecting...')		
 	network.disconnect_peer(clientID)
 	
 

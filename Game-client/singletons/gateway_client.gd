@@ -1,15 +1,16 @@
 extends Node
 
-@export var gateway_server: String = "chimera.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
-@export var gateway_server_port: int = 4241
-var encryption: bool = true
+@export var gateway_serverINI: String = "chimera.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
+@export var gateway_server_portINI: int = 4241
+var encryptionINI: bool = true
 var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 var username: String
 var password: String
+@export var devmodeINI: bool = false
 
 func _ready():
-	pass
+	await Settings.settingsLoaded
 
 func _process(_delta):
 	pass
@@ -19,13 +20,13 @@ func ConnectToServer(_username, _password):
 	get_node("/root/Main_menu/warning").text = "Connecting to gateway server, please wait..."
 	username = _username
 	password = _password
-	var error = network.create_client(str(gateway_server), gateway_server_port)
+	var error = network.create_client(str(gateway_serverINI), gateway_server_portINI)
 	if error == OK:
 		get_tree().set_multiplayer(gateway, self.get_path())
-		if encryption:
+		if encryptionINI:
 			print('TLS enabled')
 			var client_tls_options = TLSOptions.client()
-			network.get_host().dtls_client_setup(gateway_server, client_tls_options)
+			network.get_host().dtls_client_setup(gateway_serverINI, client_tls_options)
 		else:
 			print('TLS disabled')
 		multiplayer.set_multiplayer_peer(network)

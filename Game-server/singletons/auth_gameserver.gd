@@ -5,10 +5,15 @@ var auth_server_portINI: int = 11113
 var nameServer: String = "Chimera_one"
 var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
+@export var devmodeINI: bool = false
 
 func _ready():
 	await Settings.settingsLoaded
-	ConnectToServer()
+	if devmodeINI:
+		print('DEVMODE enabled')
+		GameserverClient.StartServer()
+	else:
+		ConnectToServer()
 
 func ConnectToServer():
 	if (auth_serverINI != null and !auth_serverINI.is_empty()) and auth_server_portINI != null:

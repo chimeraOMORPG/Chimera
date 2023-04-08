@@ -20,6 +20,7 @@ config/icon="res://Scenes/Main_menu/icon.svg"
 GatewayClient="*res://singletons/gateway_client.gd"
 GameserverClient="*res://singletons/gameserver_client.gd"
 Data="*res://singletons/data.gd"
+Settings="*res://singletons/settings.gd"
 
 [debug]
 

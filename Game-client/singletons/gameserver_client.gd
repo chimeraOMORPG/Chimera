@@ -7,7 +7,7 @@ var worldSceneContainer: PackedScene = preload("res://Scenes/World/World.tscn")
 @export var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth server assieme all'url del gameserver
 
 func _ready():
-	pass
+	await Settings.settingsLoaded
 
 func ConnectToServer(gameserverUrl):
 	#costruzione scenetree in base ai dati forniti dall'auth server
