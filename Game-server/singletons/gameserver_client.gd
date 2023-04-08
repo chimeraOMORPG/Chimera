@@ -5,9 +5,14 @@ var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth ser
 var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 var server_portINI: int = 4242
 var max_playersINI: int = 100
+var staleTime: int :#Elapsed time (in seconds) to consider requests expired, MUST be greater than $latency
+	get:
+		return latency + 1
+var latency: int = 2 #(max) Time required (to wait) to receive token from auth server
+var connected: Dictionary
 
 func _ready():
-	pass
+	await Settings.settingsLoaded
 	
 func StartServer():
 	print('Starting game server')
@@ -20,10 +25,30 @@ func StartServer():
 	else:
 		prints('Error creating server', error)
 		
-func playerConnected(id : int) -> void:
-	# Implementare regole di banning
-	prints("New player connected with ID:", id)
-
+func playerConnected(player_id : int) -> void:
+	prints("New player connected with ID:", player_id)
+	var callerIP = self.network.get_peer(player_id).get_remote_address()
+	if not Security.baseIPcheck(callerIP):#This check is always made
+		prints(callerIP + 'formally invalid ip, disconnecting!')
+		network.disconnect_peer(player_id)
+	elif Security.bannedIP.has(callerIP):
+		prints(callerIP, "is a BANNED IP, disconnecting!")
+		network.disconnect_peer(player_id)
+	else:
+		var dummy: Dictionary = await Security.verify(callerIP)
+		if dummy["result"]:
+			print("IP address check failed, disconnecting!")
+			network.disconnect_peer(player_id)
+		else:
+			print('IP address check completed successfully, continuing to login...')
+			connected[player_id] = {'verified': false}
+			await get_tree().create_timer(staleTime).timeout
+			if self.multiplayer.get_peers().has(player_id):
+				print('character connected')
+				if connected.get(player_id).verified != true:
+					prints('Game client', player_id, 'provided no token, staled request, (tokenVerification has not called) disconnecting...')
+					network.disconnect_peer(player_id)
+			
 func playerDisconnected(id : int) -> void:
 	prints("Player ID:", id, " disconnected")
 	get_node('/root/World').destroy_player(id)
@@ -32,12 +57,13 @@ func playerDisconnected(id : int) -> void:
 func tokenVerification(token):
 	print('Player token received, start matching...')
 	var clientID = multiplayer.get_remote_sender_id()
-	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= 2:
+	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= latency:
 		if TokenExpiration.availableTokens.has(token):
 			print('Client\'s token verified!')
 			var result = get_node('/root/World').addScene(Place)
 			if result:
 				create_player(clientID)
+				connected.get(clientID).verified = true
 				return
 			else:
 				print('Error adding scene...')
@@ -46,6 +72,7 @@ func tokenVerification(token):
 			print('Invalid or unknow token, waiting a little bit for token arriving from the auth server...')
 			await get_tree().create_timer(0.5).timeout
 	network.disconnect_peer(clientID)
+	
 
 func create_player(clientID):
 	var x = CharacterScene.instantiate()

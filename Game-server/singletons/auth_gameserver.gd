@@ -10,9 +10,6 @@ func _ready():
 	await Settings.settingsLoaded
 	ConnectToServer()
 
-func _process(_delta):
-	pass
-
 func ConnectToServer():
 	if (auth_serverINI != null and !auth_serverINI.is_empty()) and auth_server_portINI != null:
 		var error = network.create_client(str(auth_serverINI), auth_server_portINI)
@@ -58,7 +55,12 @@ func announceToAuthserver(nameServer):
 	
 @rpc("any_peer")
 func wellcome():
-	GameserverClient.StartServer()
+	if GameserverClient.latency > 1:
+		GameserverClient.StartServer()
+	else:
+		prints('Error starting Game server, $latency must be at least 1 but is', GameserverClient.latency, 'quitting...')
+		await get_tree().create_timer(0.5).timeout	
+		self.get_tree().quit()
 
 @rpc("any_peer")
 func tokenPassed(token):

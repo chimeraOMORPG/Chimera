@@ -3,6 +3,7 @@ extends Node
 var network = ENetMultiplayerPeer.new()
 var server_portINI: int = 4243
 var max_gatewaysINI: int = 1
+var list: String = 'gatewayServerList'
 
 func _ready():
 	await Settings.settingsLoaded

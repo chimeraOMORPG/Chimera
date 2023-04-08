@@ -1,7 +1,7 @@
 extends Node
 
 var dos: Array = [] #An array containing all temporary IPes connected during $isdos time
-var isdosINI: int = 60 #Time in seconds to be considered attack, must be >= 10, 0 = disabled 
+var isdosINI: int = 60 #Time in seconds to be considered attack, must be >= 10, 0 = disabled
 var connectionsINI: int = 5 #Max connection attempts during $indos time, 0 = disabled
 var bannedListINI: bool = true #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false # true/false enable/disable this server to add firewall rules
@@ -18,8 +18,8 @@ func _ready():
 		var dostime = Timer.new()
 		dostime.wait_time = isdosINI
 		dostime.autostart = true
-		add_child(dostime, true)
 		dostime.timeout.connect(self.timeout)
+		add_child(dostime, true)
 	if bannedListINI:
 		if FileAccess.file_exists('res://bannedIPes.txt'):
 			var file = FileAccess.open('res://bannedIPes.txt', FileAccess.READ)
@@ -28,7 +28,7 @@ func _ready():
 func timeout():
 	dos.clear()
 	#Line below is only for debug purpose, not forgot to comment to avoid to spam log
-	#print('Attack timer end, flushing IPes array and start new')
+#	print('Attack timer end, flushing IPes array and start new')
 
 func baseIPcheck(ip) -> bool:
 # aggiungere skipping quando loopback o lan address
@@ -94,7 +94,7 @@ func attack(ip) -> bool:
 		return false
 	print('Denial of Service/brute-force attack checking disabled')
 	return false
-	
+
 func ipdatacheck(ip):
 	# API request timeouts and retries
 	#var timeout = 2

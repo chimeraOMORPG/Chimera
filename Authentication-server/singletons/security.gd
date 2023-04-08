@@ -1,6 +1,6 @@
 extends Node
 
-var bannedListINI: bool #true/false enable/disable collecting banned IPes
+var bannedListINI: bool = true #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false #true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
 var bannedIP: PackedStringArray #An array cantaining all banned IPes 
@@ -29,7 +29,9 @@ func allowedIPesPopulate():
 			temp.append(ServerData.gatewayServerList[i].get('url'))
 	if not temp.is_empty():
 		for i in temp:
-			allowedIPesINI.append(IP.resolve_hostname(i, 1))
+			var x: String = IP.resolve_hostname(i, 1)
+			if not allowedIPesINI.has(x):
+				allowedIPesINI.append(IP.resolve_hostname(i, 1))
 
 func baseIPcheck(ip) -> bool:
 # aggiungere skipping quando loopback o lan address

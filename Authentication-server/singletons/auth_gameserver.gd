@@ -4,6 +4,7 @@ var server_portINI: int = 11113
 var max_gameserversINI: int = 1
 var network = ENetMultiplayerPeer.new()
 var gameserver = SceneMultiplayer.new()
+var list: String = 'gameServerList'
 
 func _ready():
 	await Settings.settingsLoaded
