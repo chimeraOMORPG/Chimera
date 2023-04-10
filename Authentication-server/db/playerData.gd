@@ -7,6 +7,6 @@ var Players = {
 	},
 	"Pippo": { 
 	"Password": "pluto",
-	"gameServer": "Chimera_two"
+	"gameServer": "Chimera_one"
 	}
 }

@@ -11,7 +11,7 @@ var password: String
 
 func _ready():
 	await Settings.settingsLoaded
-
+	
 func _process(_delta):
 	pass
 	

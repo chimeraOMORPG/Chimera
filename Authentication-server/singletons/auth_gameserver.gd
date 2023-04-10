@@ -48,12 +48,14 @@ func gameServer_disconnected(gameserver_id):
 			ServerData.gameServerList.get(i).erase('ID')
 			break
 
-func pushToken(gameserver, token):
-#	if gameserver.get("ID") != null and gameserver.get("ID") != "0":
-	if multiplayer.get_peers().has(gameserver.get("ID")):
-		var error = rpc_id(int(gameserver.get("ID")), "tokenPassed", token)
-		if error != OK:
-			print('An error occurred pushing token to game server')
+func pushToken(gameserver, token, gameserverName):
+	if gameserver.get("ID") != null:
+		if multiplayer.get_peers().has(gameserver.get("ID")):
+			var error = rpc_id(int(gameserver.get("ID")), "tokenPassed", token)
+			if error != OK:
+				print('An error occurred calling tokenPassed on a game server')
+	else:
+		prints(gameserverName, 'game server not connected, unable to send him the token')
 #
 @rpc("any_peer")
 func announceToAuthserver(nameServer):

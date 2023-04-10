@@ -59,12 +59,13 @@ func Authenticate(username, password, player_id):
 	else:
 		var gameserver: Dictionary = ServerData.gameServerList.get(PlayerData.Players[username].gameServer)
 		gameserverUrl = gameserver.url
-		prints('Game server is', ServerData.gameServerList.find_key(gameserver), '@', gameserverUrl)
+		var gameserverName: String = ServerData.gameServerList.find_key(gameserver)
+		prints('Game server is', gameserverName, '@', gameserverUrl)
 		desc = "Authentication successful"
 		print(desc)
 		result = true
 		token = str(randi()).sha256_text() + str(current_Time)
-		AuthGameserver.pushToken(gameserver, token)
+		AuthGameserver.pushToken(gameserver, token, gameserverName)
 	print("Sending back authentication result to gateway server")
 	rpc_id(remote, "AuthenticationResult", result, player_id, desc, token, gameserverUrl)
 	await get_tree().create_timer(0.5).timeout

@@ -8,8 +8,10 @@ var devmode: bool:
 		return GatewayClient.devmodeINI
 
 func _ready():
-	await Settings.settingsLoaded
 	$MainTheme.stream.set_loop(true)
+	if devmode:
+		print('ciao')
+		$warning.set_text('DEVMODE ENABLED')
 
 func _on_login_button_pressed():
 	if username_input.text == "" or password_input.text == "":
