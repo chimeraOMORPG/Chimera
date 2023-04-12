@@ -4,8 +4,7 @@ var bannedListINI: bool = true #true/false enable/disable collecting banned IPes
 var firewallINI: bool = false #true/false enable/disable this server to add firewall rules
 var serverOS = OS.get_name().to_lower()
 var bannedIP: PackedStringArray #An array cantaining all banned IPes 
-var allowedIPesINI: Array #An array containign boths game and gateway servers IPes present on DB
-signal allowedIPesLoaded
+@export var allowedIPesINI: Array #An array containign boths game and gateway servers IPes present on DB
 
 func _ready():
 	await Settings.settingsLoaded
@@ -17,9 +16,6 @@ func _ready():
 			bannedIP = file.get_csv_line()
 			
 func allowedIPesPopulate():
-	#Implementare risoluzione ogni x tempo che aggiorna i dati precedenti cancellando i vecchi se diversi, così se un gameserver
-	#nel frattempo che questo AUTH è attivo, avrà cambiato IP gli sarà comunque permesso di (ri)connettersi quindi $allowedIPes deve diventare un 
-	#dizionario.... credo...
 	var temp: Array
 	for i in ServerData.gameServerList:
 		if not temp.has(ServerData.gameServerList[i].get('url')):#To avoid that different servers (under different ports) with same url are resolved 
@@ -44,7 +40,7 @@ func baseIPcheck(ip) -> bool:
 func verify(ip) -> Dictionary:
 	var dummy: Dictionary = {'result': false}
 	if firewallINI == false and not bannedListINI and allowedIPesINI.is_empty():
-		print("WARNING, all protections are disabled, it is recommended to set at least $allowedIPes")
+		print("WARNING, all protections are disabled, it is recommended to set at least $allowedIPesINI")
 		return dummy
 	elif attack(ip):
 		bannedIP.append(ip)

@@ -52,6 +52,7 @@ func playerConnected(player_id : int) -> void:
 			
 func playerDisconnected(id : int) -> void:
 	prints("Player ID:", id, " disconnected")
+	connected.erase(id)
 	get_node('/root/World').destroy_player(id)
 
 @rpc("any_peer")
