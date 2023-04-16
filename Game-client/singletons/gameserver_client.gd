@@ -1,5 +1,7 @@
 extends Node
 
+# uwu
+
 var game_server_port: int = 4242
 var network = ENetMultiplayerPeer.new()
 var token: String
