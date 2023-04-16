@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbs8en8suy5fe"]
+[gd_scene load_steps=10 format=3 uid="uid://cbs8en8suy5fe"]
 
 [ext_resource type="Script" path="res://Scenes/Main_menu/Main_menu.gd" id="1_gyfjd"]
 [ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_1kjsr"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="4_8xjtf"]
 [ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://Scenes/Main_menu/icon.svg" id="5_u2sto"]
 [ext_resource type="Script" path="res://Scenes/Main_menu/spinner.gd" id="6_old5k"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/LoginForm.gd" id="7_tlluo"]
 
 [sub_resource type="Theme" id="Theme_e2ohn"]
 /colors/jkxchokxdfj = Color(0, 0, 0, 1)
@@ -46,19 +47,23 @@ texture = ExtResource("2_1kjsr")
 stretch_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 41.0
-offset_top = 440.0
-offset_right = 447.0
-offset_bottom = 1020.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = -580.0
+offset_right = 417.0
+offset_bottom = -30.0
+grow_vertical = 0
 color = Color(0.117647, 0.117647, 0.117647, 0.756863)
 metadata/_edit_group_ = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ColorRect"]
-layout_mode = 0
+layout_mode = 1
 offset_left = 8.0
 offset_right = 408.0
-offset_bottom = 568.0
+offset_bottom = 550.0
 text = "Chimera dev bulletin:
 
 Test: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus in odio sodales consequat. Quisque imperdiet accumsan sapien. Donec iaculis justo ac elit congue scelerisque. Maecenas accumsan sapien vel malesuada porttitor. Phasellus ultricies sapien ac aliquet sodales. Integer efficitur ante vel mauris vestibulum, in facilisis dolor rhoncus. Duis eu elementum dolor, sed posuere augue. Aliquam tristique, massa id tempus egestas, risus arcu fermentum justo, sit amet facilisis mauris dui ac est. Duis quam est, bibendum in mattis sit amet, commodo nec lectus. Donec elementum purus ut interdum egestas. Suspendisse potenti. Donec eu dolor in velit volutpat faucibus. Nullam ut mi sed metus eleifend iaculis.
@@ -71,65 +76,10 @@ Maecenas ultrices tortor sit amet purus commodo commodo. Quisque mi nibh, laoree
 
 Nunc sed sapien id purus fermentum placerat. Aenean est mi, tempor et velit vitae, sollicitudin blandit neque. Mauris accumsan augue ut libero bibendum gravida. Donec consectetur sit amet ipsum at imperdiet. Aliquam ut lorem porta, vehicula urna vel, vulputate est. Integer viverra quis ligula mattis finibus. Aliquam erat volutpat. Aliquam erat volutpat. Donec at velit tellus. Vivamus finibus urna sem, sit amet facilisis erat rhoncus ultricies. Pellentesque egestas volutpat purus at pulvinar. Etiam mi lorem, condimentum id magna volutpat, molestie facilisis massa. Mauris sem diam, maximus nec arcu dignissim, dapibus suscipit nunc. Vivamus ac tellus convallis, faucibus elit ut, ultrices justo. Sed quis placerat ante. Maecenas at dui congue, lobortis nunc id, congue urna."
 
-[node name="connect" type="Button" parent="."]
-layout_mode = 0
-offset_left = 885.0
-offset_top = 140.0
-offset_right = 1035.0
-offset_bottom = 171.0
-shortcut_in_tooltip = false
-text = "connect to server"
-
-[node name="AuthUser" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 885.0
-offset_top = 60.0
-offset_right = 1035.0
-offset_bottom = 91.0
-placeholder_text = "USER"
-alignment = 1
-max_length = 100
-expand_to_text_length = true
-draw_control_chars = true
-
-[node name="AuthPassword" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 885.0
-offset_top = 100.0
-offset_right = 1035.0
-offset_bottom = 131.0
-placeholder_text = "PASSWORD"
-alignment = 1
-max_length = 100
-expand_to_text_length = true
-draw_control_chars = true
-
 [node name="MainTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tyf5u")
 volume_db = -10.0
 autoplay = true
-
-[node name="warning" type="Label" parent="."]
-layout_mode = 0
-offset_left = 689.0
-offset_top = 180.0
-offset_right = 1231.0
-offset_bottom = 211.0
-label_settings = SubResource("LabelSettings_v5chd")
-horizontal_alignment = 1
-vertical_alignment = 1
-uppercase = true
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_8xjtf")
-volume_db = 15.0
-
-[node name="spinner" type="Sprite2D" parent="."]
-process_mode = 4
-visible = false
-position = Vector2(961, 300)
-texture = ExtResource("5_u2sto")
-script = ExtResource("6_old5k")
 
 [node name="RealTime" type="RichTextLabel" parent="."]
 visible = false
@@ -147,4 +97,66 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "uiet weuify iuwf l"
 
-[connection signal="pressed" from="connect" to="." method="_on_login_button_pressed"]
+[node name="LoginForm" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.7
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = -158.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_tlluo")
+
+[node name="Inputs" type="VBoxContainer" parent="LoginForm"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 200.0
+offset_bottom = 128.0
+
+[node name="Username" type="LineEdit" parent="LoginForm/Inputs"]
+layout_mode = 2
+placeholder_text = "Username"
+max_length = 100
+draw_control_chars = true
+
+[node name="Password" type="LineEdit" parent="LoginForm/Inputs"]
+layout_mode = 2
+placeholder_text = "Password"
+max_length = 100
+draw_control_chars = true
+
+[node name="Connect" type="Button" parent="LoginForm/Inputs"]
+layout_mode = 2
+shortcut_in_tooltip = false
+text = "CONNECT"
+
+[node name="LoadingAnimation" type="Sprite2D" parent="LoginForm"]
+process_mode = 4
+visible = false
+position = Vector2(106, 264)
+texture = ExtResource("5_u2sto")
+script = ExtResource("6_old5k")
+
+[node name="WarningMessage" type="Label" parent="LoginForm"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 130.0
+label_settings = SubResource("LabelSettings_v5chd")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="FailureSound" type="AudioStreamPlayer" parent="LoginForm"]
+stream = ExtResource("4_8xjtf")
+volume_db = 15.0
+
+[connection signal="submit" from="LoginForm" to="." method="_on_login_form_submit"]
+[connection signal="pressed" from="LoginForm/Inputs/Connect" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="LoginForm/Inputs/Connect" to="LoginForm" method="_on_connect_pressed"]
