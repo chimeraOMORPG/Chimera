@@ -2,7 +2,6 @@ extends Node
 
 var network = ENetMultiplayerPeer.new()
 var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth server
-var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 var server_portINI: int = 4242
 var max_playersINI: int = 100
 var staleTime: int: #Elapsed time (in seconds) to consider requests expired, MUST be greater than $latency
@@ -65,7 +64,7 @@ func tokenVerification(token):
 			print('Client\'s token verified!')
 			var result = get_node('/root/World').addScene(Place)
 			if result:
-				create_player(clientID)
+				get_node('/root/World').create_player(clientID)
 				connected.get(clientID).verified = true
 				return
 			else:
@@ -76,10 +75,4 @@ func tokenVerification(token):
 			await get_tree().create_timer(0.5).timeout
 	print('Invalid or unknow token, disconnecting...')		
 	network.disconnect_peer(clientID)
-	
 
-func create_player(clientID):
-	var x = CharacterScene.instantiate()
-	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
-	get_node('/root/World/01-daisy-garden/Characters').add_child.call_deferred(x, true)#*************** risolvere!!!
-	prints("New character created for player ID:", clientID)

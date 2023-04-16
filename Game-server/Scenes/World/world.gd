@@ -1,4 +1,5 @@
 extends Node2D
+var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 
 func addScene(Place):
 	if not self.get_children().is_empty():
@@ -13,7 +14,13 @@ func addScene(Place):
 		print('waiting')
 		error = get_node_or_null('/root/World/' + Place)
 	return true
-	
+
+func create_player(clientID):
+	var x = CharacterScene.instantiate()
+	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
+	get_node('/root/World/01-daisy-garden/Characters').add_child.call_deferred(x, true)#*************** risolvere!!!
+	prints("New character created for player ID:", clientID)
+
 func destroy_player(id : int) -> void:
 	for i in get_node('/root/World').get_children():
 		if i.get_node('Characters').has_node(str(id)):

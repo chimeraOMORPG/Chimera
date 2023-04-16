@@ -10,11 +10,17 @@ radius = 19.3132
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = false
 properties/0/sync = true
+properties/1/path = NodePath(".:eventList")
+properties/1/spawn = false
+properties/1/sync = true
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mv5bw"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
+properties/1/path = NodePath(".:eventList")
+properties/1/spawn = false
+properties/1/sync = true
 
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(1200, 240)

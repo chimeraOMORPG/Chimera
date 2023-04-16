@@ -1,32 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://ybcw8q7ssq8k"]
+[gd_scene load_steps=5 format=3 uid="uid://dhkghknvxt2f2"]
 
-[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_cnie3"]
+[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_a5vvl"]
 
 [sub_resource type="GDScript" id="GDScript_lggey"]
 script/source = "extends Node
 
-var PortaEst = preload(\"res://Scenes/Character/Character.tscn\")
-var Place: String = '02-crystal-rock'
-
 func _enter_tree():
 	pass
-	
-func _on_porta_est_body_entered(body):
-	print('passato')
-	var result = get_node('/root/World').addScene(Place)
-	if result:
-		print('Ok, scene added...')
-#		get_tree().change_scene_to_packed()
-#		connected.get(clientID).verified = true
-#		return
-	else:
-		print('Error adding scene...')
 
+
+func _on_porta_est_body_entered(body):
+	pass # Replace with function body.
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 resource_name = "albero"
-texture = ExtResource("1_cnie3")
+texture = ExtResource("1_a5vvl")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -1106,14 +1095,11 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/2 = SubResource("TileSetAtlasSource_o4dce")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0iv6"]
-size = Vector2(36, 597)
-
-[node name="01-daisy-garden" type="Node2D"]
+[node name="02-crystal-rock" type="Node2D"]
 script = SubResource("GDScript_lggey")
 
 [node name="map" type="TileMap" parent="."]
-position = Vector2(320, 240)
+position = Vector2(322, 240)
 tile_set = SubResource("TileSet_k7fhg")
 format = 2
 layer_0/name = "1"
@@ -1131,11 +1117,3 @@ layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327
 [node name="Spawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
 spawn_path = NodePath("../Characters")
-
-[node name="PortaEst" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PortaEst"]
-position = Vector2(1888, 564)
-shape = SubResource("RectangleShape2D_s0iv6")
-
-[connection signal="body_entered" from="PortaEst" to="." method="_on_porta_est_body_entered"]

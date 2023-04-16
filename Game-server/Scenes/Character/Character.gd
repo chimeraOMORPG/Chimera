@@ -3,7 +3,9 @@ extends CharacterBody2D
 @export var speed = 400 # How fast the player will move (pixels/sec).
 @onready var input = $PlayerInput # Player synchronized input.
 var screen_size
-@export var eventList: Array
+@onready var eventList:
+	get:
+		return $PlayerInput.eventList
 @export var authority: int:
 	get:
 		return name.to_int()
@@ -23,6 +25,7 @@ func movement(deltapassed):
 		move_and_slide()
 
 func _physics_process(delta):
+#	print(eventList)
 	movement(delta)
 	verify_border()
 
@@ -47,6 +50,5 @@ func verify_border():
 #		print("Disconnection request sended to server")
 #		$disconnect_confirm.show()
 #		set_process_input(false)
-#	if Input.is_key_pressed(KEY_C,) and not event.echo:
-#		rpc_id(1,"chiamata")
+
 

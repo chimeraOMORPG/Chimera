@@ -10,7 +10,6 @@ var devmode: bool:
 func _ready():
 	$MainTheme.stream.set_loop(true)
 	if devmode:
-		print('ciao')
 		$warning.set_text('DEVMODE ENABLED')
 
 func _on_login_button_pressed():

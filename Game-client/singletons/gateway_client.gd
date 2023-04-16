@@ -7,7 +7,7 @@ var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 var username: String
 var password: String
-@export var devmodeINI: bool = false
+@export var devmodeINI: bool = true
 
 func _ready():
 	await Settings.settingsLoaded
