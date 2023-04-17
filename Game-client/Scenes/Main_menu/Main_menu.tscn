@@ -158,5 +158,4 @@ stream = ExtResource("4_8xjtf")
 volume_db = 15.0
 
 [connection signal="submit" from="LoginForm" to="." method="_on_login_form_submit"]
-[connection signal="pressed" from="LoginForm/Inputs/Connect" to="." method="_on_login_button_pressed"]
 [connection signal="pressed" from="LoginForm/Inputs/Connect" to="LoginForm" method="_on_connect_pressed"]

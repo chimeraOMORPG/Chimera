@@ -43,7 +43,6 @@ func attempt_login(_username, _password):
 			multiplayer.server_disconnected.connect(self.disconnected)
 	else:
 		prints('Error creating client', error)
-	
 	await received_response
 	if not _ok:
 		return null
