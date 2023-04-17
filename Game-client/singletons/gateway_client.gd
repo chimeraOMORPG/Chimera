@@ -1,5 +1,7 @@
 extends Node
 
+signal received_response
+
 @export var gateway_serverINI: String = "chimera.nikoh.it" #FQDN must used if you want TLS to work; of course you can use ip for tests
 @export var gateway_server_portINI: int = 4241
 var encryptionINI: bool = true
@@ -9,15 +11,18 @@ var username: String
 var password: String
 @export var devmodeINI: bool = true
 
+var _ok
+var _token
+var _gameserverUrl
+
 func _ready():
 	await Settings.settingsLoaded
 	
 func _process(_delta):
 	pass
 	
-func ConnectToServer(_username, _password):
+func attempt_login(_username, _password):
 	print('Connecting to gateway server, please wait...')
-	get_node("/root/Main_menu/warning").text = "Connecting to gateway server, please wait..."
 	username = _username
 	password = _password
 	var error = network.create_client(str(gateway_serverINI), gateway_server_portINI)
@@ -38,27 +43,26 @@ func ConnectToServer(_username, _password):
 			multiplayer.server_disconnected.connect(self.disconnected)
 	else:
 		prints('Error creating client', error)
+	await received_response
+	if not _ok:
+		return null
+	else:
+		return {'token': _token, 'url': _gameserverUrl}
 		
 func connected():
-	get_node("/root/Main_menu/warning").text = ''
+	#warning_message.text = ''
 	var myid = multiplayer.get_unique_id()
 	prints("Game client connected to gateway server with ID", myid)
 	
 func failed():
 	print("Game client Failed to connect to gateway server")
-	get_node("/root/Main_menu/warning").text = "Connection failed"
-	canReconnect()
+	_ok = false
+	received_response.emit()
 
 func disconnected():
 	if GameserverClient.network.get_connection_status() == 0:
-		get_node("/root/Main_menu/warning").text = "Connection failed"
-		canReconnect()
-		
-func canReconnect() -> void:
-	get_node("/root/Main_menu/connect").disabled = false
-	get_node("/root/Main_menu/AudioStreamPlayer2").play()
-	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-	get_node("/root/Main_menu/spinner").visible = false
+		_ok = false
+		received_response.emit()
 
 @rpc("call_remote")
 func LoginRequest(IPDataReponse = null):
@@ -73,12 +77,14 @@ func LoginRequest(IPDataReponse = null):
 	password = ""
 
 @rpc("call_remote")
-func ResultLoginRequest(result, desc, token, gameserverUrl):
+func ResultLoginRequest(ok, desc, token, gameserverUrl):
 	print("login result received: " + desc)
-	if result:
+	_ok = ok
+	if ok:
 		prints('Token received', token)
-		GameserverClient.set('token', token)
-		GameserverClient.ConnectToServer(gameserverUrl)
+		_token = token
+		_gameserverUrl = gameserverUrl
+	received_response.emit()
 
 @rpc("call_local")	
 func login(_username, _password):

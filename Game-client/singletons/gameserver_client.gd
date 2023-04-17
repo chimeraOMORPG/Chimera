@@ -15,7 +15,7 @@ func ConnectToServer(gameserverUrl):
 	if error != OK:
 		print('Error changing scene to World')
 	prints('Connecting to', gameserverUrl, 'game server, please wait...')
-	get_node("/root/Main_menu/warning").text = "Connecting to game server, please wait..."
+	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Connecting to game server, please wait..."
 	var error2 = network.create_client(gameserverUrl, game_server_port)
 	if error2 == OK:
 		multiplayer.set_multiplayer_peer(network)
@@ -40,26 +40,26 @@ func failed():
 	var error = get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
 	if error != OK:
 		print('Error changing scene to Main_menu')
-	while get_node_or_null("/root/Main_menu/warning") == null:
+	while get_node_or_null("/root/Main_menu/LoginForm/WarningMessage") == null:
 		print('Changing scene...')
 		await get_tree().create_timer(0.1).timeout
-	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
-	get_node("/root/Main_menu/connect").disabled = false
-	get_node("/root/Main_menu/AudioStreamPlayer2").play()
-	get_node("/root/Main_menu/warning").text = "Whenever authenticated, failed to connect to game server"
-	get_node("/root/Main_menu/spinner").process_mode = Node.PROCESS_MODE_DISABLED
-	get_node("/root/Main_menu/spinner").visible = false
+	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Disconnected from game server"
+	get_node("/root/Main_menu/LoginForm/Inputs/Connect").disabled = false
+	get_node("/root/Main_menu/LoginForm/FailureSound").play()
+	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Whenever authenticated, failed to connect to game server"
+	get_node("/root/Main_menu/LoginForm/LoadingAnimation").process_mode = Node.PROCESS_MODE_DISABLED
+	get_node("/root/Main_menu/LoginForm/LoadingAnimation").visible = false
 	
 func disconnected():
 	print("Disconnected from game server")
 	var error = get_tree().change_scene_to_file("res://Scenes/Main_menu/Main_menu.tscn")
 	if error != OK:
 		print('Error changing scene to Main_menu')
-	while get_node_or_null("/root/Main_menu/warning") == null:
+	while get_node_or_null("/root/Main_menu/LoginForm/WarningMessage") == null:
 		print('Changing scene...')
 		await get_tree().create_timer(0.1).timeout
-	get_node("/root/Main_menu/AudioStreamPlayer2").play()
-	get_node("/root/Main_menu/warning").text = "Disconnected from game server"
+	get_node("/root/Main_menu/LoginForm/FailureSound").play()
+	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Disconnected from game server"
 	
 @rpc("call_local")
 func tokenVerification(token):

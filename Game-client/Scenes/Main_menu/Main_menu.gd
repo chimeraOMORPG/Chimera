@@ -1,8 +1,5 @@
 extends Control
 
-@onready var username_input = get_node("AuthUser")
-@onready var password_input = get_node("AuthPassword")
-@onready var login_button = get_node("connect")
 var devmode: bool:
 	get:
 		return GatewayClient.devmodeINI
@@ -10,21 +7,30 @@ var devmode: bool:
 func _ready():
 	$MainTheme.stream.set_loop(true)
 	if devmode:
-		$warning.set_text('DEVMODE ENABLED')
-
-func _on_login_button_pressed():
-	if username_input.text == "" or password_input.text == "":
-		$AudioStreamPlayer2.play()
-		$warning.text = "Please fill all fields"
-	else: 	
-		$connect.disabled = true
-		if devmode:
-			GatewayClient.ResultLoginRequest(true, 'DEVMODE enabled', str(int(Time.get_unix_time_from_system())), '127.0.0.1')
-		else:
-			GatewayClient.ConnectToServer(username_input.get_text(), password_input.get_text() )
-			$spinner.process_mode = Node.PROCESS_MODE_ALWAYS
-			$spinner.visible = true
+		$LoginForm.reportWarning('DEVMODE ENABLED')
 
 @rpc("call_remote")
 func printIPData(data):
 	pass
+
+func _on_login_form_submit(username, password):
+	if username == "" or password == "":
+		$LoginForm.reportError("Fields can't be empty")
+		return
+	if devmode:
+		print('Skipping login because devmode=true')
+		GameserverClient.set('token', str(int(Time.get_unix_time_from_system())))
+#		var token = str(int(Time.get_unix_time_from_system()))
+		GameserverClient.ConnectToServer('127.0.0.1')
+#		GatewayClient.ResultLoginRequest(true, 'DEVMODE enabled', token, '127.0.0.1')
+		return
+	var result = await GatewayClient.attempt_login(username, password)
+	if result == null:
+		$LoginForm.reportError('Login failed')
+		return
+	else:
+		$LoginForm.reportInfo('Login succeded!')
+		var token = result['token']
+		var   url = result['url']
+		GameserverClient.set('token', token)
+		GameserverClient.ConnectToServer(url)
