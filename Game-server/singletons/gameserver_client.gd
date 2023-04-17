@@ -1,7 +1,9 @@
 extends Node
 
 var network = ENetMultiplayerPeer.new()
-var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth server
+var Place: String:
+	get:
+		return AuthGameserver.Place
 var server_portINI: int = 4242
 var max_playersINI: int = 100
 var staleTime: int: #Elapsed time (in seconds) to consider requests expired, MUST be greater than $latency
@@ -62,9 +64,9 @@ func tokenVerification(token):
 		print(TokenExpiration.availableTokens)
 		if TokenExpiration.availableTokens.has(token) or devmode:
 			print('Client\'s token verified!')
-			var result = get_node('/root/World').addScene(Place)
+			var result = get_node('/root/World').addScene(clientID, Place)
 			if result:
-				get_node('/root/World').create_player(clientID)
+				get_node('/root/World').create_player(clientID, Place)
 				connected.get(clientID).verified = true
 				return
 			else:

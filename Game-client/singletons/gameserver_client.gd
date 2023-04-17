@@ -10,7 +10,7 @@ func _ready():
 	await Settings.settingsLoaded
 
 func ConnectToServer(gameserverUrl):
-	#costruzione scenetree in base ai dati forniti dall'auth server
+	#Scenetree construction based on auth server datas received.
 	var error = get_tree().change_scene_to_packed(worldSceneContainer)
 	if error != OK:
 		print('Error changing scene to World')

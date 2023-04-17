@@ -6,22 +6,18 @@
 script/source = "extends Node
 
 var PortaEst = preload(\"res://Scenes/Character/Character.tscn\")
-var Place: String = '02-crystal-rock'
-
-func _enter_tree():
-	pass
+@onready var here: String = self.name
+#put below all the scenes connected to this one
+var hereToScene1: String = '02-crystal-rock'
+var hereToScene2: String = '03-kraken-coast'
 	
-func _on_porta_est_body_entered(body):
-	print('passato')
-	var result = get_node('/root/World').addScene(Place)
+func _on_toScene1_body_entered(body):
+	prints(body.name, 'Changing scene to', hereToScene1)
+	var result = get_node_or_null('/root/World').addScene(body.name.to_int(), hereToScene1)
 	if result:
-		print('Ok, scene added...')
-#		get_tree().change_scene_to_packed()
-#		connected.get(clientID).verified = true
-#		return
+		get_node('/root/World').create_player(body.name, hereToScene1, here)
 	else:
 		print('Error adding scene...')
-
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1132,10 +1128,10 @@ layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327
 _spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
 spawn_path = NodePath("../Characters")
 
-[node name="PortaEst" type="Area2D" parent="."]
+[node name="toScene1" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PortaEst"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="toScene1"]
 position = Vector2(1888, 564)
 shape = SubResource("RectangleShape2D_s0iv6")
 
-[connection signal="body_entered" from="PortaEst" to="." method="_on_porta_est_body_entered"]
+[connection signal="body_entered" from="toScene1" to="." method="_on_toScene1_body_entered"]

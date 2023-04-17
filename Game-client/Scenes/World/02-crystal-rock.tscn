@@ -1,10 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://djrvufvnlt8og"]
+[gd_scene load_steps=14 format=3 uid="uid://2j4q1rfg7dp6"]
 
-[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_btixg"]
-[ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="3_ar5fh"]
+[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_ski4e"]
+[ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="2_t0wit"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
-texture = ExtResource("2_btixg")
+texture = ExtResource("1_ski4e")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -1087,35 +1087,35 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/2 = SubResource("TileSetAtlasSource_o4dce")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fsw2c"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(0, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vbyfw"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(160, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g818s"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(320, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kmfm"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(480, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3aw6t"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(640, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vavbg"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(800, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygc08"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(960, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlsiy"]
-atlas = ExtResource("3_ar5fh")
+atlas = ExtResource("2_t0wit")
 region = Rect2(1120, 0, 160, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m3ps4"]
@@ -1151,7 +1151,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="01-daisy-garden" type="Node2D"]
+[node name="02-crystal-rock" type="Node2D"]
 
 [node name="mappa" type="TileMap" parent="."]
 y_sort_enabled = true
