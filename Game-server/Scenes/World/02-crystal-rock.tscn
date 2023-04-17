@@ -8,7 +8,6 @@ script/source = "extends Node
 func _enter_tree():
 	pass
 
-
 func _on_porta_est_body_entered(body):
 	pass # Replace with function body.
 "

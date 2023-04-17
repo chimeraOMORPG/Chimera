@@ -2,7 +2,8 @@ extends Node2D
 var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 
 func addScene(clientID, Place)-> bool:
-	if not self.get_children().is_empty() and self.has_node(Place):
+#	if not self.get_children().is_empty() and self.has_node(Place):
+	if self.has_node(Place):
 		print('Scene already exist')
 	else:
 		print('Not existent scene (or empty World), creating...')
@@ -13,7 +14,7 @@ func addScene(clientID, Place)-> bool:
 			print('wait, adding scene')
 			error = get_node_or_null('/root/World/' + Place)
 	rpc_id(clientID, 'addSceneOnClient', Place)
-	get_tree().create_timer(1).timeout # Risolvere!!!!!!!!!!!!!
+	await get_tree().create_timer(1).timeout # Risolvere!!!!!!!!!!!!!****************************************
 	return true
 
 func create_player(clientID, Place, PreviouslyScene = null):

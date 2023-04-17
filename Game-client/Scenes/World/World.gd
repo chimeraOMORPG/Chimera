@@ -10,9 +10,9 @@ func _ready():
 
 @rpc("authority")
 func addSceneOnClient(Place):
-	print(Place)
 	var x = load('res://Scenes/World/' + Place + '.tscn').instantiate()
 	get_node('/root/World').add_child.call_deferred(x, true)
+	
 	
 
 

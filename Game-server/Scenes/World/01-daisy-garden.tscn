@@ -13,7 +13,7 @@ var hereToScene2: String = '03-kraken-coast'
 	
 func _on_toScene1_body_entered(body):
 	prints(body.name, 'Changing scene to', hereToScene1)
-	var result = get_node_or_null('/root/World').addScene(body.name.to_int(), hereToScene1)
+	var result = await get_node_or_null('/root/World').addScene(body.name.to_int(), hereToScene1)
 	if result:
 		get_node('/root/World').create_player(body.name, hereToScene1, here)
 	else:

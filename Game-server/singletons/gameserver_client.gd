@@ -64,7 +64,7 @@ func tokenVerification(token):
 		print(TokenExpiration.availableTokens)
 		if TokenExpiration.availableTokens.has(token) or devmode:
 			print('Client\'s token verified!')
-			var result = get_node('/root/World').addScene(clientID, Place)
+			var result = await get_node('/root/World').addScene(clientID, Place)
 			if result:
 				get_node('/root/World').create_player(clientID, Place)
 				connected.get(clientID).verified = true
