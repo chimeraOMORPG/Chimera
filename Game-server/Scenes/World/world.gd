@@ -17,6 +17,7 @@ func addScene(Place):
 
 func create_player(clientID):
 	var x = CharacterScene.instantiate()
+	x.set_multiplayer_authority(clientID)
 	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
 	get_node('/root/World/01-daisy-garden/Characters').add_child.call_deferred(x, true)#*************** risolvere!!!
 	prints("New character created for player ID:", clientID)

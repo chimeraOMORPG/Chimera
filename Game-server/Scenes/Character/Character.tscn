@@ -1,41 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://ds5r1bcac7cgd"]
+[gd_scene load_steps=3 format=3 uid="uid://ds5r1bcac7cgd"]
 
 [ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_ckah4"]
-[ext_resource type="Script" path="res://Scenes/Character/PlayerInput.gd" id="2_8c3uo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tfdp8"]
 radius = 19.3132
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hvdnd"]
-properties/0/path = NodePath(".:direction")
-properties/0/spawn = false
-properties/0/sync = true
-properties/1/path = NodePath(".:eventList")
-properties/1/spawn = false
-properties/1/sync = true
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mv5bw"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath(".:eventList")
-properties/1/spawn = false
-properties/1/sync = true
-
-[node name="Character" type="CharacterBody2D"]
+[node name="Character" type="Area2D"]
 position = Vector2(1200, 240)
 script = ExtResource("1_ckah4")
 metadata/_edit_group_ = true
 
-[node name="CHAnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-
-[node name="CHCollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tfdp8")
-
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath(".")
-replication_config = SubResource("SceneReplicationConfig_hvdnd")
-script = ExtResource("2_8c3uo")
-
-[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_mv5bw")

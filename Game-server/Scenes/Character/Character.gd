@@ -1,54 +1,87 @@
-extends CharacterBody2D
+extends Area2D
 
-@export var speed = 400 # How fast the player will move (pixels/sec).
-@onready var input = $PlayerInput # Player synchronized input.
-var screen_size
-@onready var eventList:
+enum Direction { # duplicate of the one in the client
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}
+
+const TILE_W: int = 32
+const TILE_H: int = 32
+const starting_dir = Direction.LEFT
+const starting_pos = Vector2(0, 0)
+const speed: float = 200; # px/sec
+
+var curr_dir: Direction = starting_dir
+var input_queue: Array[Direction] = []
+
+var authority: int:
 	get:
-		return $PlayerInput.eventList
-@export var authority: int:
-	get:
-		return name.to_int()
+		return self.name.to_int()
 
 func _enter_tree():
-	$PlayerInput.set_multiplayer_authority(authority)
-
+	pass
+	
 func _ready():
-	screen_size = get_viewport_rect().size
-	position.x = randi_range(0,screen_size.x)
-	position.y = randi_range(0,screen_size.y)		
+	position = starting_pos
+
+func versor_for(dir: Direction):
+	if dir == Direction.UP:
+		return Vector2(0, -1)
+	if dir == Direction.DOWN:
+		return Vector2(0, 1)
+	if dir == Direction.LEFT:
+		return Vector2(-1, 0)
+	assert(dir == Direction.RIGHT)
+	return Vector2(1, 0)
+
+func currently_aligned() -> bool:
+	var delta_x = fmod(position.x, TILE_W)
+	var delta_y = fmod(position.y, TILE_H)
+	return delta_x == 0 and delta_y == 0
+
+func currently_moving() -> bool:
+	return input_queue.size() > 0
+
+func update_direction() -> void:
+	if input_queue.size() > 0:
+		curr_dir = input_queue[0]
+
+func tile_relative_to_point(point: Vector2) -> Vector2:
+	return Vector2(int(point.x / TILE_W), int(point.y / TILE_H))
+
+func _process(delta):
+	
+	if currently_aligned():
+		update_direction()
+		rpc_id(authority, "server_update", position, curr_dir)
+		
+	if currently_moving() or not currently_aligned():
+		
+		var versor = versor_for(curr_dir)
+		var increment = versor * delta * speed
+		
+		var old_tile = tile_relative_to_point(position)
+		var new_tile = tile_relative_to_point(position + increment)
+		
+		if currently_aligned() || old_tile == new_tile:
+			position += increment
+		else:
+			if curr_dir == Direction.LEFT or curr_dir == Direction.UP:
+				position = Vector2(old_tile.x * TILE_W, old_tile.y * TILE_H)
+			else:
+				position = Vector2(new_tile.x * TILE_W, new_tile.y * TILE_H)
+
+@rpc("call_local")
+func server_update(position_: Vector2, direction_: Direction):
 	pass
 
-func movement(deltapassed):
-	if input.direction:
-		velocity = input.get("direction").normalized() * speed * deltapassed * 50	
-		move_and_slide()
+@rpc("call_remote")
+func direction_key_pressed(dir: Direction):
+	input_queue.erase(dir)
+	input_queue.append(dir)
 
-func _physics_process(delta):
-#	print(eventList)
-	movement(delta)
-	verify_border()
-
-func verify_border():
-	position.x = clamp(position.x,30, screen_size.x-30)
-	position.y = clamp(position.y, 30, screen_size.y-30)
-
-#func _input(event):
-#	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
-#		direction.append(event.as_text().to_lower())
-#		$CHAnimatedSprite2D.play("walk_"+direction.back())
-#		if direction.size()>2:
-#			direction.pop_front()
-#	elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
-#		direction.remove_at(direction.rfind(event.as_text().to_lower()))
-#		if direction.size()>0:
-#			$CHAnimatedSprite2D.play("walk_"+direction.front())
-#			print("ritorno a direzione "+direction.front())
-#		else:
-#			$CHAnimatedSprite2D.play("idle_"+($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
-#	if event.is_action_pressed("ui_cancel"):
-#		print("Disconnection request sended to server")
-#		$disconnect_confirm.show()
-#		set_process_input(false)
-
-
+@rpc("call_remote")
+func direction_key_released(dir: Direction):
+	input_queue.erase(dir)
