@@ -3,8 +3,8 @@ var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 signal sceneOnClientAddedSignal
 
 func addScene(clientID, Place)-> bool:
-	if not self.get_children().is_empty() and self.has_node(Place):
-#	if self.has_node(Place):
+#	if not self.get_children().is_empty() and self.has_node(Place):
+	if self.has_node(Place):
 		print('Scene already exist')
 	else:
 		print('Not existent scene (or empty World), creating...')
@@ -40,6 +40,7 @@ func destroy_player(id : int) -> void:
 
 @rpc("any_peer")
 func sceneOnClientAdded():
+	print('segnale emesso')
 	sceneOnClientAddedSignal.emit()
 
 @rpc("call_local")

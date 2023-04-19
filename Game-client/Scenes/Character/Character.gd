@@ -33,7 +33,7 @@ func side():
 			print(eventList)
 			$CHAnimatedSprite2D.play("walk_" + eventList.back())
 
-#func _input(event):
+func _input(event):
 #	print(eventList)
 #	if self.name.to_int() == multiplayer.get_unique_id():
 #		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
@@ -48,10 +48,10 @@ func side():
 #				print("ritorno a direzione " + eventList.front())
 #			else:
 #				$CHAnimatedSprite2D.play("idle_" + ($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
-#		if event.is_action_pressed("ui_cancel"):
-#			print("Disconnection request sended to server")
-#			$disconnect_confirm.show()
-#			set_process_input(false)
+		if event.is_action_pressed("ui_cancel"):
+			print("Disconnection request sended to server")
+			$disconnect_confirm.show()
+			set_process_input(false)
 
 func _on_disconnect_confirm_confirmed():
 	set_process_input(true)
