@@ -61,7 +61,7 @@ func tokenVerification(token):
 	print('Player token received, start matching...')
 	var clientID = multiplayer.get_remote_sender_id()
 	while int(Time.get_unix_time_from_system()) - token.right(10).to_int() <= latency:
-		print(TokenExpiration.availableTokens)
+#		print(TokenExpiration.availableTokens)
 		if TokenExpiration.availableTokens.has(token) or devmode:
 			print('Client\'s token verified!')
 			var result = await get_node('/root/World').addScene(clientID, Place)
