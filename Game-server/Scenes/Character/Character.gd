@@ -55,7 +55,7 @@ func _process(delta):
 	
 	if currently_aligned():
 		update_direction()
-		rpc_id(authority, "server_update", position, curr_dir)
+		rpc_id(0, "server_update", authority, position, curr_dir)
 		
 	if currently_moving() or not currently_aligned():
 		
@@ -73,15 +73,17 @@ func _process(delta):
 			else:
 				position = Vector2(new_tile.x * TILE_W, new_tile.y * TILE_H)
 
-@rpc("call_local")
-func server_update(position_: Vector2, direction_: Direction):
+@rpc("call_local", "unreliable_ordered")
+func server_update(authority_: int, position_: Vector2, direction_: Direction):
 	pass
 
-@rpc("call_remote")
-func direction_key_pressed(dir: Direction):
-	input_queue.erase(dir)
-	input_queue.append(dir)
+@rpc("any_peer", "call_remote")
+func direction_key_pressed(authority_: int, dir: Direction):
+	if authority == multiplayer.get_remote_sender_id():
+		input_queue.erase(dir)
+		input_queue.append(dir)
 
-@rpc("call_remote")
-func direction_key_released(dir: Direction):
-	input_queue.erase(dir)
+@rpc("any_peer", "call_remote")
+func direction_key_released(authority_: int, dir: Direction):
+	if authority == multiplayer.get_remote_sender_id():
+		input_queue.erase(dir)

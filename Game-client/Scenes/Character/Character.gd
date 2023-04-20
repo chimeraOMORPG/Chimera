@@ -21,9 +21,8 @@ var input_queue: Array[Direction] = []
 		return self.name.to_int()
 
 func _enter_tree():
-	#$PlayerInput.set_multiplayer_authority(authority)
 	pass
-	
+
 func _ready():
 	
 	$ID.text = name
@@ -92,39 +91,37 @@ func tile_relative_to_point(point: Vector2) -> Vector2:
 
 func _process(delta):
 	
-	const server_id = 1
-	
 	if Input.is_action_just_pressed("ui_up"):
 		set_direction_pending(Direction.UP)
-		rpc_id(server_id, "direction_key_pressed", Direction.UP)
+		rpc_id(0, "direction_key_pressed", authority, Direction.UP)
 	
 	if Input.is_action_just_pressed("ui_down"):
 		set_direction_pending(Direction.DOWN)
-		rpc_id(server_id, "direction_key_pressed", Direction.DOWN)
+		rpc_id(0, "direction_key_pressed", authority, Direction.DOWN)
 	
 	if Input.is_action_just_pressed("ui_left"):
 		set_direction_pending(Direction.LEFT)
-		rpc_id(server_id, "direction_key_pressed", Direction.LEFT)
+		rpc_id(0, "direction_key_pressed", authority, Direction.LEFT)
 	
 	if Input.is_action_just_pressed("ui_right"):
 		set_direction_pending(Direction.RIGHT)
-		rpc_id(server_id, "direction_key_pressed", Direction.RIGHT)
+		rpc_id(0, "direction_key_pressed", authority, Direction.RIGHT)
 	
 	if Input.is_action_just_released("ui_up"):
 		remove_direction_pending(Direction.UP)
-		rpc_id(server_id, "direction_key_released", Direction.UP)
+		rpc_id(0, "direction_key_released", authority, Direction.UP)
 	
 	if Input.is_action_just_released("ui_down"):
 		remove_direction_pending(Direction.DOWN)
-		rpc_id(server_id, "direction_key_released", Direction.DOWN)
+		rpc_id(0, "direction_key_released", authority, Direction.DOWN)
 	
 	if Input.is_action_just_released("ui_left"):
 		remove_direction_pending(Direction.LEFT)
-		rpc_id(server_id, "direction_key_released", Direction.LEFT)
+		rpc_id(0, "direction_key_released", authority, Direction.LEFT)
 	
 	if Input.is_action_just_released("ui_right"):
 		remove_direction_pending(Direction.RIGHT)
-		rpc_id(server_id, "direction_key_released", Direction.RIGHT)
+		rpc_id(0, "direction_key_released", authority, Direction.RIGHT)
 	
 	if currently_aligned():
 		update_direction()
@@ -154,19 +151,21 @@ func _process(delta):
 #	else:
 #		$grass_step.stop()
 
-@rpc("call_remote")
-func server_update(position_: Vector2, direction_: Direction):
-	if multiplayer.get_remote_sender_id() == multiplayer.get_unique_id():
+@rpc("call_remote", "unreliable_ordered")
+func server_update(authority_: int, position_: Vector2, direction_: Direction):
+	if authority == authority_:
 		position = position_
 		curr_dir = direction_
 
-@rpc("call_local")
-func direction_key_pressed(dir: Direction):
-	pass
+@rpc("any_peer", "call_local")
+func direction_key_pressed(authority_: int, dir: Direction):
+	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
+		set_direction_pending(dir)
 
-@rpc("call_local")
-func direction_key_released(dir: Direction):
-	pass
+@rpc("any_peer", "call_local")
+func direction_key_released(authority_: int, dir: Direction):
+	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
+		remove_direction_pending(dir)
 
 func _on_disconnect_confirm_confirmed():
 	set_process_input(true)
