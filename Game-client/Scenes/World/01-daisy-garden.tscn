@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://djrvufvnlt8og"]
+[gd_scene load_steps=14 format=3 uid="uid://ogmxohrw5kmo"]
 
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_a4tyt"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_btixg"]
