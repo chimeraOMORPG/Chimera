@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
-@onready var input: MultiplayerSynchronizer = $PlayerInput # Player synchronized input.
+#@onready var input: MultiplayerSynchronizer = $PlayerInput # Player synchronized input.
 @export var eventList: Array = ['UP']
 @export var authority: int:
 	get:
 		return self.name.to_int()
 
 func _enter_tree():
-	$PlayerInput.set_multiplayer_authority(authority)
-
+#	$PlayerInput.set_multiplayer_authority(authority)
+	pass
+	
 func _ready():
 	var screen_size = get_viewport_rect().size
 	position.x = randi_range(0,screen_size.x)
@@ -20,7 +21,8 @@ func _ready():
 	$connected.play()
 
 func _physics_process(delta):
-	grass_step(input.get("direction"))
+	pass
+#	grass_step(input.get("direction"))
 #	side()
 	
 func grass_step(stepping):

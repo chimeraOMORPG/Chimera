@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
-@onready var input = $PlayerInput # Player synchronized input.
+#@onready var input = $PlayerInput # Player synchronized input.
 var screen_size
 @onready var eventList:
 	get:
@@ -11,7 +11,8 @@ var screen_size
 		return name.to_int()
 
 func _enter_tree():
-	$PlayerInput.set_multiplayer_authority(authority)
+	pass
+#	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -19,13 +20,13 @@ func _ready():
 	position.y = randi_range(0,screen_size.y)		
 
 func movement(deltapassed):
-	if input.direction:
-		velocity = input.get("direction").normalized() * speed * deltapassed * 50	
-		move_and_slide()
+	pass
+#	if input.direction:
+#		velocity = input.get("direction").normalized() * speed * deltapassed * 50	
+#		move_and_slide()
 
 func _physics_process(delta):
-#	print(eventList)
-	movement(delta)
+#	movement(delta)
 	verify_border()
 
 func verify_border():

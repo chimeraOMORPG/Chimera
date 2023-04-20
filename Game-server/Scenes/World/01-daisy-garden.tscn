@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://ybcw8q7ssq8k"]
+[gd_scene load_steps=7 format=3 uid="uid://ybcw8q7ssq8k"]
 
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_cnie3"]
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_vvwjn"]
 
 [sub_resource type="GDScript" id="GDScript_lggey"]
 script/source = "extends Node
@@ -1123,6 +1124,7 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
 
 [node name="Characters" type="Node2D" parent="."]
+script = ExtResource("2_vvwjn")
 
 [node name="toScene1" type="Area2D" parent="."]
 
@@ -1130,4 +1132,6 @@ layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327
 position = Vector2(1888, 564)
 shape = SubResource("RectangleShape2D_s0iv6")
 
+[connection signal="child_entered_tree" from="Characters" to="Characters" method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Characters" to="Characters" method="_on_child_exiting_tree"]
 [connection signal="body_entered" from="toScene1" to="." method="_on_toScene1_body_entered"]

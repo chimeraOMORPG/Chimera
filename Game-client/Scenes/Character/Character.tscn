@@ -1,10 +1,9 @@
-[gd_scene load_steps=42 format=3 uid="uid://bjwkvnlguls5f"]
+[gd_scene load_steps=39 format=3 uid="uid://bjwkvnlguls5f"]
 
 [ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_yj1wd"]
 [ext_resource type="Texture2D" uid="uid://c670e5byejsvt" path="res://assets/Hero 01 32.png" id="2_re00j"]
 [ext_resource type="AudioStream" uid="uid://bewcgc1oh3vkv" path="res://assets/audio/effects/grass_step.mp3" id="3_qgxei"]
 [ext_resource type="AudioStream" uid="uid://ddhpn1hdornpa" path="res://assets/audio/effects/connected.mp3" id="4_rel31"]
-[ext_resource type="Script" path="res://Scenes/Character/PlayerInput.gd" id="5_sw651"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bs1jd"]
 atlas = ExtResource("2_re00j")
@@ -277,22 +276,6 @@ animations = [{
 radius = 14.0
 height = 34.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bpsbu"]
-properties/0/path = NodePath(".:direction")
-properties/0/spawn = false
-properties/0/sync = true
-properties/1/path = NodePath(".:eventList")
-properties/1/spawn = false
-properties/1/sync = true
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bi6kx"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath(".:eventList")
-properties/1/spawn = false
-properties/1/sync = true
-
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(1005, 540)
 script = ExtResource("1_yj1wd")
@@ -324,14 +307,6 @@ pitch_scale = 1.6
 [node name="connected" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_rel31")
 volume_db = -10.0
-
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath(".")
-replication_config = SubResource("SceneReplicationConfig_bpsbu")
-script = ExtResource("5_sw651")
-
-[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_bi6kx")
 
 [node name="CHCamera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

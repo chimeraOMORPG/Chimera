@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://djrvufvnlt8og"]
+[gd_scene load_steps=15 format=3 uid="uid://djrvufvnlt8og"]
 
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_a4tyt"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_btixg"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="3_ar5fh"]
 
@@ -1169,6 +1170,7 @@ layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 1114114, 458754, 3)
 
 [node name="Characters" type="Node2D" parent="."]
+script = ExtResource("2_a4tyt")
 
 [node name="barca" type="AnimatedSprite2D" parent="."]
 position = Vector2(-108, 357)
