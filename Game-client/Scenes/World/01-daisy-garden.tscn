@@ -1174,7 +1174,3 @@ layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 11141
 position = Vector2(-108, 357)
 sprite_frames = SubResource("SpriteFrames_m3ps4")
 frame_progress = 0.353523
-
-[node name="Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Character/Character.tscn")
-spawn_path = NodePath("../Characters")

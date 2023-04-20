@@ -17,7 +17,6 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	position.x = randi_range(0,screen_size.x)
 	position.y = randi_range(0,screen_size.y)		
-	pass
 
 func movement(deltapassed):
 	if input.direction:

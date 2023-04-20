@@ -11,6 +11,9 @@ func _enter_tree():
 	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
+	var screen_size = get_viewport_rect().size
+	position.x = randi_range(0,screen_size.x)
+	position.y = randi_range(0,screen_size.y)	
 	$ID.text = name
 	if self.name.to_int() == multiplayer.get_unique_id():
 		$CHCamera2D.make_current()
@@ -18,7 +21,7 @@ func _ready():
 
 func _physics_process(delta):
 	grass_step(input.get("direction"))
-	side()
+#	side()
 	
 func grass_step(stepping):
 	if stepping != Vector2.ZERO and $disconnect_confirm.visible != true:
@@ -61,3 +64,4 @@ func _on_disconnect_confirm_confirmed():
 func _on_disconnect_confirm_cancelled():
 	set_process_input(true)
 	$disconnect_confirm.hide()
+	
