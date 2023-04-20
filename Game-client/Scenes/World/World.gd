@@ -4,6 +4,7 @@ extends Node2D
 func addSceneOnClient(Place):
 	var x = load('res://Scenes/World/' + Place + '.tscn').instantiate()
 	self.add_child.call_deferred(x, true)
+	rpc_id(1, 'sceneOnClientAdded')
 	prints(Place, 'scena aggiunta')
 
 func _on_child_entered_tree(node):
@@ -11,3 +12,4 @@ func _on_child_entered_tree(node):
 	
 @rpc("authority")
 func sceneOnClientAdded():
+	pass
