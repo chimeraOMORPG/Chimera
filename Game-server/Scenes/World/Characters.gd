@@ -12,6 +12,8 @@ func _on_child_entered_tree(node):
 func _on_child_exiting_tree(node):
 	var temp = toSpawn
 	temp.remove_at(toSpawn.find(node.name.to_int()))
+	# Two lines above are needed because when this signal arrives the node
+	# still in the scenetree... that's godot's behavior.
 	rpc_id(0, 'syncSpawn', get_parent().name, (temp))
 	
 @rpc("call_local")
