@@ -11,18 +11,25 @@ func _ready():
 	self.child_exiting_tree.connect(self._on_child_exiting_tree)
 
 func _on_child_entered_tree(node):
-	rpc_id(0, 'syncSpawn', get_parent().name, toSpawn)
+	# When a character enter, the server ask all peers on the same scene for update/synchronize
+	for i in self.get_children():
+		rpc_id(i.name.to_int(), 'syncSpawn', get_parent().name, toSpawn)
 
 func _on_child_exiting_tree(node):
 	var temp = toSpawn
 	temp.remove_at(toSpawn.find(node.name.to_int()))
 	# Two lines above are needed because when this signal arrives the node
 	# still in the scenetree... that's godot's behavior.
-	rpc_id(0, 'syncSpawn', get_parent().name, temp)
-	# And if no more characters in this scene remove it.
+	for i in temp:
+		rpc_id(i.name.to_int(), 'syncSpawn', get_parent().name, toSpawn)
+	# If no more characters in this scene remove it.
 	if temp.is_empty():
 		self.get_parent().queue_free()
 		prints('No more characters on scene', self.get_parent().name, 'removing...')
+	else:
+		#Otherwise, when a character exit, the server ask all peers on the same scene for update/synchronize
+		for i in self.get_children():
+			rpc_id(i.name.to_int(), 'syncSpawn', get_parent().name, toSpawn)
 
 @rpc("call_local")
 func syncSpawn(Place, Character):
