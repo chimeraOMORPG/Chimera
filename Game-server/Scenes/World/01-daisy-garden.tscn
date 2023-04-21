@@ -1110,7 +1110,7 @@ size = Vector2(36, 597)
 script = SubResource("GDScript_lggey")
 
 [node name="map" type="TileMap" parent="."]
-position = Vector2(320, 240)
+position = Vector2(323, 240)
 tile_set = SubResource("TileSet_k7fhg")
 format = 2
 layer_0/name = "1"
@@ -1129,8 +1129,9 @@ script = ExtResource("2_vvwjn")
 [node name="toScene1" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="toScene1"]
-position = Vector2(1888, 564)
+position = Vector2(1248, 356)
 shape = SubResource("RectangleShape2D_s0iv6")
+debug_color = Color(0.956863, 0.14902, 0.380392, 1)
 
 [connection signal="child_entered_tree" from="Characters" to="Characters" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Characters" to="Characters" method="_on_child_exiting_tree"]

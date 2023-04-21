@@ -25,9 +25,9 @@ func create_player(clientID, Place, PreviouslyScene = null):
 	get_node('/root/World/' + Place + '/Characters').add_child.call_deferred(x, true)
 	prints("New character created for player ID:", clientID, 'on scene:', Place)
 	if PreviouslyScene != null:
-		if get_node_or_null('/root/World/' + PreviouslyScene + '/Characters/' + clientID) != null:
+		if get_node_or_null('/root/World/' + PreviouslyScene + '/Characters/' + str(clientID)) != null:
 			print('Character istance in previously scene destroyed')
-			get_node('/root/World/' + PreviouslyScene + '/Characters/' + clientID).queue_free()
+			get_node('/root/World/' + PreviouslyScene + '/Characters/' + str(clientID)).queue_free()
 			
 func destroy_player(id : int) -> void:
 	for i in get_node('/root/World').get_children():
@@ -43,4 +43,7 @@ func sceneOnClientAdded():
 
 @rpc("call_local")
 func addSceneOnClient(Place):
+	pass
+
+func _on_child_exiting_tree(node):
 	pass

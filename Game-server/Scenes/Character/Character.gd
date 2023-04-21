@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 enum Direction { # duplicate of the one in the client
 	UP,

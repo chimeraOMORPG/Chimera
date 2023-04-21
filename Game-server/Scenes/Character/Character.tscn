@@ -5,7 +5,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_tfdp8"]
 radius = 19.3132
 
-[node name="Character" type="Area2D"]
+[node name="Character" type="CharacterBody2D"]
 position = Vector2(1200, 240)
 script = ExtResource("1_ckah4")
 metadata/_edit_group_ = true
