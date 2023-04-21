@@ -10,7 +10,6 @@ var characterList: PackedInt32Array:
 
 @rpc("authority")
 func syncSpawn(Place, toSpawn):
-	print(toSpawn)
 	if get_parent().name == Place:
 		for i in characterList:
 			if not toSpawn.has(i):

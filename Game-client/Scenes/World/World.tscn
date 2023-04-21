@@ -4,5 +4,3 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_me61i")
-
-[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]

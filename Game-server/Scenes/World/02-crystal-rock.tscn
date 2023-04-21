@@ -1,20 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhkghknvxt2f2"]
+[gd_scene load_steps=6 format=3 uid="uid://dhkghknvxt2f2"]
 
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_a5vvl"]
-
-[sub_resource type="GDScript" id="GDScript_lggey"]
-script/source = "extends Node
-
-func _enter_tree():
-	pass
-
-func _on_porta_est_body_entered(body):
-	pass # Replace with function body.
-
-
-func _on_characters_child_entered_tree(node):
-	pass # Replace with function body.
-"
+[ext_resource type="Script" path="res://Scenes/World/shene_shared.gd" id="1_i8b6l"]
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="3_nvu55"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 resource_name = "albero"
@@ -1099,7 +1087,7 @@ physics_layer_0/collision_layer = 1
 sources/2 = SubResource("TileSetAtlasSource_o4dce")
 
 [node name="02-crystal-rock" type="Node2D"]
-script = SubResource("GDScript_lggey")
+script = ExtResource("1_i8b6l")
 
 [node name="map" type="TileMap" parent="."]
 position = Vector2(322, 240)
@@ -1116,3 +1104,4 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
 
 [node name="Characters" type="Node2D" parent="."]
+script = ExtResource("3_nvu55")

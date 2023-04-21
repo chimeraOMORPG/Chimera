@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://2j4q1rfg7dp6"]
+[gd_scene load_steps=16 format=3 uid="uid://2j4q1rfg7dp6"]
 
-[ext_resource type="Script" path="res://Scenes/World/02-crystal-rock.gd" id="1_rnm0m"]
+[ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_eusis"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_ski4e"]
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_5ydqc"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="2_t0wit"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1153,7 +1154,7 @@ animations = [{
 }]
 
 [node name="02-crystal-rock" type="Node2D"]
-script = ExtResource("1_rnm0m")
+script = ExtResource("1_eusis")
 
 [node name="mappa" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -1171,6 +1172,7 @@ layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 1114114, 458754, 3)
 
 [node name="Characters" type="Node2D" parent="."]
+script = ExtResource("2_5ydqc")
 
 [node name="barca" type="AnimatedSprite2D" parent="."]
 position = Vector2(-108, 357)

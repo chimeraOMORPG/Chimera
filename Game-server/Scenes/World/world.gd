@@ -3,17 +3,12 @@ var CharacterScene = preload("res://Scenes/Character/Character.tscn")
 signal sceneOnClientAddedSignal
 
 func addScene(clientID, Place)-> bool:
-#	if not self.get_children().is_empty() and self.has_node(Place):
 	if self.has_node(Place):
 		print('Scene already exist')
 	else:
 		print('Not existent scene (or empty World), creating...')
 		var p = load('res://Scenes/World/' + Place + '.tscn').instantiate()
 		get_node("/root/World").add_child(p, true)
-		var error = get_node_or_null('/root/World/' + Place)
-		while error == null:
-			print('wait, adding scene')
-			error = get_node_or_null('/root/World/' + Place)
 	rpc_id(clientID, 'addSceneOnClient', Place)
 	await sceneOnClientAddedSignal
 	return true
@@ -43,7 +38,4 @@ func sceneOnClientAdded():
 
 @rpc("call_local")
 func addSceneOnClient(Place):
-	pass
-
-func _on_child_exiting_tree(node):
 	pass

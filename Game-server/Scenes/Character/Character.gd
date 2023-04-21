@@ -20,9 +20,6 @@ var authority: int:
 	get:
 		return self.name.to_int()
 
-func _enter_tree():
-	pass
-	
 func _ready():
 	position = starting_pos
 
