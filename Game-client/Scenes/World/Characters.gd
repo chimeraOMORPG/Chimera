@@ -1,6 +1,7 @@
 extends Node2D
 
-var CharacterScene = preload("res://Scenes/Character/Character.tscn")
+@onready var trasition: Node = get_parent().get_node('../transition/Control/AnimationPlayer')
+const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
 var characterList: PackedInt32Array:
 	get:
 		var x: Array
@@ -9,7 +10,7 @@ var characterList: PackedInt32Array:
 		return x
 
 @rpc("authority")
-func syncSpawn(Place, toSpawn):
+func syncSpawn(Place, toSpawn, entered):
 	if get_parent().name == Place:
 		for i in characterList:
 			if not toSpawn.has(i):
@@ -21,5 +22,7 @@ func syncSpawn(Place, toSpawn):
 				x.set_name(str(i))# Set the name, so players can figure out their local authority
 				self.add_child.call_deferred(x, true)	
 		prints("Characters synchronized on this client.")
+		if entered.to_int() == multiplayer.get_unique_id():
+			trasition.play('trans_in')
 			
 	
