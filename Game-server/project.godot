@@ -33,3 +33,8 @@ file_logging/log_path="logs/chimera_server.log"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
+
+[layer_names]
+
+2d_render/layer_1="test_layer"
+2d_physics/layer_1="test"
