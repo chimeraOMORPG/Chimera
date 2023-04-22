@@ -37,5 +37,5 @@ func sceneOnClientAdded():
 	sceneOnClientAddedSignal.emit()
 
 @rpc("call_local")
-func addSceneOnClient(Place):
+func addSceneOnClient(_Place):
 	pass

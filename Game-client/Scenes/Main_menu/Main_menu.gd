@@ -10,7 +10,7 @@ func _ready():
 		$LoginForm.reportWarning('DEVMODE ENABLED')
 
 @rpc("call_remote")
-func printIPData(data):
+func printIPData(_data):
 	pass
 
 func _on_login_form_submit(username, password):

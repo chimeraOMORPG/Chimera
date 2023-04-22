@@ -2,7 +2,7 @@ extends Node2D
 
 var children: Array:
 	get:
-		var x: Array
+		var x: Array = []
 		for i in self.get_children():
 			x.append(i.name)
 		return x

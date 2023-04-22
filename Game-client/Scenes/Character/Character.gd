@@ -158,12 +158,12 @@ func server_update(authority_: int, position_: Vector2, direction_: Direction):
 		curr_dir = direction_
 
 @rpc("any_peer", "call_local")
-func direction_key_pressed(authority_: int, dir: Direction):
+func direction_key_pressed(_authority: int, dir: Direction):
 	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
 		set_direction_pending(dir)
 
 @rpc("any_peer", "call_local")
-func direction_key_released(authority_: int, dir: Direction):
+func direction_key_released(_authority: int, dir: Direction):
 	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
 		remove_direction_pending(dir)
 

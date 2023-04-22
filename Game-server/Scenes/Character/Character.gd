@@ -69,18 +69,20 @@ func _process(delta):
 				position = Vector2(old_tile.x * TILE_W, old_tile.y * TILE_H)
 			else:
 				position = Vector2(new_tile.x * TILE_W, new_tile.y * TILE_H)
+	
+	move_and_slide()
 
 @rpc("call_local", "unreliable_ordered")
-func server_update(authority_: int, position_: Vector2, direction_: Direction):
+func server_update(_authority: int, _position: Vector2, _direction: Direction):
 	pass
 
 @rpc("any_peer", "call_remote")
-func direction_key_pressed(authority_: int, dir: Direction):
+func direction_key_pressed(_authority: int, dir: Direction):
 	if authority == multiplayer.get_remote_sender_id():
 		input_queue.erase(dir)
 		input_queue.append(dir)
 
 @rpc("any_peer", "call_remote")
-func direction_key_released(authority_: int, dir: Direction):
+func direction_key_released(_authority: int, dir: Direction):
 	if authority == multiplayer.get_remote_sender_id():
 		input_queue.erase(dir)

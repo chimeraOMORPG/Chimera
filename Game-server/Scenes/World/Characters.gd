@@ -1,7 +1,7 @@
 extends Node2D
 var toSpawn: PackedInt32Array:
 	get:
-		var x: Array
+		var x: Array = []
 		for i in self.get_children():
 			x.append(i.name.to_int())
 		return x
@@ -29,5 +29,5 @@ func _on_child_exiting_tree(node):
 			rpc_id(i, 'syncSpawn', get_parent().name, toSpawn)
 
 @rpc("call_local")
-func syncSpawn(Place, Character):
+func syncSpawn(_Place, _Character):
 	pass
