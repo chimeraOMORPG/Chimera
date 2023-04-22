@@ -7,8 +7,8 @@ enum Direction {
 	RIGHT
 }
 
-const TILE_W: int = 32
-const TILE_H: int = 32
+const TILE_W: int = 8
+const TILE_H: int = 8
 const starting_dir = Direction.LEFT
 const starting_pos = Vector2(0, 0)
 const speed: float = 200; # px/sec
@@ -90,38 +90,38 @@ func tile_relative_to_point(point: Vector2) -> Vector2:
 	return Vector2(int(point.x / TILE_W), int(point.y / TILE_H))
 
 func _process(delta):
-	
-	if Input.is_action_just_pressed("ui_up"):
-		set_direction_pending(Direction.UP)
-		rpc_id(0, "direction_key_pressed", authority, Direction.UP)
-	
-	if Input.is_action_just_pressed("ui_down"):
-		set_direction_pending(Direction.DOWN)
-		rpc_id(0, "direction_key_pressed", authority, Direction.DOWN)
-	
-	if Input.is_action_just_pressed("ui_left"):
-		set_direction_pending(Direction.LEFT)
-		rpc_id(0, "direction_key_pressed", authority, Direction.LEFT)
-	
-	if Input.is_action_just_pressed("ui_right"):
-		set_direction_pending(Direction.RIGHT)
-		rpc_id(0, "direction_key_pressed", authority, Direction.RIGHT)
-	
-	if Input.is_action_just_released("ui_up"):
-		remove_direction_pending(Direction.UP)
-		rpc_id(0, "direction_key_released", authority, Direction.UP)
-	
-	if Input.is_action_just_released("ui_down"):
-		remove_direction_pending(Direction.DOWN)
-		rpc_id(0, "direction_key_released", authority, Direction.DOWN)
-	
-	if Input.is_action_just_released("ui_left"):
-		remove_direction_pending(Direction.LEFT)
-		rpc_id(0, "direction_key_released", authority, Direction.LEFT)
-	
-	if Input.is_action_just_released("ui_right"):
-		remove_direction_pending(Direction.RIGHT)
-		rpc_id(0, "direction_key_released", authority, Direction.RIGHT)
+	if authority == multiplayer.get_unique_id():
+		if Input.is_action_just_pressed("ui_up"):
+			set_direction_pending(Direction.UP)
+			rpc_id(0, "direction_key_pressed", authority, Direction.UP)
+		
+		if Input.is_action_just_pressed("ui_down"):
+			set_direction_pending(Direction.DOWN)
+			rpc_id(0, "direction_key_pressed", authority, Direction.DOWN)
+		
+		if Input.is_action_just_pressed("ui_left"):
+			set_direction_pending(Direction.LEFT)
+			rpc_id(0, "direction_key_pressed", authority, Direction.LEFT)
+		
+		if Input.is_action_just_pressed("ui_right"):
+			set_direction_pending(Direction.RIGHT)
+			rpc_id(0, "direction_key_pressed", authority, Direction.RIGHT)
+		
+		if Input.is_action_just_released("ui_up"):
+			remove_direction_pending(Direction.UP)
+			rpc_id(0, "direction_key_released", authority, Direction.UP)
+		
+		if Input.is_action_just_released("ui_down"):
+			remove_direction_pending(Direction.DOWN)
+			rpc_id(0, "direction_key_released", authority, Direction.DOWN)
+		
+		if Input.is_action_just_released("ui_left"):
+			remove_direction_pending(Direction.LEFT)
+			rpc_id(0, "direction_key_released", authority, Direction.LEFT)
+		
+		if Input.is_action_just_released("ui_right"):
+			remove_direction_pending(Direction.RIGHT)
+			rpc_id(0, "direction_key_released", authority, Direction.RIGHT)
 	
 	if currently_aligned():
 		update_direction()

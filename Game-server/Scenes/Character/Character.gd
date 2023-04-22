@@ -7,8 +7,8 @@ enum Direction { # duplicate of the one in the client
 	RIGHT
 }
 
-const TILE_W: int = 32
-const TILE_H: int = 32
+const TILE_W: int = 8
+const TILE_H: int = 8
 const starting_dir = Direction.LEFT
 const starting_pos = Vector2(0, 0)
 const speed: float = 200; # px/sec
