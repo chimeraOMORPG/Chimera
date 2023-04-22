@@ -6,7 +6,7 @@ var toSpawn: PackedInt32Array:
 			x.append(i.name.to_int())
 		return x
 
-func _ready():
+func _enter_tree():
 	self.child_entered_tree.connect(self._on_child_entered_tree)
 	self.child_exiting_tree.connect(self._on_child_exiting_tree)
 

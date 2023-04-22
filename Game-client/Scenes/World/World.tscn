@@ -1,6 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://cl8e0rbenussn"]
+[gd_scene load_steps=4 format=3 uid="uid://cl8e0rbenussn"]
 
 [ext_resource type="Script" path="res://Scenes/World/World.gd" id="1_me61i"]
 
+[sub_resource type="Animation" id="Animation_xc0gd"]
+resource_name = "trans_in"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("transition/Control/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hot1m"]
+_data = {
+"trans_in": SubResource("Animation_xc0gd")
+}
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_me61i")
+
+[node name="transition" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="transition"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="transition/Control"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="transition/Control"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_hot1m")
+}

@@ -6,7 +6,7 @@ var PortaEst = preload("res://Scenes/Character/Character.tscn")
 var hereToScene1: String = '02-crystal-rock'
 var hereToScene2: String = '03-kraken-coast'
 
-func _ready():
+func _enter_tree():
 	if self.has_node('Gateways'):
 		if not $Gateways.get_children().is_empty():
 			for i in $Gateways.get_children():
