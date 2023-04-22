@@ -56,7 +56,7 @@ func disconnected():
 	self.get_tree().quit()
 	
 @rpc("call_local")
-func announceToAuthserver(nameServer_):
+func announceToAuthserver(_nameServer):
 	pass
 	
 @rpc("any_peer")

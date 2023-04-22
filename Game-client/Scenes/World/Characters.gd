@@ -4,7 +4,7 @@ extends Node2D
 const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
 var characterList: PackedInt32Array:
 	get:
-		var x: Array
+		var x: Array = []
 		for i in self.get_children():
 			x.append(i.name.to_int())
 		return x
@@ -20,7 +20,7 @@ func syncSpawn(Place, toSpawn, entered):
 #				var clientID = multiplayer.get_unique_id()
 				var x = CharacterScene.instantiate()
 				x.set_name(str(i))# Set the name, so players can figure out their local authority
-				self.add_child.call_deferred(x, true)	
+				self.add_child(x, true)	
 		prints("Characters synchronized on this client.")
 		if entered.to_int() == multiplayer.get_unique_id():
 			trasition.play('trans_in')

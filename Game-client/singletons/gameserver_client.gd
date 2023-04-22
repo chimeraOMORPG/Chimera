@@ -62,6 +62,6 @@ func disconnected():
 	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Disconnected from game server"
 	
 @rpc("call_local")
-func tokenVerification(token):
+func tokenVerification(_token):
 	pass
 
