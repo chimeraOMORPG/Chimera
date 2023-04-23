@@ -1,5 +1,6 @@
 extends Node2D
-var toSpawn: PackedInt32Array:
+
+@export var characterList: PackedInt32Array:
 	get:
 		var x: Array = []
 		for i in self.get_children():
@@ -12,12 +13,12 @@ func _enter_tree():
 
 func _on_child_entered_tree(node):
 	# When a character enter, the server ask all peers on the same scene for update/synchronize
-	for i in self.get_children():
-		rpc_id(i.name.to_int(), 'syncSpawn', get_parent().name, toSpawn, node.name)
+	for i in characterList:
+		rpc_id(i, 'syncSpawn', get_parent().name, characterList, node.name)
 
 func _on_child_exiting_tree(node):
-	var temp = toSpawn
-	temp.remove_at(toSpawn.find(node.name.to_int()))
+	var temp = characterList
+	temp.remove_at(characterList.find(node.name.to_int()))
 	# Two lines above are needed because when this signal arrives the node
 	# still in the scenetree... that's godot's behavior.
 	if temp.is_empty(): # If no more characters in this scene remove it.
@@ -26,7 +27,7 @@ func _on_child_exiting_tree(node):
 	else:
 		#Otherwise, when a character exit, the server ask all peers on the same scene for update/synchronize
 		for i in temp:
-			rpc_id(i, 'syncSpawn', get_parent().name, toSpawn)
+			rpc_id(i, 'syncSpawn', get_parent().name, characterList)
 
 @rpc("call_local")
 func syncSpawn(_Place, _Character):
