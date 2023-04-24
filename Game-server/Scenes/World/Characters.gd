@@ -8,13 +8,18 @@ extends Node2D
 		return x
 
 func _enter_tree():
-	self.child_entered_tree.connect(self._on_child_entered_tree)
+#	self.child_entered_tree.connect(self._on_child_entered_tree)
 	self.child_exiting_tree.connect(self._on_child_exiting_tree)
 
-func _on_child_entered_tree(node):
+func newCharacter(id):
 	# When a character enter, the server ask all peers on the same scene for update/synchronize
 	for i in characterList:
-		rpc_id(i, 'syncSpawn', get_parent().name, characterList, node.name)
+		rpc_id(i, 'syncSpawn', get_parent().name, characterList, id)
+
+#func _on_child_entered_tree(node):
+#	# When a character enter, the server ask all peers on the same scene for update/synchronize
+#	for i in characterList:
+#		rpc_id(i, 'syncSpawn', get_parent().name, characterList, node.name)
 
 func _on_child_exiting_tree(node):
 	var temp = characterList
