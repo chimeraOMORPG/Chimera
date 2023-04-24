@@ -9,12 +9,13 @@ var screen_size
 		return name.to_int()
 
 func _enter_tree():
+	self.set_multiplayer_authority(1)
 	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	position.x = randi_range(0,screen_size.x)
-	position.y = randi_range(0,screen_size.y)		
+	position.y = randi_range(0,screen_size.y)
 
 func movement(deltapassed):
 	if input.direction:
@@ -24,6 +25,11 @@ func movement(deltapassed):
 func _physics_process(delta):
 	movement(delta)
 	verify_border()
+	updateOnClients()
+	
+func updateOnClients():
+	for i in get_parent().characterList:
+		rpc_id(i, 'moveOn', position)
 
 func verify_border():
 	position.x = clamp(position.x,30, screen_size.x-30)
@@ -49,3 +55,6 @@ func verify_border():
 #	if Input.is_key_pressed(KEY_C,) and not event.echo:
 #		rpc_id(1,"chiamata")
 
+@rpc("call_local", "unreliable")
+func moveOn():
+	pass

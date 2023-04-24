@@ -27,7 +27,7 @@ func _on_child_exiting_tree(node):
 	else:
 		#Otherwise, when a character exit, the server ask all peers on the same scene for update/synchronize
 		for i in temp:
-			rpc_id(i, 'syncSpawn', get_parent().name, characterList)
+			rpc_id(i, 'syncSpawn', get_parent().name, characterList, node.name)
 
 @rpc("call_local")
 func syncSpawn(_Place, _Character):

@@ -27,7 +27,7 @@ func grass_step(stepping):
 		$grass_step.stop()
 
 func _input(event):
-	if $PlayerInput.is_multiplayer_authority():
+	if authority == $PlayerInput.multiplayer.get_unique_id():
 		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
 			eventList.append(event.as_text().to_lower())
 			$CHAnimatedSprite2D.play("walk_" + eventList.back())
@@ -54,3 +54,7 @@ func _on_disconnect_confirm_cancelled():
 	set_process_input(true)
 	$disconnect_confirm.hide()
 
+@rpc("authority", "call_remote", "unreliable")
+func moveOn(position):
+	self.set_position(position)
+	

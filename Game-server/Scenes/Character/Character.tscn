@@ -6,9 +6,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_tfdp8"]
 radius = 19.3132
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qeqxo"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = false
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r4qqo"]
+properties/0/path = NodePath("PlayerInput:direction")
+properties/0/spawn = true
 properties/0/sync = true
 
 [node name="Character" type="CharacterBody2D"]
@@ -21,7 +21,5 @@ shape = SubResource("CircleShape2D_tfdp8")
 metadata/_edit_group_ = true
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_r4qqo")
 script = ExtResource("2_fe3dh")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_qeqxo")
