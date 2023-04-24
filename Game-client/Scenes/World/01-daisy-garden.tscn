@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://ogmxohrw5kmo"]
+[gd_scene load_steps=17 format=3 uid="uid://ogmxohrw5kmo"]
 
 [ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_lqf5j"]
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_a4tyt"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_btixg"]
+[ext_resource type="Script" path="res://Scenes/World/SubViewport.gd" id="2_p012i"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="3_ar5fh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1155,6 +1156,15 @@ animations = [{
 
 [node name="01-daisy-garden" type="Node2D"]
 script = ExtResource("1_lqf5j")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_p012i")
 
 [node name="mappa" type="TileMap" parent="."]
 y_sort_enabled = true

@@ -1110,7 +1110,7 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
 
-[node name="RigidBody2D" type="StaticBody2D" parent="map"]
+[node name="RigidBody2D" type="CharacterBody2D" parent="map"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="map/RigidBody2D"]
 shape = SubResource("CircleShape2D_mg4ao")

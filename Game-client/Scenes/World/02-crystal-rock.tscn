@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://2j4q1rfg7dp6"]
+[gd_scene load_steps=17 format=3 uid="uid://2j4q1rfg7dp6"]
 
 [ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_eusis"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_ski4e"]
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_5ydqc"]
+[ext_resource type="Script" path="res://Scenes/World/SubViewport.gd" id="2_l1xh1"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="2_t0wit"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1155,6 +1156,15 @@ animations = [{
 
 [node name="02-crystal-rock" type="Node2D"]
 script = ExtResource("1_eusis")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("2_l1xh1")
 
 [node name="mappa" type="TileMap" parent="."]
 y_sort_enabled = true

@@ -19,3 +19,6 @@ func sceneChange(body):
 		get_node('/root/World').create_player(body.name.to_int(), hereToScene1, here)
 	else:
 		print('Error adding scene...')
+
+func _ready():
+	print(get_viewport().world_2d)
