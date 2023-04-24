@@ -1,171 +1,49 @@
 extends CharacterBody2D
 
-enum Direction {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-
-const TILE_W: int = 8
-const TILE_H: int = 8
-const starting_dir = Direction.LEFT
-const starting_pos = Vector2(0, 0)
-const speed: float = 200; # px/sec
-
-var curr_dir: Direction = starting_dir
-var input_queue: Array[Direction] = []
-
+@export var speed = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
+@onready var input: MultiplayerSynchronizer = $PlayerInput # Player synchronized input.
+@export var eventList: Array
 @export var authority: int:
 	get:
 		return self.name.to_int()
 
 func _enter_tree():
-	pass
+	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
-
 	$ID.text = name
 	if self.name.to_int() == multiplayer.get_unique_id():
 		$CHCamera2D.make_current()
 	$connected.play()
 
-	position = starting_pos
-	update_animation()
-	$AnimatedSprite2D.play()
-
-func versor_for(dir: Direction):
-	if dir == Direction.UP:
-		return Vector2(0, -1)
-	if dir == Direction.DOWN:
-		return Vector2(0, 1)
-	if dir == Direction.LEFT:
-		return Vector2(-1, 0)
-	assert(dir == Direction.RIGHT)
-	return Vector2(1, 0)
-
-func set_direction_pending(dir: Direction) -> void:
-	input_queue.erase(dir)
-	input_queue.append(dir)
-
-func remove_direction_pending(dir: Direction) -> void:
-	input_queue.erase(dir)
-
-func currently_aligned() -> bool:
-	var delta_x = fmod(position.x, TILE_W)
-	var delta_y = fmod(position.y, TILE_H)
-	return delta_x == 0 and delta_y == 0
-
-func currently_moving() -> bool:
-	return input_queue.size() > 0
-
-func update_direction() -> void:
-	if input_queue.size() > 0:
-		curr_dir = input_queue[0]
-
-func update_animation():
-	$AnimatedSprite2D.flip_h = false
-	if currently_moving():
-		if curr_dir == Direction.UP:
-			$AnimatedSprite2D.animation = "walk-back"
-		elif curr_dir == Direction.DOWN:
-			$AnimatedSprite2D.animation = "walk-front"
-		elif curr_dir == Direction.LEFT:
-			$AnimatedSprite2D.animation = "walk-left"
-		elif curr_dir == Direction.RIGHT:
-			$AnimatedSprite2D.animation = "walk-left"
-			$AnimatedSprite2D.flip_h = true
-	else:
-		if curr_dir == Direction.UP:
-			$AnimatedSprite2D.animation = "stand-back"
-		elif curr_dir == Direction.DOWN:
-			$AnimatedSprite2D.animation = "stand-front"
-		elif curr_dir == Direction.LEFT:
-			$AnimatedSprite2D.animation = "stand-left"
-		elif curr_dir == Direction.RIGHT:
-			$AnimatedSprite2D.animation = "stand-left"
-			$AnimatedSprite2D.flip_h = true
-
-func tile_relative_to_point(point: Vector2) -> Vector2:
-	return Vector2(int(point.x / TILE_W), int(point.y / TILE_H))
-
-func _process(delta):
-	if authority == multiplayer.get_unique_id():
-		if Input.is_action_just_pressed("ui_up"):
-			set_direction_pending(Direction.UP)
-			rpc_id(0, "direction_key_pressed", authority, Direction.UP)
-		
-		if Input.is_action_just_pressed("ui_down"):
-			set_direction_pending(Direction.DOWN)
-			rpc_id(0, "direction_key_pressed", authority, Direction.DOWN)
-		
-		if Input.is_action_just_pressed("ui_left"):
-			set_direction_pending(Direction.LEFT)
-			rpc_id(0, "direction_key_pressed", authority, Direction.LEFT)
-		
-		if Input.is_action_just_pressed("ui_right"):
-			set_direction_pending(Direction.RIGHT)
-			rpc_id(0, "direction_key_pressed", authority, Direction.RIGHT)
-		
-		if Input.is_action_just_released("ui_up"):
-			remove_direction_pending(Direction.UP)
-			rpc_id(0, "direction_key_released", authority, Direction.UP)
-		
-		if Input.is_action_just_released("ui_down"):
-			remove_direction_pending(Direction.DOWN)
-			rpc_id(0, "direction_key_released", authority, Direction.DOWN)
-		
-		if Input.is_action_just_released("ui_left"):
-			remove_direction_pending(Direction.LEFT)
-			rpc_id(0, "direction_key_released", authority, Direction.LEFT)
-		
-		if Input.is_action_just_released("ui_right"):
-			remove_direction_pending(Direction.RIGHT)
-			rpc_id(0, "direction_key_released", authority, Direction.RIGHT)
+func _physics_process(delta):
+	grass_step(input.get("direction"))
 	
-	if currently_aligned():
-		update_direction()
-		update_animation()
+func grass_step(stepping):
+	if stepping != Vector2.ZERO and $disconnect_confirm.visible != true:
+		if not $grass_step.is_playing():
+			$grass_step.play()
+	else:
+		$grass_step.stop()
 
-	if currently_moving() or not currently_aligned():
-
-		var versor = versor_for(curr_dir)
-		var increment = versor * delta * speed
-
-		var old_tile = tile_relative_to_point(position)
-		var new_tile = tile_relative_to_point(position + increment)
-
-		if currently_aligned() || old_tile == new_tile:
-			position += increment
-		else:
-			if curr_dir == Direction.LEFT or curr_dir == Direction.UP:
-				position = Vector2(old_tile.x * TILE_W, old_tile.y * TILE_H)
+func _input(event):
+	if $PlayerInput.is_multiplayer_authority():
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
+			eventList.append(event.as_text().to_lower())
+			$CHAnimatedSprite2D.play("walk_" + eventList.back())
+			if eventList.size()>2:
+				eventList.pop_front()
+		elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
+			eventList.remove_at(eventList.rfind(event.as_text().to_lower()))
+			if eventList.size()>0:
+				$CHAnimatedSprite2D.play("walk_" + eventList.front())
+				print("ritorno a direzione " + eventList.front())
 			else:
-				position = Vector2(new_tile.x * TILE_W, new_tile.y * TILE_H)
-			assert(currently_aligned())
-
-#func grass_step(stepping):
-#	if stepping != Vector2.ZERO and $disconnect_confirm.visible != true:
-#		if not $grass_step.is_playing():
-#			$grass_step.play()
-#	else:
-#		$grass_step.stop()
-
-@rpc("call_remote", "unreliable_ordered")
-func server_update(authority_: int, position_: Vector2, direction_: Direction):
-	if authority == authority_:
-		position = position_
-		curr_dir = direction_
-
-@rpc("any_peer", "call_local")
-func direction_key_pressed(_authority: int, dir: Direction):
-	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
-		set_direction_pending(dir)
-
-@rpc("any_peer", "call_local")
-func direction_key_released(_authority: int, dir: Direction):
-	if authority == multiplayer.get_remote_sender_id() and authority != multiplayer.get_unique_id():
-		remove_direction_pending(dir)
+				$CHAnimatedSprite2D.play("idle_" + ($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
+		if event.is_action_pressed("ui_cancel"):
+			print("Disconnection request sended to server")
+			$disconnect_confirm.show()
+			set_process_input(false)
 
 func _on_disconnect_confirm_confirmed():
 	set_process_input(true)

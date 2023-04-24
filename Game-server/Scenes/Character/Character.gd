@@ -1,88 +1,51 @@
 extends CharacterBody2D
 
-enum Direction { # duplicate of the one in the client
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-
-const TILE_W: int = 8
-const TILE_H: int = 8
-const starting_dir = Direction.LEFT
-const starting_pos = Vector2(0, 0)
-const speed: float = 200; # px/sec
-
-var curr_dir: Direction = starting_dir
-var input_queue: Array[Direction] = []
-
-var authority: int:
+@export var speed = 400 # How fast the player will move (pixels/sec).
+@onready var input = $PlayerInput # Player synchronized input.
+var screen_size
+@export var eventList: Array
+@export var authority: int:
 	get:
-		return self.name.to_int()
+		return name.to_int()
+
+func _enter_tree():
+	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
-	position = starting_pos
+	screen_size = get_viewport_rect().size
+	position.x = randi_range(0,screen_size.x)
+	position.y = randi_range(0,screen_size.y)		
 
-func versor_for(dir: Direction):
-	if dir == Direction.UP:
-		return Vector2(0, -1)
-	if dir == Direction.DOWN:
-		return Vector2(0, 1)
-	if dir == Direction.LEFT:
-		return Vector2(-1, 0)
-	assert(dir == Direction.RIGHT)
-	return Vector2(1, 0)
+func movement(deltapassed):
+	if input.direction:
+		velocity = input.get("direction").normalized() * speed * deltapassed * 50	
+		move_and_slide()
 
-func currently_aligned() -> bool:
-	var delta_x = fmod(position.x, TILE_W)
-	var delta_y = fmod(position.y, TILE_H)
-	return delta_x == 0 and delta_y == 0
+func _physics_process(delta):
+	movement(delta)
+	verify_border()
 
-func currently_moving() -> bool:
-	return input_queue.size() > 0
+func verify_border():
+	position.x = clamp(position.x,30, screen_size.x-30)
+	position.y = clamp(position.y, 30, screen_size.y-30)
 
-func update_direction() -> void:
-	if input_queue.size() > 0:
-		curr_dir = input_queue[0]
+#func _input(event):
+#	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
+#		direction.append(event.as_text().to_lower())
+#		$CHAnimatedSprite2D.play("walk_"+direction.back())
+#		if direction.size()>2:
+#			direction.pop_front()
+#	elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
+#		direction.remove_at(direction.rfind(event.as_text().to_lower()))
+#		if direction.size()>0:
+#			$CHAnimatedSprite2D.play("walk_"+direction.front())
+#			print("ritorno a direzione "+direction.front())
+#		else:
+#			$CHAnimatedSprite2D.play("idle_"+($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
+#	if event.is_action_pressed("ui_cancel"):
+#		print("Disconnection request sended to server")
+#		$disconnect_confirm.show()
+#		set_process_input(false)
+#	if Input.is_key_pressed(KEY_C,) and not event.echo:
+#		rpc_id(1,"chiamata")
 
-func tile_relative_to_point(point: Vector2) -> Vector2:
-	return Vector2(int(point.x / TILE_W), int(point.y / TILE_H))
-
-func _process(delta):
-	
-	if currently_aligned():
-		update_direction()
-		rpc_id(0, "server_update", authority, position, curr_dir)
-		
-	if currently_moving() or not currently_aligned():
-		
-		var versor = versor_for(curr_dir)
-		var increment = versor * delta * speed
-		
-		var old_tile = tile_relative_to_point(position)
-		var new_tile = tile_relative_to_point(position + increment)
-		
-		if currently_aligned() || old_tile == new_tile:
-			position += increment
-		else:
-			if curr_dir == Direction.LEFT or curr_dir == Direction.UP:
-				position = Vector2(old_tile.x * TILE_W, old_tile.y * TILE_H)
-			else:
-				position = Vector2(new_tile.x * TILE_W, new_tile.y * TILE_H)
-	
-	move_and_slide()
-
-@rpc("call_local", "unreliable_ordered")
-func server_update(_authority: int, _position: Vector2, _direction: Direction):
-	pass
-
-@rpc("any_peer", "call_remote")
-func direction_key_pressed(_authority: int, dir: Direction):
-	if authority == multiplayer.get_remote_sender_id():
-		input_queue.erase(dir)
-		input_queue.append(dir)
-
-@rpc("any_peer", "call_remote")
-func direction_key_released(_authority: int, dir: Direction):
-	if authority == multiplayer.get_remote_sender_id():
-		input_queue.erase(dir)
