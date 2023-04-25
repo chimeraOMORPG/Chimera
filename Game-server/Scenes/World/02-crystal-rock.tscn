@@ -1089,7 +1089,22 @@ sources/2 = SubResource("TileSetAtlasSource_o4dce")
 [node name="02-crystal-rock" type="Node2D"]
 script = ExtResource("1_i8b6l")
 
-[node name="map" type="TileMap" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ViewContainer" type="SubViewportContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SceneViewport" type="SubViewport" parent="Control/ViewContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="map" type="TileMap" parent="Control/ViewContainer/SceneViewport"]
 position = Vector2(322, 240)
 tile_set = SubResource("TileSet_k7fhg")
 format = 2
@@ -1103,5 +1118,5 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
 
-[node name="Characters" type="Node2D" parent="."]
+[node name="Characters" type="Node2D" parent="Control/ViewContainer/SceneViewport"]
 script = ExtResource("3_nvu55")

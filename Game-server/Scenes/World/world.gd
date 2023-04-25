@@ -17,7 +17,7 @@ func create_player(clientID, Place, PreviouslyScene = null):
 	var x = CharacterScene.instantiate()
 	x.set_multiplayer_authority(clientID)
 	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
-	get_node('/root/World/' + Place + '/Characters').add_child.call_deferred(x, true)
+	get_node(Place + '/Control/ViewContainer/SceneViewport/Characters').add_child.call_deferred(x, true)
 	prints("New character created for player ID:", clientID, 'on scene:', Place)
 	if PreviouslyScene != null:
 		if get_node_or_null('/root/World/' + PreviouslyScene + '/Characters/' + str(clientID)) != null:

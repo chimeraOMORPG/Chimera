@@ -1096,7 +1096,22 @@ size = Vector2(36, 597)
 [node name="01-daisy-garden" type="Node2D"]
 script = ExtResource("1_sh3ax")
 
-[node name="map" type="TileMap" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ViewContainer" type="SubViewportContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SceneViewport" type="SubViewport" parent="Control/ViewContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="map" type="TileMap" parent="Control/ViewContainer/SceneViewport"]
 position = Vector2(323, 240)
 tile_set = SubResource("TileSet_k7fhg")
 format = 2
@@ -1110,19 +1125,19 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
 
-[node name="RigidBody2D" type="CharacterBody2D" parent="map"]
+[node name="RigidBody2D" type="CharacterBody2D" parent="Control/ViewContainer/SceneViewport/map"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="map/RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/ViewContainer/SceneViewport/map/RigidBody2D"]
 shape = SubResource("CircleShape2D_mg4ao")
 
-[node name="Characters" type="Node2D" parent="."]
+[node name="Characters" type="Node2D" parent="Control/ViewContainer/SceneViewport"]
 script = ExtResource("2_vvwjn")
 
-[node name="Gateways" type="Node2D" parent="."]
+[node name="Gateways" type="Node2D" parent="Control/ViewContainer/SceneViewport"]
 
-[node name="toScene1" type="Area2D" parent="Gateways"]
+[node name="toScene1" type="Area2D" parent="Control/ViewContainer/SceneViewport/Gateways"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Gateways/toScene1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/ViewContainer/SceneViewport/Gateways/toScene1"]
 position = Vector2(1248, 356)
 shape = SubResource("RectangleShape2D_s0iv6")
 debug_color = Color(0.956863, 0.14902, 0.380392, 1)
