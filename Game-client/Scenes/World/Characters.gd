@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var trasition: Node = get_parent().get_node('../transition/Control/AnimationPlayer')
+@onready var trasition: Node = get_parent().get_node('../../transition/Control/AnimationPlayer')
 const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
 @export var characterList: PackedInt32Array:
 	get:

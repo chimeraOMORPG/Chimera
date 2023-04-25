@@ -23,7 +23,7 @@ _data = {
 "trans_in": SubResource("Animation_xc0gd")
 }
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node"]
 script = ExtResource("1_me61i")
 
 [node name="transition" type="CanvasLayer" parent="."]

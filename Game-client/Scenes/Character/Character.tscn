@@ -1,10 +1,11 @@
-[gd_scene load_steps=41 format=3 uid="uid://bjwkvnlguls5f"]
+[gd_scene load_steps=42 format=3 uid="uid://bjwkvnlguls5f"]
 
 [ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_yj1wd"]
 [ext_resource type="Texture2D" uid="uid://c670e5byejsvt" path="res://assets/Hero 01 32.png" id="2_re00j"]
 [ext_resource type="AudioStream" uid="uid://bewcgc1oh3vkv" path="res://assets/audio/effects/grass_step.mp3" id="3_qgxei"]
 [ext_resource type="AudioStream" uid="uid://ddhpn1hdornpa" path="res://assets/audio/effects/connected.mp3" id="4_rel31"]
 [ext_resource type="Script" path="res://Scenes/Character/PlayerInput.gd" id="5_nuwsn"]
+[ext_resource type="Script" path="res://Scenes/Character/CHCamera2D.gd" id="5_rhdaj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bs1jd"]
 atlas = ExtResource("2_re00j")
@@ -323,6 +324,7 @@ drag_left_margin = 0.5
 drag_top_margin = 0.5
 drag_right_margin = 0.5
 drag_bottom_margin = 0.5
+script = ExtResource("5_rhdaj")
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_k1u5w")

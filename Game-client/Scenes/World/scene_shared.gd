@@ -1,4 +1,4 @@
-extends Node2D
+extends SubViewportContainer
 
 func _enter_tree():
 	for i in get_parent().get_children():

@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://ogmxohrw5kmo"]
+[gd_scene load_steps=16 format=3 uid="uid://ogmxohrw5kmo"]
 
 [ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_lqf5j"]
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_a4tyt"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_btixg"]
-[ext_resource type="Script" path="res://Scenes/World/SubViewport.gd" id="2_p012i"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="3_ar5fh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
@@ -1154,19 +1153,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="01-daisy-garden" type="Node2D"]
+[node name="01-daisy-garden" type="SubViewportContainer"]
+offset_right = 1280.0
+offset_bottom = 720.0
 script = ExtResource("1_lqf5j")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
+size = Vector2i(1280, 720)
 render_target_update_mode = 4
-script = ExtResource("2_p012i")
 
-[node name="mappa" type="TileMap" parent="."]
+[node name="mappa" type="TileMap" parent="SubViewport"]
 y_sort_enabled = true
 position = Vector2(320, 240)
 tile_set = SubResource("TileSet_k7fhg")
@@ -1181,10 +1178,10 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 1114114, 458754, 3)
 
-[node name="Characters" type="Node2D" parent="."]
+[node name="Characters" type="Node2D" parent="SubViewport"]
 script = ExtResource("2_a4tyt")
 
-[node name="barca" type="AnimatedSprite2D" parent="."]
+[node name="barca" type="AnimatedSprite2D" parent="SubViewport"]
 position = Vector2(-108, 357)
 sprite_frames = SubResource("SpriteFrames_m3ps4")
 frame_progress = 0.353523

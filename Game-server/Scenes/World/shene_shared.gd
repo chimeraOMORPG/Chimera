@@ -1,4 +1,4 @@
-extends Node
+extends SubViewportContainer
 
 var PortaEst = preload("res://Scenes/Character/Character.tscn")
 @onready var here: String = self.name
@@ -7,9 +7,9 @@ var hereToScene1: String = '02-crystal-rock'
 var hereToScene2: String = '03-kraken-coast'
 
 func _enter_tree():
-	if self.has_node('Gateways'):
-		if not $Gateways.get_children().is_empty():
-			for i in $Gateways.get_children():
+	if $SubViewport.has_node('Gateways'):
+		if not get_node('SubViewport/Gateways').get_children().is_empty():
+			for i in get_node('SubViewport/Gateways').get_children():
 				i.body_entered.connect(self.sceneChange)
 	
 func sceneChange(body):
@@ -19,6 +19,3 @@ func sceneChange(body):
 		get_node('/root/World').create_player(body.name.to_int(), hereToScene1, here)
 	else:
 		print('Error adding scene...')
-
-func _ready():
-	print(get_viewport().world_2d)

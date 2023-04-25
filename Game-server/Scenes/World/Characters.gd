@@ -17,17 +17,17 @@ func newCharacter(id):
 
 func _on_child_exiting_tree(node):
 	var temp = characterList
-	temp.remove_at(characterList.find(node.name.to_int()))
+	temp.remove_at(temp.find(node.name.to_int()))
 	# Two lines above are needed because when this signal arrives the node
 	# still in the scenetree... that's godot's behavior.
 	if temp.is_empty(): # If no more characters in this scene remove it.
-		self.get_parent().queue_free.call_deferred()
+		self.get_node('../../').queue_free.call_deferred()
 		prints('No more characters on scene', self.get_parent().name, 'removing...')
 	else:
 		#Otherwise, when a character exit, the server ask all peers on the same scene for update/synchronize
 		print(temp)
 		for i in temp:
-			rpc_id(i, 'syncSpawn', get_parent().name, temp, node.name)
+			rpc_id(i, 'syncSpawn', get_node('../../').name, temp, node.name)
 
 @rpc("call_local")
 func syncSpawn(_Place, _Character):

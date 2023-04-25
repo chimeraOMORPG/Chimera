@@ -12,8 +12,6 @@ func _enter_tree():
 
 func _ready():
 	$ID.text = name
-	if self.name.to_int() == multiplayer.get_unique_id():
-		$CHCamera2D.make_current()
 	$connected.play()
 
 func _physics_process(delta):
