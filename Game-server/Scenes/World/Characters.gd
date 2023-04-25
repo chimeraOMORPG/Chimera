@@ -25,8 +25,9 @@ func _on_child_exiting_tree(node):
 		prints('No more characters on scene', self.get_parent().name, 'removing...')
 	else:
 		#Otherwise, when a character exit, the server ask all peers on the same scene for update/synchronize
+		print(temp)
 		for i in temp:
-			rpc_id(i, 'syncSpawn', get_parent().name, characterList, node.name)
+			rpc_id(i, 'syncSpawn', get_parent().name, temp, node.name)
 
 @rpc("call_local")
 func syncSpawn(_Place, _Character):

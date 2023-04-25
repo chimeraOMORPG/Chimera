@@ -12,6 +12,7 @@ const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
 @rpc("authority")
 func syncSpawn(Place, toSpawn, entered):
 	if get_parent().name == Place:
+		print(toSpawn)
 		for i in characterList:
 			if not toSpawn.has(i):
 				get_node(str(i)).queue_free.call_deferred()	
