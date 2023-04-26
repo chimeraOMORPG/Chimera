@@ -1126,7 +1126,7 @@ shape = SubResource("CircleShape2D_mg4ao")
 [node name="Characters" type="Node" parent="SubViewport"]
 script = ExtResource("2_vvwjn")
 
-[node name="Gateways" type="Node" parent="SubViewport"]
+[node name="Gateways" type="Node2D" parent="SubViewport"]
 
 [node name="01" type="Area2D" parent="SubViewport/Gateways"]
 script = ExtResource("4_50fiy")
@@ -1140,6 +1140,6 @@ debug_color = Color(0.956863, 0.14902, 0.380392, 1)
 script = ExtResource("4_50fiy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/02"]
-position = Vector2(1232.5, 317.5)
+position = Vector2(1000, 650)
 shape = SubResource("RectangleShape2D_s0iv6")
 debug_color = Color(0.956863, 0.14902, 0.380392, 1)
