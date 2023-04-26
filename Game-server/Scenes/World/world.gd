@@ -22,7 +22,6 @@ func create_player(clientID, Place, spawnCoordinates:= Vector2.ZERO, PreviouslyS
 	while get_node_or_null(Place + '/SubViewport/Characters/' + x.name) == null:
 		print('Waiting for creating character...')
 	get_node(Place + '/SubViewport/Characters/' + x.name).set_position(spawnCoordinates)
-	################################
 	prints("New character created for player ID:", clientID, 'on scene:', Place)
 	if PreviouslyScene != null:
 		if get_node_or_null('/root/World/' + PreviouslyScene + '/SubViewport/Characters/' + str(clientID)) != null:
