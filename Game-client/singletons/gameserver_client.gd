@@ -41,7 +41,7 @@ func failed():
 	if error != OK:
 		print('Error changing scene to Main_menu')
 	while get_node_or_null("/root/Main_menu/LoginForm/WarningMessage") == null:
-		print('Changing scene...')
+		print('Back to main menu...')
 		await get_tree().create_timer(0.1).timeout
 	get_node("/root/Main_menu/LoginForm/WarningMessage").text = "Disconnected from game server"
 	get_node("/root/Main_menu/LoginForm/Inputs/Connect").disabled = false

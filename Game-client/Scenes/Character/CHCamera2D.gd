@@ -3,7 +3,5 @@ extends Camera2D
 
 func _ready():
 	if get_parent().name.to_int() == multiplayer.get_unique_id():
-		print(customViewport)
-		self.set_custom_viewport(customViewport)
+#		self.set_custom_viewport(customViewport)
 		self.make_current()
-	print(self.is_current())

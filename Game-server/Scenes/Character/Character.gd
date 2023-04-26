@@ -15,8 +15,8 @@ func _enter_tree():
 func _ready():
 	get_parent().newCharacter(self.name)
 	screen_size = get_viewport_rect().size
-	position.x = randi_range(0,screen_size.x)
-	position.y = randi_range(0,screen_size.y)
+#	position.x = randi_range(0,screen_size.x)
+#	position.y = randi_range(0,screen_size.y)
 
 func movement(deltapassed):
 	if input.direction:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ybcw8q7ssq8k"]
+[gd_scene load_steps=9 format=3 uid="uid://ybcw8q7ssq8k"]
 
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_cnie3"]
 [ext_resource type="Script" path="res://Scenes/World/shene_shared.gd" id="1_sh3ax"]
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_vvwjn"]
+[ext_resource type="Script" path="res://Scenes/World/gateways_shared.gd" id="4_50fiy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 resource_name = "albero"
@@ -1091,7 +1092,7 @@ sources/2 = SubResource("TileSetAtlasSource_o4dce")
 radius = 52.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s0iv6"]
-size = Vector2(36, 597)
+size = Vector2(99, 103)
 
 [node name="01-daisy-garden" type="SubViewportContainer"]
 offset_right = 1280.0
@@ -1115,21 +1116,30 @@ layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
-layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0)
+layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327687, 458754, 3, -393216, 458754, 0, -65529, 458754, 0, -131080, 524290, 3, 393213, 524290, 3, 327681, 327682, 2, -8, 327682, 2, 196611, 458754, 0, 65543, 458754, 0, 131079, 458754, 0, 196615, 458754, 0, 262151, 458754, 0, 327687, 458754, 0, 393223, 458754, 0, -196601, 458754, 0, -262137, 458754, 0, -327673, 458754, 0, -393209, 458754, 0, 65563, 2, 9, 131099, 2, 10, 196635, 2, 11, 65564, 65538, 9, 131100, 65538, 10, 196636, 65538, 11, 65565, 131074, 9, 131101, 131074, 10, 196637, 131074, 11)
 
-[node name="RigidBody2D" type="CharacterBody2D" parent="SubViewport/map"]
+[node name="Character" type="CharacterBody2D" parent="SubViewport/map"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/map/RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/map/Character"]
 shape = SubResource("CircleShape2D_mg4ao")
 
-[node name="Characters" type="Node2D" parent="SubViewport"]
+[node name="Characters" type="Node" parent="SubViewport"]
 script = ExtResource("2_vvwjn")
 
-[node name="Gateways" type="Node2D" parent="SubViewport"]
+[node name="Gateways" type="Node" parent="SubViewport"]
 
-[node name="toScene1" type="Area2D" parent="SubViewport/Gateways"]
+[node name="01" type="Area2D" parent="SubViewport/Gateways"]
+script = ExtResource("4_50fiy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/toScene1"]
-position = Vector2(1248, 356)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/01"]
+position = Vector2(1232.5, 317.5)
+shape = SubResource("RectangleShape2D_s0iv6")
+debug_color = Color(0.956863, 0.14902, 0.380392, 1)
+
+[node name="02" type="Area2D" parent="SubViewport/Gateways"]
+script = ExtResource("4_50fiy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/02"]
+position = Vector2(1232.5, 317.5)
 shape = SubResource("RectangleShape2D_s0iv6")
 debug_color = Color(0.956863, 0.14902, 0.380392, 1)

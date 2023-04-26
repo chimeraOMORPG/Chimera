@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @onready var trasition: Node = get_parent().get_node('../../transition/Control/AnimationPlayer')
 const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
@@ -11,8 +11,7 @@ const  CharacterScene = preload("res://Scenes/Character/Character.tscn")
 
 @rpc("authority")
 func syncSpawn(Place, toSpawn, entered):
-	if get_parent().name == Place:
-		print(toSpawn)
+	if get_node('../../').name == Place:
 		for i in characterList:
 			if not toSpawn.has(i):
 				get_node(str(i)).queue_free.call_deferred()	
@@ -24,6 +23,6 @@ func syncSpawn(Place, toSpawn, entered):
 		prints("Characters synchronized on this client.")
 		if entered.to_int() == multiplayer.get_unique_id():
 			trasition.play('trans_in')
-#	else:
-#		prints(Place, 'is not the active scene on this client')
+	else:
+		prints('A problem has occurred retrieving', Place, 'as the active scene on this client....')
 #

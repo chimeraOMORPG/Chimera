@@ -13,7 +13,6 @@ func addSceneOnClient(Place):
 		var x = load('res://Scenes/World/' + Place + '.tscn').instantiate()
 		self.add_child(x, true)
 		rpc_id(1, 'sceneOnClientAdded')
-		prints(Place, 'scena aggiunta')
 	else:
 		prints('Scene', Place, 'already existent on this client')
 	
