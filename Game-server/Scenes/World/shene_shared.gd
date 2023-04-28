@@ -1,3 +1,0 @@
-extends SubViewportContainer
-#A shared script to all scenes, for future use....
-

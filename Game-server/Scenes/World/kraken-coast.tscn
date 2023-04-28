@@ -1,13 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://ybcw8q7ssq8k"]
+[gd_scene load_steps=9 format=3 uid="uid://musr6lwiq2ck"]
 
-[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_cnie3"]
-[ext_resource type="Script" path="res://Scenes/World/shene_shared.gd" id="1_sh3ax"]
-[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_vvwjn"]
-[ext_resource type="Script" path="res://Scenes/World/gateways_shared.gd" id="4_50fiy"]
+[ext_resource type="Script" path="res://Scenes/World/kraken-coast.gd" id="1_5rwjw"]
+[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_lxm7b"]
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="3_77o2a"]
+[ext_resource type="Script" path="res://Scenes/World/gateways_shared.gd" id="4_rdjxq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 resource_name = "albero"
-texture = ExtResource("1_cnie3")
+texture = ExtResource("2_lxm7b")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -1094,10 +1094,10 @@ radius = 52.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s0iv6"]
 size = Vector2(99, 103)
 
-[node name="01-daisy-garden" type="SubViewportContainer"]
+[node name="kraken-coast" type="SubViewportContainer"]
 offset_right = 1280.0
 offset_bottom = 720.0
-script = ExtResource("1_sh3ax")
+script = ExtResource("1_5rwjw")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
@@ -1124,22 +1124,14 @@ layer_1/tile_data = PackedInt32Array(327673, 458754, 3, -327688, 458754, 3, -327
 shape = SubResource("CircleShape2D_mg4ao")
 
 [node name="Characters" type="Node" parent="SubViewport"]
-script = ExtResource("2_vvwjn")
+script = ExtResource("3_77o2a")
 
-[node name="Gateways" type="Node2D" parent="SubViewport"]
+[node name="Gateways" type="Node" parent="SubViewport"]
 
 [node name="01" type="Area2D" parent="SubViewport/Gateways"]
-script = ExtResource("4_50fiy")
+script = ExtResource("4_rdjxq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/01"]
 position = Vector2(1232.5, 317.5)
-shape = SubResource("RectangleShape2D_s0iv6")
-debug_color = Color(0.956863, 0.14902, 0.380392, 1)
-
-[node name="02" type="Area2D" parent="SubViewport/Gateways"]
-script = ExtResource("4_50fiy")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/Gateways/02"]
-position = Vector2(1000, 650)
 shape = SubResource("RectangleShape2D_s0iv6")
 debug_color = Color(0.956863, 0.14902, 0.380392, 1)

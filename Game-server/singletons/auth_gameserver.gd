@@ -6,7 +6,7 @@ var nameServer: String = "Chimera_one"
 var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 @export var devmodeINI: bool = false
-@export var Place: String = "01-daisy-garden"#Il luogo deve essere passato dall'auth server
+@export var Place: String = "daisy-garden"#Il luogo deve essere passato dall'auth server
 
 func _ready():
 	await Settings.settingsLoaded

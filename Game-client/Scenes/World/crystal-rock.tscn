@@ -1,12 +1,12 @@
 [gd_scene load_steps=16 format=3 uid="uid://2j4q1rfg7dp6"]
 
-[ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_eusis"]
-[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="1_ski4e"]
-[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="2_5ydqc"]
-[ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="2_t0wit"]
+[ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_0tnly"]
+[ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_y3s1a"]
+[ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="3_r3lqd"]
+[ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="4_mnutf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
-texture = ExtResource("1_ski4e")
+texture = ExtResource("2_y3s1a")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -1089,35 +1089,35 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/2 = SubResource("TileSetAtlasSource_o4dce")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fsw2c"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(0, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vbyfw"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(160, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g818s"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(320, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kmfm"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(480, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3aw6t"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(640, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vavbg"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(800, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygc08"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(960, 0, 160, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlsiy"]
-atlas = ExtResource("2_t0wit")
+atlas = ExtResource("4_mnutf")
 region = Rect2(1120, 0, 160, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m3ps4"]
@@ -1153,10 +1153,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="02-crystal-rock" type="SubViewportContainer"]
+[node name="crystal-rock" type="SubViewportContainer"]
 offset_right = 1280.0
 offset_bottom = 720.0
-script = ExtResource("1_eusis")
+script = ExtResource("1_0tnly")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
@@ -1179,7 +1179,7 @@ layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 1114114, 458754, 3, -524279, 1245186, 5, -458743, 1245186, 6, -393207, 1245186, 7, -524278, 1310722, 5, -458742, 1310722, 6, -524277, 1376258, 5, -458741, 1376258, 6, -393205, 1376258, 7)
 
 [node name="Characters" type="Node2D" parent="SubViewport"]
-script = ExtResource("2_5ydqc")
+script = ExtResource("3_r3lqd")
 
 [node name="barca" type="AnimatedSprite2D" parent="SubViewport"]
 position = Vector2(-108, 357)

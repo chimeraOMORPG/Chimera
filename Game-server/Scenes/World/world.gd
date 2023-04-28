@@ -9,18 +9,21 @@ func addScene(clientID, Place)-> bool:
 	else:
 		print('Not existent scene (or empty World), creating...')
 		var p = load('res://Scenes/World/' + Place + '.tscn').instantiate()
-		get_node("/root/World").add_child(p, true)
+		get_node("/root/World").add_child.call_deferred(p, true)
 	rpc_id(clientID, 'addSceneOnClient', Place)
 	await sceneOnClientAddedSignal
 	return true
 
-func create_player(clientID, Place, spawnCoordinates:= Vector2.ZERO, PreviouslyScene = null):
+func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
+	print(Place)
+	var spawnCoordinates: Vector2 = get_node(Place).get('spawnPoints')[spawnPointID]
 	var x = CharacterScene.instantiate()
 	x.set_multiplayer_authority(clientID)
-	x.set_name(str(clientID))# Set the name, so players can figure out their local authority
+	x.set_name(str(clientID))
 	get_node(Place + '/SubViewport/Characters').add_child(x, true)
 	while get_node_or_null(Place + '/SubViewport/Characters/' + x.name) == null:
 		print('Waiting for creating character...')
+#	var temp = get_node(Place + '/SubViewport/Characters/' + x.name).setRightPosition(spawnCoordinates)
 	get_node(Place + '/SubViewport/Characters/' + x.name).set_position(spawnCoordinates)
 	prints("New character created for player ID:", clientID, 'on scene:', Place)
 	if PreviouslyScene != null:
