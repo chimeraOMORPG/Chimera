@@ -15,7 +15,6 @@ func addScene(clientID, Place)-> bool:
 	return true
 
 func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
-	print(Place)
 	var spawnCoordinates: Vector2 = get_node(Place).get('spawnPoints')[spawnPointID]
 	var x = CharacterScene.instantiate()
 	x.set_multiplayer_authority(clientID)
