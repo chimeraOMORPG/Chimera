@@ -17,7 +17,7 @@ func addScene(clientID, Place)-> bool:
 func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
 	var spawnCoordinates: Vector2 = get_node(Place).get('spawnPoints')[spawnPointID]
 	var x = CharacterScene.instantiate()
-	x.set_multiplayer_authority(clientID)
+#	x.set_multiplayer_authority(clientID)
 	x.set_name(str(clientID))
 	get_node(Place + '/SubViewport/Characters').add_child(x, true)
 	while get_node_or_null(Place + '/SubViewport/Characters/' + x.name) == null:
@@ -25,7 +25,7 @@ func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
 #	var temp = get_node(Place + '/SubViewport/Characters/' + x.name).setRightPosition(spawnCoordinates)
 	get_node(Place + '/SubViewport/Characters/' + x.name).set_position(spawnCoordinates)
 	prints("New character created for player ID:", clientID, 'on scene:', Place)
-	if PreviouslyScene != null:
+	if PreviouslyScene != null: # If null it is the first spawn of session, not a scene change
 		if get_node_or_null('/root/World/' + PreviouslyScene + '/SubViewport/Characters/' + str(clientID)) != null:
 			print('Character istance in previously scene destroyed')
 			get_node('/root/World/' + PreviouslyScene + '/SubViewport/Characters/' + str(clientID)).queue_free()

@@ -1178,7 +1178,7 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 1114114, 458754, 3, -524279, 1245186, 5, -458743, 1245186, 6, -393207, 1245186, 7, -524278, 1310722, 5, -458742, 1310722, 6, -524277, 1376258, 5, -458741, 1376258, 6, -393205, 1376258, 7)
 
-[node name="Characters" type="Node2D" parent="SubViewport"]
+[node name="Characters" type="Node" parent="SubViewport"]
 script = ExtResource("3_r3lqd")
 
 [node name="barca" type="AnimatedSprite2D" parent="SubViewport"]

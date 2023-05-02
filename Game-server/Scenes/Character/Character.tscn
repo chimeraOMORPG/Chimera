@@ -1,15 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ds5r1bcac7cgd"]
+[gd_scene load_steps=3 format=3 uid="uid://ds5r1bcac7cgd"]
 
 [ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_ckah4"]
-[ext_resource type="Script" path="res://Scenes/Character/PlayerInput.gd" id="2_fe3dh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tfdp8"]
 radius = 19.3132
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r4qqo"]
-properties/0/path = NodePath("PlayerInput:direction")
-properties/0/spawn = true
-properties/0/sync = true
 
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(1200, 240)
@@ -19,7 +13,3 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tfdp8")
 metadata/_edit_group_ = true
-
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_r4qqo")
-script = ExtResource("2_fe3dh")

@@ -1,7 +1,10 @@
 extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
-@onready var input = $PlayerInput # Player synchronized input.
+#@onready var input = $PlayerInput # Player synchronized input.
+var Synchro: Dictionary = {
+	'direction': Vector2.ZERO
+}
 var screen_size
 @export var eventList: Array
 @export var authority: int:
@@ -10,32 +13,32 @@ var screen_size
 
 func _enter_tree():
 	self.set_multiplayer_authority(1)
-	$PlayerInput.set_multiplayer_authority(authority)
 
 func _ready():
-	get_parent().newCharacter(self.name)
 	screen_size = get_viewport_rect().size
-#	position.x = randi_range(0,screen_size.x)
-#	position.y = randi_range(0,screen_size.y)
 
 func movement(deltapassed):
-	if input.direction:
-		velocity = input.get("direction").normalized() * speed * deltapassed * 50	
+	if Synchro.direction:
+		velocity = Synchro.get("direction").normalized() * speed * deltapassed * 50	
 		move_and_slide()
 
 func _physics_process(delta):
 	movement(delta)
 	verify_border()
 	updateOnClients()
-	
+
 func updateOnClients():
 	for i in get_parent().characterList:
-		rpc_id(i, 'moveOn', position)
+		rpc_id(i, 'moveOn', self.name, self.position)
 
 func verify_border():
 	position.x = clamp(position.x,30, screen_size.x-30)
 	position.y = clamp(position.y, 30, screen_size.y-30)
 
+@rpc("any_peer", "unreliable")
+func _synchronize(data):
+	Synchro.direction = data.direction
+	
 #func _input(event):
 #	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
 #		direction.append(event.as_text().to_lower())
