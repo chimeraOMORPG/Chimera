@@ -32,11 +32,13 @@ func syncSpawn(Place, node, serverCharachterList, exiting):
 					var x = CharacterScene.instantiate()
 					x.set_name(str(i))# Set the name, so players can figure out their local authority
 					self.add_child(x, true)
-
+					if node.to_int() == multiplayer.get_unique_id():
+						trasition.play('trans_in')
+						SynchroHub.process_mode = Node.PROCESS_MODE_ALWAYS
 	#		if stillAnyOne():
 	#			thisScene.queue_free()
-		if node.to_int() == multiplayer.get_unique_id():
-			trasition.play('trans_in')
+#		if node.to_int() == multiplayer.get_unique_id():
+#			trasition.play('trans_in')
 
 #func stillAnyOne() -> bool:
 #	if characterList.is_empty():

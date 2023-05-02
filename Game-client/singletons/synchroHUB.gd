@@ -1,6 +1,6 @@
 extends Node
 
-var _Iam:
+var _identity:
 	get:
 		return GameserverClient.multiplayer.get_unique_id()
 			
@@ -8,9 +8,13 @@ var _Iam:
 	'direction': Vector2.ZERO
 }
 
+func _ready():
+	process_mode = Node.PROCESS_MODE_DISABLED
+
+
 func _process(delta):
-	if _Iam != null:
-		prints('diverso da null', _Iam)
+	if _identity != null:
+		prints('diverso da null', _identity)
 	else:
 		print('nullo')
 #		if self.name.to_int() == _Iam:
