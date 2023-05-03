@@ -2,13 +2,19 @@ extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
 @export var eventList: Array
+@onready var _identity: String = str(self.get_path())
+var Synchro: Dictionary = {
+	'direction': Vector2.ZERO}
 
-func _enter_tree():
-	pass
-	
+func _process(delta):
+	if self.name.to_int() == multiplayer.get_unique_id():
+		Synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		SynchroHub.toServer(_identity, Synchro)
+
 func _ready():
 	$ID.text = name
-	$connected.play()
+	if self.name.to_int() == multiplayer.get_unique_id():
+		$connected.play()
 		
 func grass_step(stepping):
 	if stepping != Vector2.ZERO and $disconnect_confirm.visible != true:
@@ -44,8 +50,4 @@ func _on_disconnect_confirm_confirmed():
 func _on_disconnect_confirm_cancelled():
 	set_process_input(true)
 	$disconnect_confirm.hide()
-
-@rpc("authority", "call_remote", "unreliable")
-func moveOn(character, coords: Vector2):
-	self.set_position(coords)
 	

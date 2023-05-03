@@ -21,6 +21,7 @@ GameserverClient="*res://singletons/gameserver_client.gd"
 AuthGameserver="*res://singletons/auth_gameserver.gd"
 TokenExpiration="*res://singletons/token_expiration.gd"
 Security="*res://singletons/security.gd"
+SynchroHub="*res://singletons/synchroHUB.gd"
 Settings="*res://singletons/settings.gd"
 
 [debug]

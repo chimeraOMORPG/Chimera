@@ -1,26 +1,15 @@
 extends Node
 
-var _identity:
-	get:
-		return GameserverClient.multiplayer.get_unique_id()
-			
-@export var Synchro: Dictionary = {
-	'direction': Vector2.ZERO
-}
+func toServer(_identity, Synchro):
+	rpc_id(1, 'synchronizeOnServer', _identity, Synchro)
 
-func _ready():
-	process_mode = Node.PROCESS_MODE_DISABLED
-
-
-func _process(delta):
-	if _identity != null:
-		prints('diverso da null', _identity)
+@rpc("authority", "unreliable")
+func synchronizeOnClients(_identity, coords):
+	if get_node_or_null(_identity):
+		get_node(_identity).set('position', coords)
 	else:
-		print('nullo')
-#		if self.name.to_int() == _Iam:
-#			Synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-#			rpc_id(1, '_synchronize', Synchro)
+		prints(_identity, 'not found to synchronize his data, probably is changing zone')
 
 @rpc("call_local", "unreliable")
-func _synchronize(Synchro):
+func synchronizeOnServer(Synchro):
 	pass

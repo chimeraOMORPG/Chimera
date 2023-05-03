@@ -34,7 +34,6 @@ func connected():
 	var error = rpc_id(1, 'tokenVerification', token)
 	if error != OK:
 		print('Error during rpc playerVerification from game client')
-	SynchroHub.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func failed():
 	print("Whenever authenticated, failed to connect to game server")

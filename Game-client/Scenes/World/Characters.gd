@@ -24,54 +24,12 @@ func syncSpawn(Place, node, serverCharachterList, exiting):
 			for i in characterList:
 				if not serverCharachterList.has(i):
 					get_node(str(i)).queue_free()
-#			elif stillAnyOne():
-#				thisScene.queue_free()	
 		else:	
 			for i in serverCharachterList:
 				if not characterList.has(i):
 					var x = CharacterScene.instantiate()
-					x.set_name(str(i))# Set the name, so players can figure out their local authority
+					x.set_name(str(i))
 					self.add_child(x, true)
 					if node.to_int() == multiplayer.get_unique_id():
 						trasition.play('trans_in')
-						SynchroHub.process_mode = Node.PROCESS_MODE_ALWAYS
-	#		if stillAnyOne():
-	#			thisScene.queue_free()
-#		if node.to_int() == multiplayer.get_unique_id():
-#			trasition.play('trans_in')
 
-#func stillAnyOne() -> bool:
-#	if characterList.is_empty():
-#		return true
-#	for i in get_children():
-#		if not i.is_queued_for_deletion():
-#			return false
-#	return true
-
-#@rpc("authority")
-#func syncSpawn(Place, node, entered, serverCharachterList):
-#	if thisScene.name == Place:
-#		if entered:
-#			prints(node, 'entrato in', Place)
-#			prints('serverlist:', serverCharachterList, 'characterlist:', characterList)
-#			for i in serverCharachterList:
-#				if not characterList.has(i):
-#					prints(multiplayer.get_unique_id(), 'non ha il nodo', i, 'aggiungo...')
-#					var x = CharacterScene.instantiate()
-#					x.set_name(str(i))# Set the name, so players can figure out their local authority
-#					self.add_child(x, true)
-#		else:
-#			prints('chiamato:', multiplayer.get_unique_id(), node, 'uscito da', Place)
-#			if node.to_int() == multiplayer.get_unique_id():
-#				thisScene.queue_free()
-#			else:
-#				for i in characterList:
-#					if not serverCharachterList.has(i):
-#						get_node(str(i)).queue_free()
-##				get_node(node).queue_free()
-#		prints("Characters synchronized on this client.")
-#		if node.to_int() == multiplayer.get_unique_id():
-#			trasition.play('trans_in')
-#	else:
-#		prints('A problem has occurred retrieving', Place, 'as the active scene on this client....')
-#
