@@ -11,5 +11,5 @@ func synchronizeOnClients(_identity, coords):
 		prints(_identity, 'not found to synchronize his data, probably is changing zone')
 
 @rpc("call_local", "unreliable")
-func synchronizeOnServer(Synchro):
+func synchronizeOnServer(_Synchro):
 	pass

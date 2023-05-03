@@ -6,7 +6,7 @@ extends CharacterBody2D
 var Synchro: Dictionary = {
 	'direction': Vector2.ZERO}
 
-func _process(delta):
+func _process(_delta):
 	if self.name.to_int() == multiplayer.get_unique_id():
 		Synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		SynchroHub.toServer(_identity, Synchro)
@@ -23,20 +23,20 @@ func grass_step(stepping):
 	else:
 		$grass_step.stop()
 
-#func _input(event):
-#	if authority == $PlayerInput.multiplayer.get_unique_id():
-#		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
-#			eventList.append(event.as_text().to_lower())
-#			$CHAnimatedSprite2D.play("walk_" + eventList.back())
-#			if eventList.size()>2:
-#				eventList.pop_front()
-#		elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
-#			eventList.remove_at(eventList.rfind(event.as_text().to_lower()))
-#			if eventList.size()>0:
-#				$CHAnimatedSprite2D.play("walk_" + eventList.front())
-#				print("ritorno a direzione " + eventList.front())
-#			else:
-#				$CHAnimatedSprite2D.play("idle_" + ($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
+func _input(event):
+	if self.name.to_int() == multiplayer.get_unique_id():
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
+			eventList.append(event.as_text().to_lower())
+			$CHAnimatedSprite2D.play("walk_" + eventList.back())
+			if eventList.size()>2:
+				eventList.pop_front()
+		elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
+			if eventList.rfind(event.as_text().to_lower()) != -1:
+				eventList.remove_at(eventList.rfind(event.as_text().to_lower()))
+			if eventList.size()>0:
+				$CHAnimatedSprite2D.play("walk_" + eventList.front())
+			else:
+				$CHAnimatedSprite2D.play("idle_" + ($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
 #		if event.is_action_pressed("ui_cancel"):
 #			print("Disconnection request sended to server")
 #			$disconnect_confirm.show()
