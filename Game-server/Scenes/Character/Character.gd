@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var _identity: String = str(self.get_path())
 @export var Synchro: Dictionary
 var faceDirection: String
-var screen_size
+var screen_size: Vector2
 var eventList: Array
 var key:
 	get:
@@ -12,47 +12,35 @@ var key:
 var pressed:
 	get:
 		return Synchro.input.get('pressed')
-signal updateAnimation
-
+signal updateFacing
 
 func _enter_tree():
 	self.set_multiplayer_authority(1)
 
 func _ready():
+	updateFacing.connect(self.facing)
 	screen_size = get_viewport_rect().size
 
-func movement(deltapassed):
-	velocity = Synchro.get("direction").normalized() * speed * deltapassed * 50
+func move(delta):
+	velocity = Synchro.get("direction").normalized() * delta * speed * 50
+	verify_border()
 	move_and_slide()
+	return self.position
 
 func _process(delta):
 	if Synchro.has('direction'):
 		if Synchro.direction:
-			movement(delta)
-			verify_border()
+			var temp: Vector2 = position
+			if move(delta) != temp:
+				print('diverso')
 	SynchroHub.toClients(_identity, self.position, faceDirection)
-
+#	if not self.is_queued_for_deletion():
+		
 func verify_border():
 	position.x = clamp(position.x,30, screen_size.x-30)
 	position.y = clamp(position.y, 30, screen_size.y-30)
 
-
-#		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
-#			eventList.append(event.as_text().to_lower())
-#			$CHAnimatedSprite2D.play("walk_" + eventList.back())
-#			if eventList.size()>2:
-#				eventList.pop_front()
-#		elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
-#			eventList.remove_at(eventList.rfind(event.as_text().to_lower()))
-#			if eventList.size()>0:
-#				$CHAnimatedSprite2D.play("walk_" + eventList.front())
-#				print("ritorno a direzione " + eventList.front())
-#			else:
-#				$CHAnimatedSprite2D.play("idle_" + ($CHAnimatedSprite2D.animation).trim_prefix("walk_"))
-
-
 func facing() -> void:
-	print(eventList)
 	if key == 'up' or 'down' or 'right' or 'left':
 		if pressed:
 			eventList.append(key.to_lower())
@@ -66,5 +54,8 @@ func facing() -> void:
 				faceDirection = "walk_" + eventList.front()
 			else:
 				faceDirection = 'none'
-		print(eventList)
 
+@rpc("any_peer", "reliable")
+func disconnectMe():
+	get_tree().get_multiplayer().multiplayer_peer.disconnect_peer(multiplayer.get_remote_sender_id())
+	

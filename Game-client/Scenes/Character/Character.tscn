@@ -320,4 +320,5 @@ drag_right_margin = 0.5
 drag_bottom_margin = 0.5
 script = ExtResource("5_rhdaj")
 
+[connection signal="canceled" from="disconnect_confirm" to="." method="_on_disconnect_confirm_canceled"]
 [connection signal="confirmed" from="disconnect_confirm" to="." method="_on_disconnect_confirm_confirmed"]
