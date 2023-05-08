@@ -9,13 +9,14 @@ var Synchro: Dictionary = {
 	'input': {}}
 
 func _ready():
+	SynchroHub.synchroAtReady(_identity)
 	$ID.text = name
 	set_process_input(false)
 	if self.name.to_int() == multiplayer.get_unique_id():
 		set_process_input(true)
 		$connected.play()
 
-func _process(delta):
+func _process(_delta):
 	var temp = self.position
 	if coords:
 		set_position(coords)

@@ -18,19 +18,21 @@ func _enter_tree():
 func _on_child_entered_tree(node):
 	# When a character enter, the server ask all peers on the same scene for update/synchronize
 	for i in characterList:
-		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false, node.position)
+#		var temp = get_node(str(i)).position
+#		print(temp)
+		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false)
 
 func _on_child_exiting_tree(node):
+	var temp = characterList
+	temp.remove_at(temp.find(node.name.to_int()))
+	# Two lines above are needed because when this signal arrives the node
+	# still in the scenetree... that's godot's behavior.
+	if temp.is_empty(): # If no more characters in this scene remove it.
+		thisScene.queue_free()
+		prints('No more characters on scene', thisScene.name, 'removing...')
 	if multiplayer.get_peers().has(node.name.to_int()):
-		var temp = characterList
-		temp.remove_at(temp.find(node.name.to_int()))
-		# Two lines above are needed because when this signal arrives the node
-		# still in the scenetree... that's godot's behavior.
 		for i in characterList:
-			rpc_id(i, 'syncSpawn', thisScene.name, node.name, temp, true, null)
-		if temp.is_empty(): # If no more characters in this scene remove it.
-			thisScene.queue_free()
-			prints('No more characters on scene', thisScene.name, 'removing...')
+			rpc_id(i, 'syncSpawn', thisScene.name, node.name, temp, true)
 
 @rpc("call_local")
 func syncSpawn(_Place, _Character):
