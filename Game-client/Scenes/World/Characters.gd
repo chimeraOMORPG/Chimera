@@ -14,7 +14,7 @@ var characterList: PackedInt32Array:
 		return x
 
 @rpc("authority")
-func syncSpawn(Place, node, serverCharachterList, exiting):
+func syncSpawn(Place, node, serverCharachterList, exiting, coords):
 	if thisScene.name == Place:# questa linea DOVREBBE essere superflua....
 		if exiting:
 			if node.to_int() == multiplayer.get_unique_id():
@@ -29,7 +29,9 @@ func syncSpawn(Place, node, serverCharachterList, exiting):
 				if not characterList.has(i):
 					var x = CharacterScene.instantiate()
 					x.set_name(str(i))
+					x.set_position(coords)
 					self.add_child(x, true)
 					if node.to_int() == multiplayer.get_unique_id():
 						trasition.play('trans_in')
+					
 

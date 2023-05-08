@@ -18,7 +18,7 @@ func _enter_tree():
 func _on_child_entered_tree(node):
 	# When a character enter, the server ask all peers on the same scene for update/synchronize
 	for i in characterList:
-		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false)
+		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false, node.position)
 
 func _on_child_exiting_tree(node):
 	if multiplayer.get_peers().has(node.name.to_int()):
@@ -27,7 +27,7 @@ func _on_child_exiting_tree(node):
 		# Two lines above are needed because when this signal arrives the node
 		# still in the scenetree... that's godot's behavior.
 		for i in characterList:
-			rpc_id(i, 'syncSpawn', thisScene.name, node.name, temp, true)
+			rpc_id(i, 'syncSpawn', thisScene.name, node.name, temp, true, null)
 		if temp.is_empty(): # If no more characters in this scene remove it.
 			thisScene.queue_free()
 			prints('No more characters on scene', thisScene.name, 'removing...')

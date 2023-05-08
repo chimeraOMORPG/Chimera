@@ -3,5 +3,4 @@ extends Camera2D
 
 func _ready():
 	if get_parent().name.to_int() == multiplayer.get_unique_id():
-#		self.set_custom_viewport(customViewport)
 		self.make_current()

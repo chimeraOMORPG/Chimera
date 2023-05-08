@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 const speed: int = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
 @onready var _identity: String = str(self.get_path())
+var faceDirection: String = 'down'
+var coords: Vector2
 var Synchro: Dictionary = {
 	'direction': Vector2.ZERO,
 	'input': {}}
@@ -12,7 +14,16 @@ func _ready():
 	if self.name.to_int() == multiplayer.get_unique_id():
 		set_process_input(true)
 		$connected.play()
-		
+
+func _process(delta):
+	var temp = self.position
+	if coords:
+		set_position(coords)
+		if temp != self.position:
+			$CHAnimatedSprite2D.play('walk_' + faceDirection)
+		else:
+			$CHAnimatedSprite2D.play('idle_' + faceDirection)
+
 func _input(event):
 	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
 		move(event, true)

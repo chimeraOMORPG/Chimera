@@ -2,9 +2,7 @@ extends Node
 
 func toClients(_identity, coords, faceDirection):
 	for i in get_node(_identity).get_parent().characterList:
-#		if get_tree().get_multiplayer().get_peers().has(i):
-#		if get_node(_identity).is_queued_for_deletion():
-			rpc_id(i, 'synchronizeOnClients', _identity, coords, faceDirection)
+		rpc_id(i, 'synchronizeOnClients', _identity, coords, faceDirection)
 
 @rpc("any_peer", "unreliable")
 func synchronizeOnServer(_identity, incomingSynchroData):

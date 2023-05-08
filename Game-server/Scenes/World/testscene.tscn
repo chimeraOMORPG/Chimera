@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://qbupig4elqvy"]
+[gd_scene load_steps=8 format=3 uid="uid://dvoivotd747gb"]
 
 [ext_resource type="Script" path="res://Scenes/World/crystal-rock.gd" id="1_26kfw"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_2lj1c"]
