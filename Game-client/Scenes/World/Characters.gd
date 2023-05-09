@@ -20,10 +20,10 @@ func syncSpawn(Place, node, serverCharachterList, exiting):
 			if node.to_int() == multiplayer.get_unique_id():
 				thisScene.queue_free()
 				trasition.play('trans_in')
-				return
-			for i in characterList:
-				if not serverCharachterList.has(i):
-					get_node(str(i)).queue_free()
+			else:
+				for i in characterList:
+					if not serverCharachterList.has(i):
+						get_node(str(i)).queue_free()
 		else:	
 			for i in serverCharachterList:
 				if not characterList.has(i):
