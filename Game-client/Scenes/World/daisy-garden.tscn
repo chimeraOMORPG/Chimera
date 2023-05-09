@@ -1159,6 +1159,11 @@ offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("1_epcu4")
 
+[node name="Sign" type="Label" parent="."]
+layout_mode = 2
+text = "dfnhdfhgdhdfhd"
+script = ExtResource("5_kjc8c")
+
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
 size = Vector2i(1280, 720)
@@ -1182,13 +1187,8 @@ layer_1/tile_data = PackedInt32Array(720895, 458754, 3, 589829, 393218, 3, 11141
 [node name="barca" type="AnimatedSprite2D" parent="SubViewport/mappa"]
 position = Vector2(-428, 117)
 sprite_frames = SubResource("SpriteFrames_m3ps4")
+autoplay = "default"
 frame_progress = 0.353523
 
 [node name="Characters" type="Node" parent="SubViewport"]
 script = ExtResource("3_yig1v")
-
-[node name="Sign" type="Label" parent="SubViewport"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "dfnhdfhgdhdfhd"
-script = ExtResource("5_kjc8c")

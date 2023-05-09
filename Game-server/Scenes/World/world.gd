@@ -35,7 +35,8 @@ func destroy_player(id : int) -> void:
 			i.get_node('SubViewport/Characters/' + str(id)).queue_free()
 			prints('Player ID', id, 'character istance destroyed')
 			break
-		print('Error destroying character istance, inexistent...')
+		else:
+			print('Error destroying character istance, inexistent...')
 
 @rpc("any_peer")
 func sceneOnClientAdded():

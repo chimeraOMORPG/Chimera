@@ -20,6 +20,6 @@ func synchronizeOnClients(_identity, coords, faceDirection):
 func synchronizeOnServer(_Synchro):
 	pass
 
-@rpc("call_local","unreliable_ordered")
+@rpc("call_local","reliable")
 func justSpawned(_identity):
 	pass

@@ -62,5 +62,4 @@ func _updateFacing() -> void:
 func disconnectMe():
 	var clientID: int = multiplayer.get_remote_sender_id()
 	prints(clientID, 'disconnection request arrived')
-	self.queue_free()
-	get_tree().get_multiplayer().multiplayer_peer.disconnect_peer.call_deferred(clientID)
+	get_tree().get_multiplayer().multiplayer_peer.disconnect_peer(clientID)

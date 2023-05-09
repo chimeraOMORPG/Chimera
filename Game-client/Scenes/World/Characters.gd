@@ -13,7 +13,7 @@ var characterList: PackedInt32Array:
 			x.append(i.name.to_int())
 		return x
 
-@rpc("authority")
+@rpc("authority", "reliable")
 func syncSpawn(Place, node, serverCharachterList, exiting):
 	if thisScene.name == Place:# questa linea DOVREBBE essere superflua....
 		if exiting:
