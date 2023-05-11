@@ -12,8 +12,11 @@ func justSpawned(_identity):
 @rpc("any_peer", "unreliable")
 func synchronizeOnServer(_identity, incomingSynchroData):
 	if get_node_or_null(_identity):
-		get_node(_identity).Synchro = incomingSynchroData
-		get_node(_identity).emit_signal('updateFacing')
+		if get_node(_identity).Synchro.time < incomingSynchroData.time:
+			get_node(_identity).Synchro = incomingSynchroData
+			get_node(_identity).emit_signal('updateFacing')
+		else:
+			print('Not sequential/old packet arrived, discarded...')
 	else:
 		prints(_identity, 'not found to synchronize his data, probably is changing zone')
 

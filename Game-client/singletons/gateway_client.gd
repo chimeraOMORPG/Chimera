@@ -9,7 +9,7 @@ var network = ENetMultiplayerPeer.new()
 var gateway = SceneMultiplayer.new()
 var username: String
 var password: String
-@export var devmodeINI: bool = true
+@export var devmodeINI: bool = false
 
 var _ok
 var _token

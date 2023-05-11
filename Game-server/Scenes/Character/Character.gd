@@ -4,7 +4,8 @@ extends CharacterBody2D
 @onready var _identity: String = str(self.get_path())
 @export var Synchro: Dictionary = {
 	'direction': Vector2.ZERO,
-	'input': {}}
+	'input': {},
+	'time': Time.get_unix_time_from_system()}
 var screen_size: Vector2
 var eventList: Array
 var faceDirection
@@ -24,24 +25,28 @@ func _enter_tree():
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	var io = Timer.new()
+	io.set_wait_time(5)
+	io.set_autostart(true)
+	io.timeout.connect(self.testfunc)
+	add_child(io)
 
-func move(delta):
-	velocity = Synchro.get("direction").normalized() * delta * speed * 50
-	move_and_slide()
-	verify_border()	
-
-func _physics_process(delta):
-	var temp = self.position
-	move(delta)
+func testfunc():
 	if not self.is_queued_for_deletion():
-		if temp != self.position:
-			SynchroHub.toClients(_identity, self.position, null)
+		SynchroHub.toClients(_identity, self.position, faceDirection)
+
+func _process(delta):
+	velocity = Synchro.get("direction").normalized() * delta * speed * 50
+	if velocity:
+		move_and_slide()
+		verify_border()
 
 func verify_border():
 	position.x = clamp(position.x,30, screen_size.x-30)
 	position.y = clamp(position.y, 30, screen_size.y-30)
 
 func _spawned():
+	print(self.position)
 	SynchroHub.toClients(_identity, self.position, faceDirection)
 
 func _updateFacing() -> void:
@@ -56,7 +61,7 @@ func _updateFacing() -> void:
 				eventList.remove_at(eventList.rfind(key.to_lower()))
 			if eventList.size()>0:
 				faceDirection = eventList.front()
-		SynchroHub.toClients(_identity, null, faceDirection)
+#		SynchroHub.toClients(_identity, null, faceDirection)
 
 @rpc("any_peer", "reliable")
 func disconnectMe():

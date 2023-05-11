@@ -4,9 +4,16 @@ const speed: int = 400 # How fast the player will move (pixels/sec); now hardcod
 @onready var _identity: String = str(self.get_path())
 var faceDirection: String = 'down'
 var coords: Vector2
+var eventList: Array
 var Synchro: Dictionary = {
 	'direction': Vector2.ZERO,
 	'input': {}}
+var key:
+	get:
+		return Synchro.input.get('key')
+var pressed:
+	get:
+		return Synchro.input.get('pressed')
 
 func _ready():
 	SynchroHub.synchroAtReady(_identity)
@@ -16,32 +23,50 @@ func _ready():
 		set_process_input(true)
 		$connected.play()
 
-func _process(_delta):
-	var temp = self.position
-	if coords:
+func _physics_process(delta):
+	if coords:# coords arrive from server then client update his position
+		print('Wrong character position, server has request an update...')
 		set_position(coords)
-		if temp != self.position:
-			$CHAnimatedSprite2D.play('walk_' + faceDirection)
-		else:
-			$CHAnimatedSprite2D.play('idle_' + faceDirection)
+		coords = Vector2.ZERO
+	velocity = Synchro.get("direction").normalized() * delta * speed * 50
+	grass_step()
+	if velocity:
+		move_and_slide()
+		$CHAnimatedSprite2D.play('walk_' + faceDirection)
+	else:
+		$CHAnimatedSprite2D.play('idle_' + faceDirection)
 
 func _input(event):
-	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
-		move(event, true)
-	elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
-		move(event, false)
-	elif event.is_action_pressed("ui_cancel"):
-		set_process_input(false)
-		Synchro.direction = Vector2.ZERO
-		grass_step()
-		SynchroHub.toServer(_identity, Synchro)
-		$disconnect_confirm.show()
+	if event.is_action_type():
+		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
+			movement(event, true)
+		elif event.is_action_released("ui_up") or event.is_action_released("ui_down") or event.is_action_released("ui_right") or event.is_action_released("ui_left"):
+			movement(event, false)
+		elif event.is_action_pressed("ui_cancel"):
+			set_process_input(false)
+			Synchro.direction = Vector2.ZERO
+			grass_step()
+			SynchroHub.toServer(_identity, Synchro)
+			$disconnect_confirm.show()
 
-func move(event, pressed):
+func movement(dir, pressed):
 	Synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	Synchro.input = {'key': event.as_text(), 'pressed': pressed, 'echo': event.is_echo()}
-	grass_step()
+	Synchro.input = {'key': dir.as_text(), 'pressed': pressed, 'echo': dir.is_echo()}
+#	_updateFacing()
 	SynchroHub.toServer(_identity, Synchro)
+
+func _updateFacing() -> void:
+	if key == 'up' or 'down' or 'right' or 'left':
+		if pressed:
+			eventList.append(key.to_lower())
+			faceDirection = eventList.back()
+			if eventList.size()>2:
+				eventList.pop_front()
+		else:
+			if eventList.rfind(key.to_lower()) != -1:
+				eventList.remove_at(eventList.rfind(key.to_lower()))
+			if eventList.size()>0:
+				faceDirection = eventList.front()
 
 func grass_step():
 	if Synchro.direction != Vector2.ZERO: #and $disconnect_confirm.visible != true:

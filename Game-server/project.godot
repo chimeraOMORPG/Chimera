@@ -39,3 +39,7 @@ window/stretch/mode="viewport"
 
 2d_render/layer_1="test_layer"
 2d_physics/layer_1="test"
+
+[physics]
+
+common/physics_ticks_per_second=20

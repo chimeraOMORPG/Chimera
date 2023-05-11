@@ -1,6 +1,7 @@
 extends Node
 
 func toServer(_identity, Synchro):
+	Synchro['time'] = Time.get_unix_time_from_system()
 	rpc_id(1, 'synchronizeOnServer', _identity, Synchro)
 
 func synchroAtReady(_identity):
