@@ -25,15 +25,15 @@ func _enter_tree():
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	var io = Timer.new()
-	io.set_wait_time(5)
-	io.set_autostart(true)
-	io.timeout.connect(self.testfunc)
-	add_child(io)
+#	var io = Timer.new()
+#	io.set_wait_time(5)
+#	io.set_autostart(true)
+#	io.timeout.connect(self.testfunc)
+#	add_child(io)
 
-func testfunc():
-	if not self.is_queued_for_deletion():
-		SynchroHub.toClients(_identity, self.position, faceDirection)
+#func testfunc():
+#	if not self.is_queued_for_deletion():
+#		SynchroHub.toClients(_identity, self.position, faceDirection)
 
 func _process(delta):
 	velocity = Synchro.get("direction").normalized() * delta * speed * 50
@@ -46,7 +46,6 @@ func verify_border():
 	position.y = clamp(position.y, 30, screen_size.y-30)
 
 func _spawned():
-	print(self.position)
 	SynchroHub.toClients(_identity, self.position, faceDirection)
 
 func _updateFacing() -> void:

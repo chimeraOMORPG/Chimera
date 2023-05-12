@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const speed: int = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
-@onready var _identity: String = str(self.get_path())
+@onready var path: String = str(get_parent().get_path()) + '/'
 var faceDirection: String = 'down'
 var coords: Vector2
 var eventList: Array
@@ -16,7 +16,7 @@ var pressed:
 		return Synchro.input.get('pressed')
 
 func _ready():
-	SynchroHub.synchroAtReady(_identity)
+	SynchroHub.synchroAtReady(path)
 	$ID.text = name
 	set_process_input(false)
 	if self.name.to_int() == multiplayer.get_unique_id():
@@ -46,14 +46,14 @@ func _input(event):
 			set_process_input(false)
 			Synchro.direction = Vector2.ZERO
 			grass_step()
-			SynchroHub.toServer(_identity, Synchro)
+			SynchroHub.toServer(path, Synchro)
 			$disconnect_confirm.show()
 
 func movement(dir, pressed):
 	Synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	Synchro.input = {'key': dir.as_text(), 'pressed': pressed, 'echo': dir.is_echo()}
 #	_updateFacing()
-	SynchroHub.toServer(_identity, Synchro)
+	SynchroHub.toServer(path, Synchro)
 
 func _updateFacing() -> void:
 	if key == 'up' or 'down' or 'right' or 'left':

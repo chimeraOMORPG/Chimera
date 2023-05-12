@@ -1,11 +1,11 @@
 extends Node
 
-func toServer(_identity, Synchro):
+func toServer(path, Synchro):
 	Synchro['time'] = Time.get_unix_time_from_system()
-	rpc_id(1, 'synchronizeOnServer', _identity, Synchro)
+	rpc_id(1, 'synchronizeOnServer', path, Synchro)
 
-func synchroAtReady(_identity):
-	rpc_id(1, 'justSpawned', _identity)
+func synchroAtReady(path):
+	rpc_id(1, 'justSpawned', path)
 
 @rpc("authority", "unreliable")
 func synchronizeOnClients(_identity, coords, faceDirection):
