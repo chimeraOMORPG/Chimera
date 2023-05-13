@@ -3,18 +3,20 @@ extends CharacterBody2D
 @export var speed = 400 # How fast the player will move (pixels/sec).
 @onready var _identity: String = str(self.get_path())
 @export var Synchro: Dictionary = {
-	'direction': Vector2.ZERO,
-	'input': {},
-	'time': Time.get_unix_time_from_system()}
+	'D': Vector2.ZERO, # D for Directio
+	'I': {}, # I for Input
+	'T': 0.0, # T for Timestamp
+	'F': 'down', # Ottimizzare in intero anzichè string con legenda con enum # Facing
+	'C': Vector2.ZERO}
 var screen_size: Vector2
 var eventList: Array
-var faceDirection
+#var faceDirection
 var key:
 	get:
-		return Synchro.input.get('key')
+		return Synchro.I.get('key')
 var pressed:
 	get:
-		return Synchro.input.get('pressed')
+		return Synchro.I.get('pressed')
 signal updateFacing
 signal spawned
 
@@ -25,45 +27,50 @@ func _enter_tree():
 
 func _ready():
 	screen_size = get_viewport_rect().size
-#	var io = Timer.new()
-#	io.set_wait_time(5)
-#	io.set_autostart(true)
-#	io.timeout.connect(self.testfunc)
-#	add_child(io)
-
-#func testfunc():
-#	if not self.is_queued_for_deletion():
-#		SynchroHub.toClients(_identity, self.position, faceDirection)
+	Synchro.C = self.position
 
 func _process(delta):
-	velocity = Synchro.get("direction").normalized() * delta * speed * 50
+	velocity = Synchro.D.normalized() * delta * speed * 50
 	if velocity:
 		move_and_slide()
 		verify_border()
-
+		if not self.is_queued_for_deletion():
+			var tempSynchro: Dictionary
+			tempSynchro.C = self.position
+			tempSynchro.T = Time.get_unix_time_from_system()
+			SynchroHub.toClients(_identity, tempSynchro)
+		
 func verify_border():
 	position.x = clamp(position.x,30, screen_size.x-30)
 	position.y = clamp(position.y, 30, screen_size.y-30)
 
 func _spawned():
-	SynchroHub.toClients(_identity, self.position, faceDirection)
+	var tempSynchro: Dictionary
+	tempSynchro.C = Synchro.C
+	tempSynchro.T = Time.get_unix_time_from_system()
+	tempSynchro.F = Synchro.F
+	SynchroHub.toClients(_identity, tempSynchro)
 
 func _updateFacing() -> void:
 	if key == 'up' or 'down' or 'right' or 'left':
 		if pressed:
 			eventList.append(key.to_lower())
-			faceDirection = eventList.back()
+			Synchro.F = eventList.back()
 			if eventList.size()>2:
 				eventList.pop_front()
 		else:
 			if eventList.rfind(key.to_lower()) != -1:
 				eventList.remove_at(eventList.rfind(key.to_lower()))
 			if eventList.size()>0:
-				faceDirection = eventList.front()
-#		SynchroHub.toClients(_identity, null, faceDirection)
+				Synchro.F = eventList.front()
+		var tempSynchro: Dictionary
+		tempSynchro.F = Synchro.F
+		tempSynchro.T = Time.get_unix_time_from_system()
+		SynchroHub.toClients(_identity, tempSynchro)
 
 @rpc("any_peer", "reliable")
 func disconnectMe():
 	var clientID: int = multiplayer.get_remote_sender_id()
 	prints(clientID, 'disconnection request arrived')
 	get_tree().get_multiplayer().multiplayer_peer.disconnect_peer(clientID)
+

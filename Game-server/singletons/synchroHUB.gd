@@ -1,8 +1,8 @@
 extends Node
 
-func toClients(_identity, coords, faceDirection):
+func toClients(_identity, tempSynchro):
 	for i in get_node(_identity).get_parent().characterList:
-		rpc_id(i, 'synchronizeOnClients', _identity, coords, faceDirection)
+		rpc_id(i, 'synchronizeOnClients', _identity, tempSynchro)
 
 @rpc("any_peer", "reliable")
 func justSpawned(path):
@@ -13,9 +13,10 @@ func justSpawned(path):
 @rpc("any_peer", "unreliable")
 func synchronizeOnServer(path, incomingSynchro):
 	var _identity: String = str(multiplayer.get_remote_sender_id())
-	if get_node_or_null(path + '/' + _identity):
-		if get_node(path + _identity).Synchro.time < incomingSynchro.time:
-			get_node(path + _identity).Synchro = incomingSynchro
+	if get_node_or_null(path + _identity):
+		print(incomingSynchro)
+		if get_node(path + _identity).Synchro.T < incomingSynchro.T:
+			get_node(path + _identity).Synchro.merge(incomingSynchro, true)
 			get_node(path + _identity).emit_signal('updateFacing')
 		else:
 			print('Not sequential/old packet arrived, discarded...')
