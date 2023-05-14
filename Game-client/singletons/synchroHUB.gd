@@ -1,18 +1,19 @@
 extends Node
 
-func toServer(_identity, Synchro):
-	rpc_id(1, 'synchronizeOnServer', _identity, Synchro)
+func toServer(path, tempSynchro):
+	rpc_id(1, 'synchronizeOnServer', path, tempSynchro)
 
-func synchroAtReady(_identity):
-	rpc_id(1, 'justSpawned', _identity)
+func synchroAtReady(path):
+	rpc_id(1, 'justSpawned', path)
 
 @rpc("authority", "unreliable")
-func synchronizeOnClients(_identity, coords, faceDirection):
+func synchronizeOnClients(_identity, incomingSynchro):
 	if get_node_or_null(_identity):
-		if coords:
-			get_node(_identity).set('coords', coords)
-		if faceDirection:
-			get_node(_identity).set('faceDirection', faceDirection)
+		if get_node(_identity).Synchro.T < incomingSynchro.T:
+			if incomingSynchro.has('C'):
+				get_node(_identity).get('Synchro').C = incomingSynchro.C
+			if incomingSynchro.has('F'):
+				get_node(_identity).get('Synchro').F = incomingSynchro.F
 	else:
 		prints(_identity, 'not found to synchronize his data, probably is changing zone')
 

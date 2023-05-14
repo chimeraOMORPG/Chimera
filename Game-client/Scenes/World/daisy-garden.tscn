@@ -1,10 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://ogmxohrw5kmo"]
+[gd_scene load_steps=18 format=3 uid="uid://ogmxohrw5kmo"]
 
 [ext_resource type="Script" path="res://Scenes/World/scene_shared.gd" id="1_epcu4"]
 [ext_resource type="Texture2D" uid="uid://fo1ar74p8cp3" path="res://assets/Solaria Demo Update 01 32.png" id="2_7h4fl"]
 [ext_resource type="Script" path="res://Scenes/World/Characters.gd" id="3_yig1v"]
 [ext_resource type="Texture2D" uid="uid://btle2iah0h31b" path="res://assets/Boat_1_right_2_32x32.png" id="4_ia0wq"]
 [ext_resource type="Script" path="res://Scenes/World/Sign.gd" id="5_kjc8c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_id2v1"]
+font_size = 32
+font_color = Color(0.760784, 0, 0, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.45098)
+shadow_offset = Vector2(2, 2)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4dce"]
 texture = ExtResource("2_7h4fl")
@@ -1155,14 +1162,25 @@ animations = [{
 }]
 
 [node name="daisy-garden" type="SubViewportContainer"]
-offset_right = 1280.0
-offset_bottom = 720.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_epcu4")
 
 [node name="Sign" type="Label" parent="."]
 layout_mode = 2
-text = "dfnhdfhgdhdfhd"
+label_settings = SubResource("LabelSettings_id2v1")
 script = ExtResource("5_kjc8c")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sign"]
 
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
