@@ -7,21 +7,23 @@ extends CharacterBody2D
 #var coords: Vector2
 #var eventList: Array
 var Synchro: Dictionary = {
-	'D': Vector2.ZERO, # D for Directio
+	'D': Vector2.ZERO, # D for Direction
 	'I': {}, # I for Input
 	'T': 0.0, # T for Timestamp
 	'F': '', # Ottimizzare in intero anzichè string con legenda con enum # Facing
-	'C': Vector2.ZERO} # Coordinates received from teh server
+	'C': null} # Coordinates received from teh server
 var key:
 	get:
 		return Synchro.I.get('key')
 var pressed:
 	get:
 		return Synchro.I.get('pressed')
-var positionDiff: int = 10 #in pixel
+
+func _enter_tree():
+	self.hide()
 
 func _ready():
-	SynchroHub.synchroAtReady(path)
+	SynchroHub.toServer(path)
 	$ID.text = name
 	set_process_input(false)
 	if self.name.to_int() == multiplayer.get_unique_id():
@@ -29,12 +31,18 @@ func _ready():
 		$connected.play()
 
 func _physics_process(delta):
-	while Synchro.C == Vector2.ZERO:
+	while Synchro.C == null:
 		print('Waiting spawning data from the server...')
 		return
-	var temp = self.position
+	if self.visible != true:
+		self.show()
 	if not Synchro.C.is_equal_approx(self.position):
-		self.position = self.position.lerp(Synchro.get('C'), delta * 25)
+		print(self.position.direction_to(Synchro.C))
+		self.position = self.position.lerp(Synchro.get('C'), delta * 10)
+#		prints('lerp pos:', self.position)
+#		velocity = self.position.direction_to(Synchro.C)
+#		move_and_slide()
+#		prints('pred pos:', self.position)
 		if not $CHAnimatedSprite2D.is_playing() or $CHAnimatedSprite2D.animation != ('walk_' + Synchro.F):
 			$CHAnimatedSprite2D.play('walk_' + Synchro.F)
 	else:
@@ -60,19 +68,6 @@ func movement(dir, press):
 	tempSynchro.I = {'key': dir.as_text(), 'pressed': press, 'echo': dir.is_echo()}
 	tempSynchro.T = Time.get_unix_time_from_system()
 	SynchroHub.toServer(path, tempSynchro)
-
-#func _updateFacing() -> void:
-#	if key == 'up' or 'down' or 'right' or 'left':
-#		if pressed:
-#			eventList.append(key.to_lower())
-#			faceDirection = eventList.back()
-#			if eventList.size()>2:
-#				eventList.pop_front()
-#		else:
-#			if eventList.rfind(key.to_lower()) != -1:
-#				eventList.remove_at(eventList.rfind(key.to_lower()))
-#			if eventList.size()>0:
-#				faceDirection = eventList.front()
 
 func grass_step():
 	if Synchro.D != Vector2.ZERO: #and $disconnect_confirm.visible != true:

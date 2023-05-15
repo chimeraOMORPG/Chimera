@@ -1,10 +1,7 @@
 extends Node
 
-func toServer(path, tempSynchro):
+func toServer(path, tempSynchro = null):
 	rpc_id(1, 'synchronizeOnServer', path, tempSynchro)
-
-func synchroAtReady(path):
-	rpc_id(1, 'justSpawned', path)
 
 @rpc("authority", "unreliable")
 func synchronizeOnClients(_identity, incomingSynchro):
@@ -21,6 +18,3 @@ func synchronizeOnClients(_identity, incomingSynchro):
 func synchronizeOnServer(_Synchro):
 	pass
 
-@rpc("call_local","reliable")
-func justSpawned(_identity):
-	pass

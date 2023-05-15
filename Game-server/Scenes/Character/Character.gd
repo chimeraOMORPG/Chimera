@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed = 400 # How fast the player will move (pixels/sec).
+@export var speed = 150 # How fast the player will move (pixels/sec).
 @onready var _identity: String = str(self.get_path())
 @export var Synchro: Dictionary = {
 	'D': Vector2.ZERO, # D for Directio
@@ -10,7 +10,6 @@ extends CharacterBody2D
 	'C': Vector2.ZERO}
 var screen_size: Vector2
 var eventList: Array
-#var faceDirection
 var key:
 	get:
 		return Synchro.I.get('key')
@@ -29,11 +28,13 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	Synchro.C = self.position
 
-func _process(delta):
-	velocity = Synchro.D.normalized() * delta * speed * 50
+func _physics_process(delta):
+	velocity = Synchro.D.normalized() * speed * delta * 50
+	print(delta)
 	if velocity:
 		move_and_slide()
 		verify_border()
+		Synchro.C = self.position
 		if not self.is_queued_for_deletion():
 			var tempSynchro: Dictionary
 			tempSynchro.C = self.position
