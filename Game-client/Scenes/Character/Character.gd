@@ -6,8 +6,9 @@ extends CharacterBody2D
 #var faceDirection: String = 'down'
 #var coords: Vector2
 #var eventList: Array
+@export var speed = 150 # How fast the player will move (pixels/sec).
 var Synchro: Dictionary = {
-	'D': Vector2.ZERO, # D for Direction
+	'D': {'vector': Vector2.ZERO, 'localTime': Time.get_unix_time_from_system()}, # D for Direction
 	'I': {}, # I for Input
 	'T': 0.0, # T for Timestamp
 	'F': '', # Ottimizzare in intero anzichè string con legenda con enum # Facing
@@ -18,6 +19,7 @@ var key:
 var pressed:
 	get:
 		return Synchro.I.get('pressed')
+var t = 0.0
 
 func _enter_tree():
 	self.hide()
@@ -31,22 +33,28 @@ func _ready():
 		$connected.play()
 
 func _physics_process(delta):
+	prints(Synchro.D['vector'], self.position)
 	while Synchro.C == null:
 		print('Waiting spawning data from the server...')
 		return
 	if self.visible != true:
 		self.show()
 	if not Synchro.C.is_equal_approx(self.position):
-		print(self.position.direction_to(Synchro.C))
 		self.position = self.position.lerp(Synchro.get('C'), delta * 10)
-#		prints('lerp pos:', self.position)
-#		velocity = self.position.direction_to(Synchro.C)
-#		move_and_slide()
-#		prints('pred pos:', self.position)
+		prints('lerp pos:', self.position, 'time:', Synchro.T)
 		if not $CHAnimatedSprite2D.is_playing() or $CHAnimatedSprite2D.animation != ('walk_' + Synchro.F):
 			$CHAnimatedSprite2D.play('walk_' + Synchro.F)
-	else:
-		$CHAnimatedSprite2D.play('idle_' + Synchro.F)
+#	else:
+#		$CHAnimatedSprite2D.play('idle_' + Synchro.F)
+	var timediff = Time.get_unix_time_from_system()-Synchro.D['localTime']
+	velocity = (Synchro.D['vector'] * speed * delta * 150) * (1 - timediff)
+	if velocity:
+		prints('timediff:', timediff, 'velocity:', velocity)
+		move_and_slide()
+		Synchro.D['localTime'] = Time.get_unix_time_from_system()
+		Synchro.C = self.position
+		print('pred pos:', self.position)
+
 #	grass_step()
 
 func _input(event):

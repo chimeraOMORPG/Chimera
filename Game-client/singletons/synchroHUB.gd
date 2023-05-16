@@ -7,8 +7,12 @@ func toServer(path, tempSynchro = null):
 func synchronizeOnClients(_identity, incomingSynchro):
 	if get_node_or_null(_identity):
 		if get_node(_identity).Synchro.T < incomingSynchro.T:
+			get_node(_identity).Synchro.T = incomingSynchro.T
 			if incomingSynchro.has('C'):
 				get_node(_identity).get('Synchro').C = incomingSynchro.C
+			if incomingSynchro.has('D'):
+					get_node(_identity).get('Synchro').D['vector'] = incomingSynchro.D
+					get_node(_identity).get('Synchro').D['localTime'] = Time.get_unix_time_from_system()
 			if incomingSynchro.has('F'):
 				get_node(_identity).get('Synchro').F = incomingSynchro.F
 	else:

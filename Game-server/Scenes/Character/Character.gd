@@ -18,10 +18,12 @@ var pressed:
 		return Synchro.I.get('pressed')
 signal updateFacing
 signal spawned
+signal updateDirection
 
 func _enter_tree():
 	updateFacing.connect(self._updateFacing)
 	spawned.connect(self._spawned)
+	updateDirection.connect(self._updateDirection)
 	self.set_multiplayer_authority(1)
 
 func _ready():
@@ -29,15 +31,15 @@ func _ready():
 	Synchro.C = self.position
 
 func _physics_process(delta):
+	print(Synchro.D)
 	velocity = Synchro.D.normalized() * speed * delta * 50
-	print(delta)
 	if velocity:
 		move_and_slide()
 		verify_border()
 		Synchro.C = self.position
 		if not self.is_queued_for_deletion():
 			var tempSynchro: Dictionary
-			tempSynchro.C = self.position
+			tempSynchro.C = Synchro.C
 			tempSynchro.T = Time.get_unix_time_from_system()
 			SynchroHub.toClients(_identity, tempSynchro)
 		
@@ -66,6 +68,15 @@ func _updateFacing() -> void:
 				Synchro.F = eventList.front()
 		var tempSynchro: Dictionary
 		tempSynchro.F = Synchro.F
+		tempSynchro.T = Time.get_unix_time_from_system()
+		SynchroHub.toClients(_identity, tempSynchro)
+
+func _updateDirection(newDirection):
+	var oldDirection = Synchro.D
+	if newDirection != oldDirection:
+		var tempSynchro: Dictionary
+		Synchro.D = newDirection
+		tempSynchro.D = Synchro.D
 		tempSynchro.T = Time.get_unix_time_from_system()
 		SynchroHub.toClients(_identity, tempSynchro)
 
