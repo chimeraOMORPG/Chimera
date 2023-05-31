@@ -14,23 +14,43 @@ var characterList: PackedInt32Array:
 		return x
 
 @rpc("authority", "reliable")
-func syncSpawn(Place, node, serverCharachterList, exiting):
-	if thisScene.name == Place:# questa linea DOVREBBE essere superflua....
-		if exiting:
+func syncSpawn(place_name, node, serverCharachterList, exiting):
+	print('sync spawn ', node)
+
+	# questa linea DOVREBBE essere superflua....
+	if thisScene.name != place_name:
+		return
+
+	if exiting:
+		if node.to_int() == multiplayer.get_unique_id():
+			thisScene.queue_free()
+			trasition.play('trans_in')
+		else:
+			for i in characterList:
+				if not serverCharachterList.has(i):
+					get_node(str(i)).queue_free()
+	else:	
+		for i in serverCharachterList:
+			if not characterList.has(i):
+				var x = CharacterScene.instantiate()
+				x.set_name(str(i))
+				self.add_child(x, true)
+				if node.to_int() == multiplayer.get_unique_id():
+					trasition.play('trans_in')
+
+@rpc("authority", "reliable")
+func character_spawned(place_name, node, serverCharachterList):
+	print('character_spawned ', node)
+
+	# questa linea DOVREBBE essere superflua....
+	if thisScene.name != place_name:
+		return
+	
+	for i in serverCharachterList:
+		if not characterList.has(i):
+			var x = CharacterScene.instantiate()
+			x.set_name(str(i))
+			self.add_child(x, true)
 			if node.to_int() == multiplayer.get_unique_id():
-				thisScene.queue_free()
 				trasition.play('trans_in')
-			else:
-				for i in characterList:
-					if not serverCharachterList.has(i):
-						get_node(str(i)).queue_free()
-		else:	
-			for i in serverCharachterList:
-				if not characterList.has(i):
-					var x = CharacterScene.instantiate()
-					x.set_name(str(i))
-					self.add_child(x, true)
-					if node.to_int() == multiplayer.get_unique_id():
-						trasition.play('trans_in')
-					
 

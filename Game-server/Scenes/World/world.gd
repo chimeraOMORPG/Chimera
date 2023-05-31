@@ -1,17 +1,18 @@
 extends Node2D
 
 var CharacterScene = preload("res://Scenes/Character/Character.tscn")
-signal sceneOnClientAddedSignal
+signal scene_on_client_added
 
-func addScene(clientID, Place)-> bool:
-	if self.has_node(Place):
+func addScene(client_id, place_name : String)-> bool:
+	if self.has_node(place_name):
 		print('Scene already exist')
 	else:
 		print('Not existent scene (or empty World), creating...')
-		var p = load('res://Scenes/World/' + Place + '.tscn').instantiate()
-		get_node("/root/World").add_child.call_deferred(p, true)
-	rpc_id(clientID, 'addSceneOnClient', Place)
-	await sceneOnClientAddedSignal
+		var place_path = 'res://Scenes/World/' + place_name + '.tscn'
+		var new_place = load(place_path).instantiate()
+		get_node("/root/World").add_child.call_deferred(new_place, true)
+	rpc_id(client_id, 'addSceneOnClient', place_name)
+	await scene_on_client_added
 	return true
 
 func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
@@ -40,7 +41,7 @@ func destroy_player(id : int) -> void:
 
 @rpc("any_peer")
 func sceneOnClientAdded():
-	sceneOnClientAddedSignal.emit()
+	scene_on_client_added.emit()
 
 @rpc("call_local")
 func addSceneOnClient(_Place):

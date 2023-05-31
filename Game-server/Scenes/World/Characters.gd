@@ -15,12 +15,9 @@ func _enter_tree():
 	self.child_entered_tree.connect(self._on_child_entered_tree)
 	self.child_exiting_tree.connect(self._on_child_exiting_tree)
 
-func _on_child_entered_tree(node):
-	# When a character enter, the server ask all peers on the same scene for update/synchronize
-	for i in characterList:
-#		var temp = get_node(str(i)).position
-#		print(temp)
-		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false)
+func _on_child_entered_tree(node):	
+	#syncSpawn(node)		
+	character_spawned(node)
 
 func _on_child_exiting_tree(node):
 	var temp = characterList
@@ -37,6 +34,16 @@ func _on_child_exiting_tree(node):
 		thisScene.queue_free.call_deferred()
 		prints('No more characters on scene', thisScene.name, 'removing...')
 
-@rpc("call_local", "reliable")
-func syncSpawn(_Place, _Character):
-	pass
+@rpc("call_local")
+func syncSpawn(node):
+	# When a character enter, the server ask all peers on the same scene 
+	# for update/synchronize
+	for i in characterList:
+		rpc_id(i, 'syncSpawn', thisScene.name, node.name, characterList, false)
+
+@rpc("call_local")
+func character_spawned(node):
+	# When a character enter, the server ask all peers on the same scene 
+	# for update/synchronize
+	for i in characterList:
+		rpc_id(i, 'character_spawned', thisScene.name, node.name, characterList)

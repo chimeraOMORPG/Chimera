@@ -4,7 +4,7 @@ var devmode: bool:
 	get:
 		return GatewayClient.devmodeINI
 
-func _ready():
+func _ready():	
 	$MainTheme.stream.set_loop(true)
 	if devmode:
 		$LoginForm.reportWarning('DEVMODE ENABLED')
