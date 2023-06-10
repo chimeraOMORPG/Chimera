@@ -2,20 +2,22 @@ extends CharacterBody2D
 
 const speed: int = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
 @onready 
-var identity: String = str(self.get_path())
+var node_path: String = str(self.get_path())
 var faceDirection: String = 'down'
 var coords: Vector2
-var synchro: Dictionary = {
-	'direction': Vector2.ZERO,
-	'input': {}}
+@export var synchro: Dictionary = {
+	"direction": Vector2.ZERO,
+	"key": {},
+	"pressed": false,
+}
 
 func _ready():
-	SynchroHub.synchroAtReady(identity)
+	SynchroHub.synchroAtReady(node_path)
 	$ID.text = name
 	set_process_input(false)
 	if self.name.to_int() == multiplayer.get_unique_id():
 		set_process_input(true)
-		$connected.play()
+		#$connected.play()
 
 func _process(_delta):
 	var temp = self.position
@@ -35,19 +37,22 @@ func _input(event):
 		set_process_input(false)
 		synchro.direction = Vector2.ZERO
 		grass_step()
-		SynchroHub.toServer(identity, synchro)
+		SynchroHub.synchronize_on_server(node_path, synchro)
 		$disconnect_confirm.show()
 
 func move(event, pressed):
 	synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	synchro.input = {'key': event.as_text(), 'pressed': pressed, 'echo': event.is_echo()}
+	synchro.key = event.as_text()
+	synchro.pressed = pressed
+	synchro.echo = event.is_echo()
 	grass_step()
-	SynchroHub.toServer(identity, synchro)
+	SynchroHub.synchronize_on_server(node_path, synchro)
 
 func grass_step():
 	if synchro.direction != Vector2.ZERO: #and $disconnect_confirm.visible != true:
 		if not $grass_step.is_playing():
-			$grass_step.play()
+			pass
+			#$grass_step.play()
 	else:
 		$grass_step.stop()
 

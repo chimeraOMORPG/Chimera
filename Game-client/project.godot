@@ -12,7 +12,7 @@ config_version=5
 
 config/name="chimera_game_client"
 run/main_scene="res://Scenes/Main_menu/Main_menu.tscn"
-config/features=PackedStringArray("4.0", "Forward Plus")
+config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://Scenes/Main_menu/icon.svg"
 
 [autoload]
@@ -32,6 +32,10 @@ file_logging/log_path="logs/chimera_client.log"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+
+[dotnet]
+
+project/assembly_name="chimera_game_client"
 
 [rendering]
 
