@@ -19,17 +19,15 @@ func _on_child_entered_tree(node):
 	SynchroHub.character_spawned(thisScene.name, node.name, characterList)	
 
 func _on_child_exiting_tree(node):	
-	for i in characterList:
-		if multiplayer.get_peers().has(i):
-			var error = SynchroHub.character_exiting(thisScene.name, node.name, characterList)
-			if error:
-				prints('Error calling syncSpam:', error)
-
+	var temp = characterList
+	temp.remove_at(temp.find(node.name.to_int()))
 	# Two lines above are needed because when this signal arrives the node
 	# still in the scenetree... that's godot's behavior.
-	#	if multiplayer.get_peers().has(node.name.to_int()):			
-	characterList.remove_at(characterList.find(node.name.to_int()))
+	#	if multiplayer.get_peers().has(node.name.to_int()):
+	for i in characterList:
+		if multiplayer.get_peers().has(i):
+			SynchroHub.call_character_exiting(i, thisScene.name, node.name, temp)
 
-	if characterList.is_empty(): # If no more characters in this scene remove it.
+	if temp.is_empty(): # If no more characters in this scene remove it.
 		thisScene.queue_free.call_deferred()
 		prints('No more characters on scene', thisScene.name, 'removing...')

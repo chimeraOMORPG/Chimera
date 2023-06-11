@@ -38,13 +38,18 @@ func to_clients(node_path, coords, faceDirection):
 		rpc_id(i, 'synchronize_on_clients', node_path, coords, faceDirection)
 
 @rpc("call_local", "unreliable")
-func synchronize_on_clients(_identity, _coords, _face_direction):
+func synchronize_on_clients(_node_path, _coords, _face_direction):
 	pass
 
 @rpc("call_local")
 func character_spawned(place_name, node_name, character_id_list):
 	for i in character_id_list:
 		rpc_id(i, 'character_spawned', place_name, node_name, character_id_list)
+
+func call_character_exiting(client_id, place_name, node_name, character_id_list):	
+	var error = rpc_id(client_id, 'character_exiting', place_name, node_name, character_id_list)
+	if error:
+		prints('Error calling syncSpam:', error)
 
 @rpc("call_local")
 func character_exiting(place_name, node_name, character_id_list):

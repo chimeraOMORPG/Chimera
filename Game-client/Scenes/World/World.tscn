@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cl8e0rbenussn"]
 
-[ext_resource type="Script" path="res://Scenes/World/World.gd" id="1_s5b5c"]
+[ext_resource type="Script" path="res://Scenes/World/World.gd" id="1_phtyy"]
 
 [sub_resource type="Animation" id="Animation_xc0gd"]
 resource_name = "trans_in"
@@ -24,7 +24,7 @@ _data = {
 }
 
 [node name="World" type="Node"]
-script = ExtResource("1_s5b5c")
+script = ExtResource("1_phtyy")
 
 [node name="transition" type="CanvasLayer" parent="."]
 

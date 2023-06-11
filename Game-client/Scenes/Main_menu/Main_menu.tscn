@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://cbs8en8suy5fe"]
 
-[ext_resource type="Script" path="res://Scenes/Main_menu/Main_menu.gd" id="1_l6pvy"]
-[ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_5j57c"]
-[ext_resource type="AudioStream" uid="uid://wubq2ds3houk" path="res://assets/audio/music/Chimera_-_Tema_1_NO_MS.ogg" id="3_rg1cc"]
-[ext_resource type="Script" path="res://Scenes/Main_menu/LoginForm.gd" id="4_jdi6e"]
-[ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://Scenes/Main_menu/icon.svg" id="5_iy4r6"]
-[ext_resource type="Script" path="res://Scenes/Main_menu/spinner.gd" id="6_hxbyc"]
-[ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="7_k3cny"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/Main_menu.gd" id="1_vq8vn"]
+[ext_resource type="Texture2D" uid="uid://cdmfc30jpcfgx" path="res://assets/backgrounds/menu_background.jpg" id="2_w6t2f"]
+[ext_resource type="AudioStream" uid="uid://wubq2ds3houk" path="res://assets/audio/music/Chimera_-_Tema_1_NO_MS.ogg" id="3_ds552"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/LoginForm.gd" id="4_w02ph"]
+[ext_resource type="Texture2D" uid="uid://cpbr5bfh1w0mb" path="res://Scenes/Main_menu/icon.svg" id="5_66074"]
+[ext_resource type="Script" path="res://Scenes/Main_menu/spinner.gd" id="6_kpxjd"]
+[ext_resource type="AudioStream" uid="uid://3cbdjt2wpptu" path="res://assets/audio/effects/error-126627.mp3" id="7_g6d0c"]
 
 [sub_resource type="Theme" id="Theme_e2ohn"]
 /colors/jkxchokxdfj = Color(0, 0, 0, 1)
@@ -25,7 +25,7 @@ offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_e2ohn")
-script = ExtResource("1_l6pvy")
+script = ExtResource("1_vq8vn")
 metadata/_edit_use_anchors_ = true
 metadata/_edit_horizontal_guides_ = [480.0]
 
@@ -43,7 +43,7 @@ render_target_update_mode = 4
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-texture = ExtResource("2_5j57c")
+texture = ExtResource("2_w6t2f")
 stretch_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -77,7 +77,7 @@ Maecenas ultrices tortor sit amet purus commodo commodo. Quisque mi nibh, laoree
 Nunc sed sapien id purus fermentum placerat. Aenean est mi, tempor et velit vitae, sollicitudin blandit neque. Mauris accumsan augue ut libero bibendum gravida. Donec consectetur sit amet ipsum at imperdiet. Aliquam ut lorem porta, vehicula urna vel, vulputate est. Integer viverra quis ligula mattis finibus. Aliquam erat volutpat. Aliquam erat volutpat. Donec at velit tellus. Vivamus finibus urna sem, sit amet facilisis erat rhoncus ultricies. Pellentesque egestas volutpat purus at pulvinar. Etiam mi lorem, condimentum id magna volutpat, molestie facilisis massa. Mauris sem diam, maximus nec arcu dignissim, dapibus suscipit nunc. Vivamus ac tellus convallis, faucibus elit ut, ultrices justo. Sed quis placerat ante. Maecenas at dui congue, lobortis nunc id, congue urna."
 
 [node name="MainTheme" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_rg1cc")
+stream = ExtResource("3_ds552")
 volume_db = -10.0
 autoplay = true
 
@@ -109,7 +109,7 @@ offset_right = 100.0
 offset_bottom = -158.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("4_jdi6e")
+script = ExtResource("4_w02ph")
 
 [node name="Inputs" type="VBoxContainer" parent="LoginForm"]
 layout_mode = 1
@@ -138,8 +138,8 @@ text = "CONNECT"
 process_mode = 4
 visible = false
 position = Vector2(106, 264)
-texture = ExtResource("5_iy4r6")
-script = ExtResource("6_hxbyc")
+texture = ExtResource("5_66074")
+script = ExtResource("6_kpxjd")
 
 [node name="WarningMessage" type="Label" parent="LoginForm"]
 layout_mode = 1
@@ -154,7 +154,7 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="FailureSound" type="AudioStreamPlayer" parent="LoginForm"]
-stream = ExtResource("7_k3cny")
+stream = ExtResource("7_g6d0c")
 volume_db = 15.0
 
 [connection signal="submit" from="LoginForm" to="." method="_on_login_form_submit"]
