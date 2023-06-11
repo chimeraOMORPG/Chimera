@@ -7,15 +7,13 @@ var children: Array:
 			x.append(i.name)
 		return x
 
-@rpc("authority")
-func addSceneOnClient(Place):
-	if not children.has(Place):
-		var x = load('res://Scenes/World/' + Place + '.tscn').instantiate()
+func _ready():
+	SynchroHub.add_scene_signal.connect(_add_scene)
+
+func _add_scene(place_name):
+	if not children.has(place_name):
+		var x = load('res://Scenes/World/' + place_name + '.tscn').instantiate()
 		self.add_child(x, true)
 	else:
-		prints('Scene', Place, 'already existent on this client')
-	rpc_id(1, 'sceneOnClientAdded')
-
-@rpc("call_local")
-func sceneOnClientAdded():
-	pass
+		prints('Scene', place_name, 'already existent on this client')
+	SynchroHub.scene_on_client_added()

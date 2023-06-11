@@ -3,30 +3,43 @@ extends CharacterBody2D
 const speed: int = 400 # How fast the player will move (pixels/sec); now hardcoded but it must be passed from auth server
 @onready 
 var node_path: String = str(self.get_path())
-var faceDirection: String = 'down'
-var coords: Vector2
-@export var synchro: Dictionary = {
+
+var remote_input: Dictionary = {
+	"face_direction" = 'down',
+	"coords" = Vector2.ZERO
+}
+
+@export var local_input: Dictionary = {
 	"direction": Vector2.ZERO,
 	"key": {},
 	"pressed": false,
 }
 
 func _ready():
-	SynchroHub.synchroAtReady(node_path)
+	SynchroHub.synchronize_on_clients_signal.connect(synchronize_on_clients)
+	SynchroHub.just_spawned(node_path)
 	$ID.text = name
 	set_process_input(false)
 	if self.name.to_int() == multiplayer.get_unique_id():
 		set_process_input(true)
-		#$connected.play()
+		$connected.play()
+
+func synchronize_on_clients(node_path_from_server, coords, face_direction): 
+	if node_path != node_path_from_server:
+		return
+	if coords:
+		remote_input.coords = coords
+	if face_direction:
+		remote_input.face_direction = face_direction
 
 func _process(_delta):
 	var temp = self.position
-	if coords:
-		set_position(coords)
+	if remote_input.coords:
+		set_position(remote_input.coords)
 		if temp != self.position:
-			$CHAnimatedSprite2D.play('walk_' + faceDirection)
+			$CHAnimatedSprite2D.play('walk_' + remote_input.face_direction)
 		else:
-			$CHAnimatedSprite2D.play('idle_' + faceDirection)
+			$CHAnimatedSprite2D.play('idle_' + remote_input.face_direction)
 
 func _input(event):
 	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_left"):
@@ -35,38 +48,33 @@ func _input(event):
 		move(event, false)
 	elif event.is_action_pressed("ui_cancel"):
 		set_process_input(false)
-		synchro.direction = Vector2.ZERO
+		local_input.direction = Vector2.ZERO
 		grass_step()
-		SynchroHub.synchronize_on_server(node_path, synchro)
+		SynchroHub.synchronize_on_server(node_path, local_input)
 		$disconnect_confirm.show()
 
 func move(event, pressed):
-	synchro.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	synchro.key = event.as_text()
-	synchro.pressed = pressed
-	synchro.echo = event.is_echo()
+	local_input.direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	local_input.key = event.as_text()
+	local_input.pressed = pressed
+	local_input.echo = event.is_echo()
 	grass_step()
-	SynchroHub.synchronize_on_server(node_path, synchro)
+	SynchroHub.synchronize_on_server(node_path, local_input)
 
 func grass_step():
-	if synchro.direction != Vector2.ZERO: #and $disconnect_confirm.visible != true:
+	if local_input.direction != Vector2.ZERO: #and $disconnect_confirm.visible != true:
 		if not $grass_step.is_playing():
 			pass
-			#$grass_step.play()
+			$grass_step.play()
 	else:
 		$grass_step.stop()
 
 func _on_disconnect_confirm_confirmed():
-	rpc_id(1, 'disconnectMe')
-	await get_tree().create_timer(1).timeout
-	if get_tree().get_multiplayer().multiplayer_peer.get_connection_status() != 0:
-		print('Disconnection request failed, disconnecting myself...')
-		multiplayer.multiplayer_peer.close()
+	set_process_input(false)
+	SynchroHub.disconnection_request()
 	
 func _on_disconnect_confirm_canceled():
 	set_process_input(true)
 	$disconnect_confirm.hide()
 
-@rpc("call_local", "reliable")
-func disconnectMe():
-	pass
+

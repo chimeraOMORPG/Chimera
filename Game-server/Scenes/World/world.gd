@@ -1,7 +1,6 @@
 extends Node2D
 
 var CharacterScene = preload("res://Scenes/Character/Character.tscn")
-signal scene_on_client_added
 
 func addScene(client_id, place_name : String)-> bool:
 	if self.has_node(place_name):
@@ -11,8 +10,8 @@ func addScene(client_id, place_name : String)-> bool:
 		var place_path = 'res://Scenes/World/' + place_name + '.tscn'
 		var new_place = load(place_path).instantiate()
 		get_node("/root/World").add_child.call_deferred(new_place, true)
-	rpc_id(client_id, 'addSceneOnClient', place_name)
-	await scene_on_client_added
+	SynchroHub.call_add_scene_on_client(client_id, place_name)
+	await SynchroHub.scene_on_client_added_signal
 	return true
 
 func create_player(clientID, Place, spawnPointID:= 0, PreviouslyScene = null):
@@ -38,11 +37,3 @@ func destroy_player(id : int) -> void:
 			break
 		else:
 			print('Error destroying character istance, inexistent...')
-
-@rpc("any_peer")
-func sceneOnClientAdded():
-	scene_on_client_added.emit()
-
-@rpc("call_local")
-func addSceneOnClient(_Place):
-	pass

@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://ds5r1bcac7cgd"]
 
-[ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_606bn"]
+[ext_resource type="Script" path="res://Scenes/Character/Character.gd" id="1_ge5kf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tfdp8"]
 radius = 19.3132
 
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(1200, 240)
-script = ExtResource("1_606bn")
+script = ExtResource("1_ge5kf")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

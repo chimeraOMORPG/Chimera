@@ -1,29 +1,44 @@
 extends Node
 
 # Signals from clients
-signal incoming_synchro_signal(data)
-signal update_facing_signal
+signal scene_on_client_added_signal
+signal spawned_signal(node_path)
+signal incoming_synchro_signal(node_path, data)
+signal update_facing_signal(node_path)
 
-func toClients(_identity, coords, faceDirection):
-	for i in get_node(_identity).get_parent().characterList:
-		rpc_id(i, 'synchronizeOnClients', _identity, coords, faceDirection)
+@rpc("any_peer")
+func scene_on_client_added():
+	scene_on_client_added_signal.emit()
 
-signal just_spawned_signal
 @rpc("any_peer", "reliable")
 func just_spawned(node_path: String):
-	if get_node_or_null(node_path):
-		get_node(node_path).emit_signal('spawned')
+	spawned_signal.emit(node_path)
 
 @rpc("any_peer", "unreliable")
 func synchronize_on_server(node_path, data):
-	if get_node_or_null(node_path):
-		get_node(node_path).synchro = data
-		get_node(node_path).emit_signal('facing_updated')
-	else:
-		prints(node_path, 'not found to synchronize his data, probably is changing zone')
+	incoming_synchro_signal.emit(node_path, data)
+	update_facing_signal.emit(node_path)	
+
+@rpc("any_peer", "reliable")
+func disconnection_request():
+	var client_id: int = multiplayer.get_remote_sender_id()
+	prints(client_id, 'disconnection request arrived')
+	multiplayer.multiplayer_peer.disconnect_peer(client_id)
+
+# Server side methods
+func call_add_scene_on_client(client_id, place_name):
+	rpc_id(client_id, 'add_scene_on_client', place_name)
+
+@rpc("call_local")
+func add_scene_on_client(_Place):
+	pass
+
+func to_clients(node_path, coords, faceDirection):
+	for i in get_node(node_path).get_parent().characterList:
+		rpc_id(i, 'synchronize_on_clients', node_path, coords, faceDirection)
 
 @rpc("call_local", "unreliable")
-func synchronizeOnClients(_identity, _coords):
+func synchronize_on_clients(_identity, _coords, _face_direction):
 	pass
 
 @rpc("call_local")
