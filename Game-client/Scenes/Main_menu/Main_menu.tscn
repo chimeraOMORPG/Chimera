@@ -127,6 +127,7 @@ draw_control_chars = true
 layout_mode = 2
 placeholder_text = "Password"
 max_length = 100
+secret = true
 draw_control_chars = true
 
 [node name="Connect" type="Button" parent="LoginForm/Inputs"]
